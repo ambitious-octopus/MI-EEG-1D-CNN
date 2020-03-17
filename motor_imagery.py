@@ -25,27 +25,52 @@ import matplotlib.pyplot as plt
 from mne import Epochs, pick_types, events_from_annotations
 from mne.channels import read_layout
 from mne.io import concatenate_raws, read_raw_edf
-#Scarico il database
+
+from mne.preprocessing import (ICA, create_eog_epochs, create_ecg_epochs,
+                               corrmap)
+
 from mne.datasets import eegbci
 from mne.decoding import CSP
+
 
 #Documentazione mne Python https://mne.tools/0.16/documentation.html
 #%%
 
-tmin, tmax = -1., 4.
+#Numero del sogetto (1-109)
+soggetto = 1
+
+tmin, tmax = -1., 4. 
 event_id = dict(hands=2, feet=3)
-sogetto = 2
-runs = [6, 10, 14]  #le run che ci servono
 
-#Funzione di mne-Python, prende il numero del sogetto e le rispettive run e le scarica
-raw_fnames = eegbci.load_data(sogetto, runs)
+#le run che ci servono, per ora prendo solo quelle revalive al movimento immaginato "task 4"
+runs = [6, 10, 14, ]
 
-#Questa funzione concatena i tre file precedentemente scaricati in un unico file
-#Le registrazioni sono di 120 secondi troverete una scritta rossa dove inzia una e finisce l'altra
+#Metodo di mne-Python, per il database in esame, prende il numero del sogetto e le rispettive runs e le scarica
+raw_fnames = eegbci.load_data(soggetto, runs)
+
+#I blocchi del task sono di 120 secondi, quindi questo file raw sarà coposto di tanti blocchi quanti ne sono stati richiesti, 
+#In questo caso 3 relativi alla variabile runs
 raw = concatenate_raws([read_raw_edf(f, preload=True) for f in raw_fnames])
 
+#Il nome dei canali contiene un "." finale che da problemi, lo elimino
+raw.rename_channels(lambda a: a.strip('.'))
+
+# Applico un band-pass filter
+raw.filter(l_freq=1.,h_freq=79., fir_design='firwin2', skip_by_annotation='edge')
+
+events, _ = events_from_annotations(raw, event_id=dict(T1=2, T2=3))
+
 #Visualizzo i dati raw
-raw.plot()
+raw.plot(duration=5, n_channels=25)
+
+#%%
+#applicazione della ICA
+
+eog_evoked = create_eog_epochs(raw).average()
+eog_evoked.apply_baseline(baseline=(None, -0.2))
+eog_evoked.plot_joint()
+
+
 
 
 
