@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d006e634-978a-4734-b83e-f8ac35d0d0f5" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ICA laura" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/motor_imagery.py" beforeDir="false" afterPath="$PROJECT_DIR$/motor_imagery.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -42,7 +44,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Desktop/plot_40_artifact_correction_ica.py" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
@@ -82,6 +84,15 @@
       <workItem from="1584436378972" duration="486000" />
       <workItem from="1584436874189" duration="4050000" />
       <workItem from="1584455601403" duration="2639000" />
+      <workItem from="1584460501652" duration="637000" />
+      <workItem from="1584461202856" duration="2306000" />
+      <workItem from="1584516670716" duration="761000" />
+      <workItem from="1584517441610" duration="541000" />
+      <workItem from="1584517992389" duration="37000" />
+      <workItem from="1584518037895" duration="6797000" />
+      <workItem from="1584528726357" duration="125000" />
+      <workItem from="1584529340367" duration="2059000" />
+      <workItem from="1584538358450" duration="7622000" />
     </task>
     <servers />
   </component>
@@ -89,13 +100,17 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="740" y="279" key="FileChooserDialogImpl" timestamp="1584439475225">
+    <state x="871" y="277" key="#xdebugger.XInspectDialog" timestamp="1584518010127">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="740" y="279" key="FileChooserDialogImpl/0.0.1920.1050@0.0.1920.1050" timestamp="1584439475225" />
-    <state x="461" y="167" key="SettingsEditor" timestamp="1584436627963">
+    <state x="871" y="277" key="#xdebugger.XInspectDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1584518010127" />
+    <state x="740" y="279" key="FileChooserDialogImpl" timestamp="1584460746697">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="461" y="167" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1584436627963" />
+    <state x="740" y="279" key="FileChooserDialogImpl/0.0.1920.1050@0.0.1920.1050" timestamp="1584460746697" />
+    <state x="461" y="167" key="SettingsEditor" timestamp="1584542227285">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="461" y="167" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1584542227285" />
   </component>
 </project>
