@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d006e634-978a-4734-b83e-f8ac35d0d0f5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ICA laura" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/motor_imagery.py" beforeDir="false" afterPath="$PROJECT_DIR$/motor_imagery.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -43,7 +42,7 @@
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Desktop/plot_40_artifact_correction_ica.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../kubasinska.github.io" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RunManager">
@@ -92,25 +91,43 @@
       <workItem from="1584518037895" duration="6797000" />
       <workItem from="1584528726357" duration="125000" />
       <workItem from="1584529340367" duration="2059000" />
-      <workItem from="1584538358450" duration="7622000" />
+      <workItem from="1584538358450" duration="9289000" />
+      <workItem from="1584553796148" duration="599000" />
+      <workItem from="1584605383113" duration="2090000" />
     </task>
+    <task id="LOCAL-00001" summary="Added FastICA">
+      <created>1584546011748</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1584546011749</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added FastICA" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added FastICA" />
   </component>
   <component name="WindowStateProjectService">
     <state x="871" y="277" key="#xdebugger.XInspectDialog" timestamp="1584518010127">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="871" y="277" key="#xdebugger.XInspectDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1584518010127" />
-    <state x="740" y="279" key="FileChooserDialogImpl" timestamp="1584460746697">
+    <state x="585" y="111" key="CommitChangelistDialog2" timestamp="1584546010835">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="740" y="279" key="FileChooserDialogImpl/0.0.1920.1050@0.0.1920.1050" timestamp="1584460746697" />
-    <state x="461" y="167" key="SettingsEditor" timestamp="1584542227285">
+    <state x="585" y="111" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1584546010835" />
+    <state x="740" y="279" key="FileChooserDialogImpl" timestamp="1584606996439">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="461" y="167" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1584542227285" />
+    <state x="740" y="279" key="FileChooserDialogImpl/0.0.1920.1050@0.0.1920.1050" timestamp="1584606996439" />
+    <state x="461" y="167" key="SettingsEditor" timestamp="1584546078518">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="461" y="167" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1584546078518" />
   </component>
 </project>

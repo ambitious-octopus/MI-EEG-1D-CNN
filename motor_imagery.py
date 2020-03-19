@@ -41,7 +41,7 @@ tmin, tmax = -1., 4.
 event_id = dict(hands=2, feet=3)
 
 #Prendo le run, per ora prendo solo quelle relative al movimento immaginato "task 4" in tutto sono 14 run e 4 task
-runs = [6 ]
+runs = [4 ]
 
 #Il database che staimo utilizzato è scaricabile direttamente da PhysioNet con una funzione di MNE-python
 #Prendo il numero del sogetto e le rispettive run e scarico i dati (di default = All'interno della directory principale mne-python)
@@ -90,7 +90,7 @@ ica.fit(raw)
 ica.plot_sources(raw)
 
 #Questa funzione dovrebbe plottare la concentrazione delle componenti
-#ica.plot_properties(raw, picks=[0, 1])
+ica.plot_properties(raw, picks=[0, 1])
 
 #Ricarico il raw originale
 raw.load_data()
