@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d006e634-978a-4734-b83e-f8ac35d0d0f5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/franc_pyl533c.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/environment.yml" beforeDir="false" afterPath="$PROJECT_DIR$/environment.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/motor_imagery.py" beforeDir="false" afterPath="$PROJECT_DIR$/motor_imagery.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -30,6 +32,16 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/motor_imagery.py" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
+  <component name="JupyterTrust" id="eefe9338-5745-4b06-a51b-de9ff4edddc3" />
   <component name="ProjectId" id="1ZFX7VkozZKfa7kmpQEoZ2QEtPw" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -41,9 +53,10 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../kubasinska.github.io" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../SimAnn" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.appearance" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
@@ -94,6 +107,11 @@
       <workItem from="1584538358450" duration="9289000" />
       <workItem from="1584553796148" duration="599000" />
       <workItem from="1584605383113" duration="2090000" />
+      <workItem from="1584710294765" duration="2000" />
+      <workItem from="1584800991350" duration="8065000" />
+      <workItem from="1584814918123" duration="319000" />
+      <workItem from="1584815250261" duration="52000" />
+      <workItem from="1584869114844" duration="4732000" />
     </task>
     <task id="LOCAL-00001" summary="Added FastICA">
       <created>1584546011748</created>
@@ -121,13 +139,13 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="585" y="111" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1584546010835" />
-    <state x="740" y="279" key="FileChooserDialogImpl" timestamp="1584606996439">
+    <state x="740" y="279" key="FileChooserDialogImpl" timestamp="1584815290449">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="740" y="279" key="FileChooserDialogImpl/0.0.1920.1050@0.0.1920.1050" timestamp="1584606996439" />
-    <state x="461" y="167" key="SettingsEditor" timestamp="1584546078518">
+    <state x="740" y="279" key="FileChooserDialogImpl/0.0.1920.1050@0.0.1920.1050" timestamp="1584815290449" />
+    <state x="461" y="167" key="SettingsEditor" timestamp="1584872435620">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="461" y="167" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1584546078518" />
+    <state x="461" y="167" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1584872435620" />
   </component>
 </project>
