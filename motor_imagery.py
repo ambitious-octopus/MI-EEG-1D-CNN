@@ -31,10 +31,8 @@ from mne.datasets import eegbci
 #%%
 #Numero del sogetto (va da 1 a 109)
 soggetto = 1
-#Epoche da prendere in esame per l'analisi prese dal paper [1]
+#Offset evento
 tmin, tmax = -1., 4.
-#Eventi mani/piedi
-event_id = dict(hands=2, feet=3)
 #Prendo le run, per ora prendo solo quelle relative al movimento immaginato "task 4" in tutto sono 14 run e 4 task
 runs = [4]
 #Il database che staimo utilizzato è scaricabile direttamente da PhysioNet con una funzione di MNE-python
@@ -45,6 +43,7 @@ raw_fnames = eegbci.load_data(soggetto, runs)
 raw = concatenate_raws([read_raw_edf(f, preload=True) for f in raw_fnames])
 
 #%%
+#Mappo i canali
 mapping = {
     'Fc5.': 'FC5', 'Fc3.': 'FC3', 'Fc1.': 'FC1', 'Fcz.': 'FCz', 'Fc2.': 'FC2',
     'Fc4.': 'FC4', 'Fc6.': 'FC6', 'C5..': 'C5', 'C3..': 'C3', 'C1..': 'C1',
@@ -70,20 +69,19 @@ sfreq = raw.info['sfreq']
 #Gli eventi
 events, _ = events_from_annotations(raw, event_id=dict(T1=2, T2=3))
 #La tipologia
-raw.pick_types(meg=False, eeg=True, stim=False, eog=False, exclude='bads')
+picks = pick_types(raw.info, meg=False, eeg=True, stim=False, eog=False,exclude='bads')
 #%%
-#Viasulizzo Il Power Spectral Density
-raw.plot_psd(area_mode='range', tmax=10.0, show=False, average=True)
+#Viasualizzo Il Power Spectral Density
+raw.plot_psd(area_mode=None, tmax=10.0, show=False, average=False, fmin =1.0, fmax=80.0, dB=False)
 # Applico un band-pass filter
-raw.filter(l_freq=1.,h_freq=79., fir_design='firwin2', skip_by_annotation='edge')
-
+raw.filter(l_freq=1.,h_freq=79.9, fir_design='firwin2', skip_by_annotation='edge')
 #Visualizzo i dati raw, dopo il filtraggio
 raw.plot(duration=5, n_channels=25)
 #Visualizzo la PSD dopo il filtraggio
 raw.plot_psd(area_mode='range', tmax=10.0, show=False, average=True)
 #%%
 #Instanzio un oggetto ica
-ica = ICA(n_components=32, random_state=42, method="fastica", max_iter=200)
+ica = ICA(n_components=64, random_state=42, method="picard", max_iter=200)
 #Applico la ica sul file raw
 ica.fit(raw)
 #Plotto le componenti indipendenti estratte in formato di onda
@@ -91,7 +89,7 @@ ica.plot_sources(raw)
 #Plotto le componenti indipendenti estratte sullo scalpo
 ica.plot_components()
 #Questa funzione dovrebbe plottare la concentrazione delle componenti
-ica.plot_properties(raw, picks=[0, 1])
+ica.plot_properties(raw, picks=[1])
 #Ricarico il raw originale
 raw.load_data()
 #Vedo la differenze togliendo alcune componenti
@@ -104,8 +102,11 @@ ica.apply(reconst_raw)
 #Visualizzo il raw ricostruito
 reconst_raw.plot(duration=5, n_channels=25)
 #%%
-
-
+#Divido le epoche
+event_id = dict(left=2, right=3)
+epochs = Epochs(reconst_raw, events, event_id, tmin, tmax, proj=True, picks=picks,baseline=None, preload=True)
+labels = epochs.events[:, -1] - 2
+epochs_data = epochs.get_data()
 
 
 

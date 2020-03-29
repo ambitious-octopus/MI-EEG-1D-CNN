@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d006e634-978a-4734-b83e-f8ac35d0d0f5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/franc_pyl533c.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/environment.yml" beforeDir="false" afterPath="$PROJECT_DIR$/environment.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/motor_imagery.py" beforeDir="false" afterPath="$PROJECT_DIR$/motor_imagery.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -112,6 +110,16 @@
       <workItem from="1584814918123" duration="319000" />
       <workItem from="1584815250261" duration="52000" />
       <workItem from="1584869114844" duration="4732000" />
+      <workItem from="1584890493851" duration="394000" />
+      <workItem from="1584896722486" duration="186000" />
+      <workItem from="1584950927606" duration="23000" />
+      <workItem from="1584978658562" duration="357000" />
+      <workItem from="1584982411187" duration="200000" />
+      <workItem from="1584982620795" duration="2338000" />
+      <workItem from="1585000241164" duration="19000" />
+      <workItem from="1585142004330" duration="7264000" />
+      <workItem from="1585149879598" duration="478000" />
+      <workItem from="1585488909497" duration="1571000" />
     </task>
     <task id="LOCAL-00001" summary="Added FastICA">
       <created>1584546011748</created>
@@ -139,10 +147,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="585" y="111" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1584546010835" />
-    <state x="740" y="279" key="FileChooserDialogImpl" timestamp="1584815290449">
+    <state x="740" y="279" key="FileChooserDialogImpl" timestamp="1584950939772">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="740" y="279" key="FileChooserDialogImpl/0.0.1920.1050@0.0.1920.1050" timestamp="1584815290449" />
+    <state x="740" y="279" key="FileChooserDialogImpl/0.0.1920.1050@0.0.1920.1050" timestamp="1584950939772" />
     <state x="461" y="167" key="SettingsEditor" timestamp="1584872435620">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
