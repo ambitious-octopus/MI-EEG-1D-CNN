@@ -25,7 +25,7 @@ import matplotlib.pyplot as plt
 from mne import Epochs, pick_types, create_info, events_from_annotations
 from mne.channels import read_layout, montage, read_custom_montage, make_standard_montage, find_layout, make_eeg_layout, make_dig_montage
 from mne.io import concatenate_raws, read_raw_edf
-from mne.preprocessing import (ICA, create_eog_epochs, create_ecg_epochs,corrmap)
+from mne.preprocessing import (ICA, create_eog_epochs, create_ecg_epochs, corrmap)
 from mne.datasets import eegbci
 
 #%%
@@ -34,13 +34,13 @@ soggetto = 1
 #Offset evento
 tmin, tmax = -1., 4.
 #Prendo le run, per ora prendo solo quelle relative al movimento immaginato "task 4" in tutto sono 14 run e 4 task
-runs = [4]
+runs = [2]
 #Il database che staimo utilizzato è scaricabile direttamente da PhysioNet con una funzione di MNE-python
 #Prendo il numero del sogetto e le rispettive run e scarico i dati (di default = All'interno della directory principale mne-python)
 raw_fnames = eegbci.load_data(soggetto, runs)
 #I blocchi del task sono di 120 secondi, quindi questo file raw sarà coposto di tanti blocchi quanti ne sono stati richiesti (variabile runs)
 #In questo caso 3 relativi alla variabile runs
-raw = concatenate_raws([read_raw_edf(f, preload=True) for f in raw_fnames])
+#raw = concatenate_raws([read_raw_edf(f, preload=True) for f in raw_fnames])
 
 #%%
 #Mappo i canali
@@ -67,21 +67,21 @@ raw.set_montage('standard_1005')
 #Frequenza di campionamento
 sfreq = raw.info['sfreq']
 #Gli eventi
-events, _ = events_from_annotations(raw, event_id=dict(T1=2, T2=3))
+#events, _ = events_from_annotations(raw, event_id=dict(T1=2, T2=3))
 #La tipologia
 picks = pick_types(raw.info, meg=False, eeg=True, stim=False, eog=False,exclude='bads')
 #%%
 #Viasualizzo Il Power Spectral Density
-raw.plot_psd(area_mode=None, tmax=10.0, show=False, average=False, fmin =1.0, fmax=80.0, dB=False)
+raw.plot_psd(area_mode=None, show=False, average=False, dB=False,  n_fft=160)
 # Applico un band-pass filter
 raw.filter(l_freq=1.,h_freq=79.9, fir_design='firwin2', skip_by_annotation='edge')
 #Visualizzo i dati raw, dopo il filtraggio
 raw.plot(duration=5, n_channels=25)
 #Visualizzo la PSD dopo il filtraggio
-raw.plot_psd(area_mode='range', tmax=10.0, show=False, average=True)
+raw.plot_psd(area_mode=None, show=False, average=False, dB=False,  n_fft=160)
 #%%
 #Instanzio un oggetto ica
-ica = ICA(n_components=64, random_state=42, method="picard", max_iter=200)
+ica = ICA(n_components=64, random_state=42, method="fastica", max_iter=200)
 #Applico la ica sul file raw
 ica.fit(raw)
 #Plotto le componenti indipendenti estratte in formato di onda
@@ -89,13 +89,13 @@ ica.plot_sources(raw)
 #Plotto le componenti indipendenti estratte sullo scalpo
 ica.plot_components()
 #Questa funzione dovrebbe plottare la concentrazione delle componenti
-ica.plot_properties(raw, picks=[1])
+ica.plot_properties(raw)
 #Ricarico il raw originale
 raw.load_data()
 #Vedo la differenze togliendo alcune componenti
-ica.plot_overlay(raw, exclude=[0,1,19,29], picks='eeg')
+ica.plot_overlay(raw, exclude=[0,1], picks='eeg')
 #Applico l'esclusione
-ica.exclude = [0,1,19,29]
+ica.exclude = [0,1]
 #Ricostrusco il tracciato
 reconst_raw = raw.copy()
 ica.apply(reconst_raw)
@@ -104,10 +104,10 @@ reconst_raw.plot(duration=5, n_channels=25)
 #%%
 #Divido le epoche
 event_id = dict(left=2, right=3)
-epochs = Epochs(reconst_raw, events, event_id, tmin, tmax, proj=True, picks=picks,baseline=None, preload=True)
+epochs = Epochs(reconst_raw, events, event_id, tmin, tmax, proj=True, picks=picks, baseline=None, preload=True)
+#Seleziono le label
 labels = epochs.events[:, -1] - 2
+#Estraggo i dati
 epochs_data = epochs.get_data()
-
-
-
+#%%
 

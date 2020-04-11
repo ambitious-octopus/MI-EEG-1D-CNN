@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d006e634-978a-4734-b83e-f8ac35d0d0f5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/erd.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pre_processing.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/motor_imagery.py" beforeDir="false" afterPath="$PROJECT_DIR$/motor_imagery.py" afterDir="false" />
     </list>
@@ -26,6 +28,13 @@
   </component>
   <component name="FavoritesManager">
     <favorites_list name="eeGNN" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -53,7 +62,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../SimAnn" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.appearance" />
   </component>
   <component name="RunManager">
@@ -79,6 +88,33 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="motor_imagery" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="eeGNN" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/motor_imagery.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.motor_imagery" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -119,7 +155,21 @@
       <workItem from="1585000241164" duration="19000" />
       <workItem from="1585142004330" duration="7264000" />
       <workItem from="1585149879598" duration="478000" />
-      <workItem from="1585488909497" duration="1571000" />
+      <workItem from="1585488909497" duration="6145000" />
+      <workItem from="1585500630189" duration="179000" />
+      <workItem from="1585568972933" duration="1097000" />
+      <workItem from="1585570111976" duration="4276000" />
+      <workItem from="1585636696488" duration="1000" />
+      <workItem from="1585636712662" duration="631000" />
+      <workItem from="1585649467807" duration="852000" />
+      <workItem from="1585661189535" duration="631000" />
+      <workItem from="1585744398156" duration="1438000" />
+      <workItem from="1585745851130" duration="3211000" />
+      <workItem from="1585755399513" duration="13000" />
+      <workItem from="1586349991855" duration="1910000" />
+      <workItem from="1586363094671" duration="7605000" />
+      <workItem from="1586445695065" duration="12000" />
+      <workItem from="1586599909333" duration="103000" />
     </task>
     <task id="LOCAL-00001" summary="Added FastICA">
       <created>1584546011748</created>
@@ -147,13 +197,17 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="585" y="111" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1584546010835" />
-    <state x="740" y="279" key="FileChooserDialogImpl" timestamp="1584950939772">
+    <state x="740" y="279" key="FileChooserDialogImpl" timestamp="1585573943640">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="740" y="279" key="FileChooserDialogImpl/0.0.1920.1050@0.0.1920.1050" timestamp="1584950939772" />
+    <state x="740" y="279" key="FileChooserDialogImpl/0.0.1920.1050@0.0.1920.1050" timestamp="1585573943640" />
     <state x="461" y="167" key="SettingsEditor" timestamp="1584872435620">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="461" y="167" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1584872435620" />
+    <state x="465" y="241" key="com.intellij.ide.util.TipDialog" timestamp="1586599925398">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="465" y="241" key="com.intellij.ide.util.TipDialog/0.0.1536.834@0.0.1536.834" timestamp="1586599925398" />
   </component>
 </project>
