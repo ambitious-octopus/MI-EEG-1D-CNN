@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d006e634-978a-4734-b83e-f8ac35d0d0f5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/erd.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pre_processing.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/motor_imagery.py" beforeDir="false" afterPath="$PROJECT_DIR$/motor_imagery.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pre_processing.py" beforeDir="false" afterPath="$PROJECT_DIR$/pre_processing.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,9 +23,6 @@
     </option>
     <expand />
     <select />
-  </component>
-  <component name="FavoritesManager">
-    <favorites_list name="eeGNN" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -53,7 +48,6 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -170,6 +164,13 @@
       <workItem from="1586363094671" duration="7605000" />
       <workItem from="1586445695065" duration="12000" />
       <workItem from="1586599909333" duration="103000" />
+      <workItem from="1586787813862" duration="44000" />
+      <workItem from="1586877523538" duration="4750000" />
+      <workItem from="1586932129377" duration="2752000" />
+      <workItem from="1586935455560" duration="4987000" />
+      <workItem from="1586941935729" duration="10000" />
+      <workItem from="1586953828345" duration="9737000" />
+      <workItem from="1586964978864" duration="40000" />
     </task>
     <task id="LOCAL-00001" summary="Added FastICA">
       <created>1584546011748</created>
@@ -182,7 +183,7 @@
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added FastICA" />
