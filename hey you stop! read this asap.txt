@@ -1,0 +1,21 @@
+Hey, you, I know what you're about to do!
+You wanted to make changes, didn't you?
+We decided to keep things in order here.
+
+Here francesco will help you with a few simple rules:
+-> Rule number one, Use Git and commit frequent and accurate.
+-> Rule number two, do your branch! Don't worry, we'll put all the pieces together later.
+-> Rule number three, Insert the file in the correct directory.
+    -> Preprocessing: Enter your file here if you are working on the preprocessing. (By giving the correct name, see below)
+    -> Models: Insert the file here if you are building a model (Using the classes, it will be easier to import the models)
+-> Rule numbert four, Give the correct name to the files
+    -> S("Number of the subject")_R("The run you're examining")_("The procedure you're doing")
+
+FAQ:
+
+->I have to install Mne Pyhton, how can I do that?
+Follow the tutorial on this page (https://mne.tools/stable/install/mne_python.html), use the anaconda environments!
+Install the latest version marked as "stable". When they ask for the file environment.yml, "cd" to the utility folder and you will find it!
+
+->Which editor should I use?
+If you use the PyCharm editor it will be much easier to navigate through the folders, thanks to the .idea file that has been placed inside the repository. Do not touch that folder under any circumstances!

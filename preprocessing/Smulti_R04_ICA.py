@@ -25,5 +25,5 @@ for subj in range(4):
 
 raw = raws[0]
 ica = icas[0]
-eog_inds, eog_scores = ica.find_bads_eog(raw, ch_name='Fpz')
-corrmap(icas, template=(0, eog_inds[0]))
+eog_inds, eog_scores = ica.find_bads_eog(raw, ch_name='Fp1')
+corr_map = corrmap(icas, template=(0, eog_inds[0]))

@@ -29,31 +29,32 @@ raw.crop(tmax = 60).load_data()
 raw.plot()
 #%%
 #Applico un filtro passa banda
-raw_filter = raw.copy()
-raw_filter.filter(1.0, 79.0, fir_design='firwin', skip_by_annotation='edge')
+raw.filter(1.0, 79.0, fir_design='firwin', skip_by_annotation='edge')
 #Applico un NotchFilter
 freqs = (60)
 raw_notch = raw.notch_filter(freqs=freqs)
 raw.plot_psd(area_mode=None, show=False, average=False, fmin=1.0, fmax=80.0, dB=False, n_fft=160)
-
 #%% ICA
 #Istanzio una Ica
-ica = ICA(n_components=64, random_state=10, method="fastica", max_iter=1000)
+ica = ICA(n_components=64, random_state=10, method="fastica", max_iter=1000) #Deve ritornare due tuple!
 #Faccio il fit
-ica.fit(raw_filter)
+ica.fit(raw)
 #%%
 eog_inds, eog_scores = ica.find_bads_eog(raw, ch_name='Fpz')
 #Plotto le concentrazioni
 ica.plot_sources(raw)
+ica.plot_components()
 #PLotto le proprietà della singola componente
-ica.plot_properties(raw, dB=False,plot_std=False, picks=[1,0])
+ica.plot_properties(raw, dB=False,plot_std=False, picks=[0])
 #%%
 #Definisco delle componenti da escludere
-exc = [1,0,4,12,11,18,23,29,28, 38,27,36,34, 49, 47, 45, 63,51,52,53,56]
-inc = [28,47,45]
-
-
+exc = [1,0,12,11,18,29,28,36,34,49,47,45,63,51,52,53,56]
+attesa = [4,23,49]
+prot = [51,1,12, 36, 27]
 #%%
 reconst_raw = raw.copy()
+#O questa
 ica.plot_overlay(reconst_raw, exclude=exc)
+#O questa
+ica.apply(reconst_raw, exclude=exc)
 reconst_raw.plot_psd(area_mode=None, show=False, average=False, fmin=1.0, fmax=80.0, dB=False, n_fft=160)
