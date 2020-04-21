@@ -21,12 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d006e634-978a-4734-b83e-f8ac35d0d0f5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/erd.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ica08_04" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/motor_imagery.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pre_processing.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pre_processing_task4.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pre_processing_task4_multi_sub.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/S01_R04_ICA.py" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/S01_R04_ICA.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,6 +190,7 @@
       <workItem from="1587126506129" duration="599000" />
       <workItem from="1587157228752" duration="15000" />
       <workItem from="1587306730213" duration="6379000" />
+      <workItem from="1587477125202" duration="9733000" />
     </task>
     <task id="LOCAL-00001" summary="Added FastICA">
       <created>1584546011748</created>
