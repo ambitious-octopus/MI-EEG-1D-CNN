@@ -22,7 +22,7 @@ for subj in subjects:
     for run in runs:
         fname = eegbci.load_data(subj, runs=run)[0] #Prendo le run
         raw_run = read_raw_edf(fname, preload=True) #Le carico
-        len_run = np.sum((raw_run._annotations).duration)
+        len_run = np.sum((raw_run._annotations).duration) #Controllo la durata
         if len_run > 123:
             raw_run.crop(tmax=124.4) #Taglio la parte finale
         ls_run.append(raw_run) #Aggiungo la run alla lista delle run
@@ -40,8 +40,10 @@ for subj in subjects:
     raws.append(raw)
     icas.append(ica)
 
+#%%
+eog_inds, eog_scores = icas[0].find_bads_eog(raws[0], ch_name='Fpz')
+icas[0].plot_components(eog_inds)
 
-raw = raws[0]
-ica = icas[0]
-eog_inds, eog_scores = ica.find_bads_eog(raw, ch_name='Fp1')
+icas[0].plot_properties(raws[0])
+
 corr_map = corrmap(icas, template=(0, eog_inds[0]))
