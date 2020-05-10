@@ -43,6 +43,7 @@ for subj in subjects:
 #%%
 eog_inds, eog_scores = icas[0].find_bads_eog(raws[0], ch_name='Fpz')
 icas[0].plot_components(eog_inds)
+icas[0].plot_properties
 
 icas[0].plot_properties(raws[0])
 
