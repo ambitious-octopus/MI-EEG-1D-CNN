@@ -41,10 +41,17 @@ for subj in subjects:
     icas.append(ica)
 
 #%%
-eog_inds, eog_scores = icas[0].find_bads_eog(raws[0], ch_name='Fpz')
-icas[0].plot_components(eog_inds)
-icas[0].plot_properties
 
 icas[0].plot_properties(raws[0])
+
+eog_inds, eog_scores = icas[0].find_bads_eog(raws[0], ch_name='Fpz')
+
+
+
+icas[0].plot_components()
+
+
+exc_0 = []
+
 
 corr_map = corrmap(icas, template=(0, eog_inds[0]))
