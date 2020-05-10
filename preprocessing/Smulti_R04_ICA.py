@@ -36,20 +36,23 @@ for subj in subjects:
     # todo: qui salvare il plot psd
     # Ica
     ica = ICA(n_components=64, random_state=42, method="fastica", max_iter=1000)
+
+    ind = []
+    for index, value in enumerate((raw.annotations).description):
+        if value == "BAD boundary" or value == "EDGE boundary":
+            ind.append(index)
+    (raw.annotations).delete(ind)
+
     ica.fit(raw)
     raws.append(raw)
     icas.append(ica)
 
 #%%
-
 icas[0].plot_properties(raws[0])
 
 eog_inds, eog_scores = icas[0].find_bads_eog(raws[0], ch_name='Fpz')
 
-
-
 icas[0].plot_components()
-
 
 exc_0 = []
 
