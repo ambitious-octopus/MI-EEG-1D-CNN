@@ -8,8 +8,15 @@ from mne.preprocessing import ICA, corrmap
 import time
 import os
 
-# %%
+#Path dello script
+wk_dir = os.path.dirname(os.path.realpath('__file__'))
+print("You're saving the files in this directory")
+print(wk_dir)
+input = input("Are you sure? (y/n)")
+if input != "y":
+    raise Exception("Select the right location")
 
+# %%
 # Lista dei file raw
 raws = list()
 # Lista degli oggetti ica
@@ -82,3 +89,4 @@ for index, ica in enumerate(icas):
     icas[index].exclude = icas[index].labels_["artifact_0"]
     icas[index].apply(reco_raw)
     reco_raws.append(reco_raw)
+
