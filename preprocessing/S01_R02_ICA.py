@@ -26,7 +26,8 @@ raw.set_montage(montage)
 raw.rename_channels(lambda x: x.strip('.'))
 raw.crop(tmax = 60).load_data()
 #%% VISUALIZZO I DATI RAW
-raw.plot_psd(area_mode=None, show=False, average=False, fmin =1.0, fmax=80.0, dB=False, n_fft=160)
+ax = plt.axes()
+raw.plot_psd(area_mode=None, show=False, average=False, ax=plt.axes(ylim=(0,60)), fmin =1.0, fmax=80.0, dB=False, n_fft=160)
 raw.plot()
 #%%
 #Applico un filtro passa banda
@@ -54,7 +55,7 @@ notch = [4, 12, 13, 14, 15, 17, 19, 26, 27, 28, 35, 49, 50, 51, 54, 57, 61]
 #%%
 reconst_raw = raw.copy()
 ica.plot_overlay(reconst_raw, exclude=exc)
-reconst_raw.plot_psd(area_mode=None, show=False, average=False, fmin=1.0, fmax=80.0, dB=False, n_fft=160)
+reconst_raw.plot_psd(area_mode=None, show=False, average=False,ax=plt.axes(ylim=(0,60)), fmin=1.0, fmax=80.0, dB=False, n_fft=160)
 #%%
 #Tolgo le componenti selezionate
 sources = ica.get_sources(raw)
