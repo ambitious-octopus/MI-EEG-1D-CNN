@@ -67,12 +67,14 @@ for subj in subjects:
     raw.set_montage(montage) #Setto il montaggio
     raw.filter(1.0, 79.0, fir_design='firwin', skip_by_annotation='edge') #Filtro
     raw_notch = raw.notch_filter(freqs=60) #Faccio un filtro passa banda
+    #todo: azzerare variabile
     plot_pre_psd = raw.plot_psd(area_mode=None, show=False, average=False, fmin =1.0, ax=plt.axes(ylim=(0,60)), fmax=80.0, dB=False, n_fft=160)
     psd_name = os.path.join(dir_pre_psd,'S'+ str(subj) + '_imagined_pre.png')
     if os.path.exists(psd_name):
      raise Exception('Warning! This plot already exists! :(' )
     plot_pre_psd.savefig(psd_name)
     # Ica
+    del plot_pre_psd
     ica = ICA(n_components=64, random_state=42, method="fastica", max_iter=1000)
 
     ind = []
@@ -84,10 +86,15 @@ for subj in subjects:
     ica.fit(raw)
     raws.append(raw)
     icas.append(ica)
+
+
+corrmap(icas, template=(0, 19), plot=True, threshold=0.80)
+icas[0].plot_properties(raws[0], picks=[26,29,34,44,47,49,51,53,55,56,58,59,63,60,61], dB=False)
+
 #%%
 #eog_inds, eog_scores = icas[0].find_bads_eog(raws[0], ch_name='Fpz')
 #icas[0].plot_properties(raws[0], picks=[], dB=False)
-exc_0 = [0,1,3,4,9,11,14,15,19,26,29,34,44,47,49,51,53,55,56,58,59,63,60,61]
+exc_0 = [0,3,9,11,14,15,19,26,29,34,44,47,49,51,53,55,56,58,59,63,60,61]
 maybe = [ 7,12,23,24,40]
 #reconst_raw = raws[0].copy()
 #icas[0].plot_overlay(reconst_raw, exclude=exc_0)

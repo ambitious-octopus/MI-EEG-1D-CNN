@@ -21,12 +21,13 @@
   <component name="ChangeListManager">
     <list default="true" id="d006e634-978a-4734-b83e-f8ac35d0d0f5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/BUG_S65_R04.08.12_ICA_template.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/S01_R02_ICA.py" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/S01_R02_ICA.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/S65_R04.08.12_ICA_template.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/S65_R04_08_12_ICA_plot_dir.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/post_psd/S01_post.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/pre_psd/S01_pre.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/S65_R04_08_12_ICA_template.py" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/S65_R04_08_12_ICA_template.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/psd_imagined/post_psd/S65_imagined_post.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/psd_imagined/post_psd/S67_imagined_post.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/psd_imagined/post_psd/S80_imagined_post.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/psd_imagined/pre_psd/S65_imagined_pre.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/psd_imagined/pre_psd/S65_imagined_pre.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/psd_imagined/pre_psd/S67_imagined_pre.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/psd_imagined/pre_psd/S67_imagined_pre.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/psd_imagined/pre_psd/S80_imagined_pre.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/psd_imagined/pre_psd/S80_imagined_pre.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -212,7 +213,12 @@
       <workItem from="1589307605193" duration="1765000" />
       <workItem from="1589352792432" duration="1989000" />
       <workItem from="1589369830111" duration="1672000" />
-      <workItem from="1589379411982" duration="3292000" />
+      <workItem from="1589379411982" duration="3449000" />
+      <workItem from="1589386506726" duration="4409000" />
+      <workItem from="1589392608953" duration="234000" />
+      <workItem from="1589440447299" duration="10000" />
+      <workItem from="1589537344313" duration="225000" />
+      <workItem from="1589624935898" duration="599000" />
     </task>
     <task id="LOCAL-00001" summary="Added FastICA">
       <created>1584546011748</created>
