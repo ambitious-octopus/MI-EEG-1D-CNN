@@ -72,7 +72,7 @@ for subj in subjects:
     raw.filter(1.0, 79.0, fir_design='firwin', skip_by_annotation='edge') #Filtro
     raw_notch = raw.notch_filter(freqs=60) #Faccio un filtro passa banda
     #todo: azzerare variabile
-    plot_pre_psd = raw.plot_psd(area_mode=None, show=False, average=False, fmin =1.0, fmax=80.0, dB=False, n_fft=160)
+    plot_pre_psd = raw.plot_psd(area_mode=None, show=True, average=False, fmin =1.0, fmax=80.0, dB=False, n_fft=160)
     psd_name = os.path.join(dir_pre_psd,'S'+ str(subj) + '_real_pre.png')
     if os.path.exists(psd_name):
      raise Exception('Warning! This plot already exists! :(' )
@@ -97,37 +97,39 @@ for subj in subjects:
     else:
         continue
 
-#corrmap(icas, template=(0, 0), plot=True, threshold=0.80)
+corrmap(icas, template=(0, 33), plot=True, threshold=0.70, label = 'artifact_')
 #icas[0].plot_properties(raws[0], picks=[26,29,34,44,47,49,51,53,55,56,58,59,63,60,61], dB=False)
 
 #%%
 #eog_inds, eog_scores = icas[0].find_bads_eog(raws[0], ch_name='Fpz')
-icas[0].plot_properties(raws[0], picks=[0,1,3,17,13,14,17,29,32,33,35,50,47,53], dB=False)
+icas[10].plot_properties(raws[0], picks=[1,42,43,44,45,46,47,48,49,50,51,52], dB=False)
 
 
 #components [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
 #21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,
 #41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60
 # 61,62,63]
-exc_0 = [0,8,9,10,13,15,18,28,31,32,49,43,44,51,57]
-maybe = [ ]
-eyes= [0,]
-ecg=
-movement=
+
+#exc_0 = [0,8,9,10,13,15,18,28,31,32,49,43,44,51,57]
+#maybe = [ ]
+#eyes= [0,]
+#ecg=
+#movement=
 
 #template from subject 66
-#exc_0_66 = [0,1,3,13,14,17,29,32,33,35,47,50,53]
+exc_0_66 = [0,1,3,13,14,17,29,32,33,35,47,50,53]
 eyes = [0,1,3,14,33,35,47]
-#ecg = []
-#movement =[17,32,] 
-#odd = [13]
-#electrode =[53]
+ecg = []
+movement =[17,32,] 
+odd = [13]
+electrode =[53]
+
 #reconst_raw = raws[0].copy()
 #icas[0].plot_overlay(reconst_raw, exclude=exc_0)
 #reconst_raw.plot_psd(area_mode=None, show=False, average=False, fmin=1.0, fmax=80.0, dB=False, n_fft=160)
 
 #%%
-ex_list = [exc_0]
+ex_list = [exc_0_66]
 index_sub_temp = [0]
 
 for index in index_sub_temp:
@@ -143,7 +145,7 @@ for index, ica in enumerate(icas):
     reco_raw = raws[index].copy()
     icas[index].exclude = icas[index].labels_["artifact_0"]
     icas[index].apply(reco_raw)
-    plot_post_psd = reco_raw.plot_psd(area_mode=None, show=False, average=False,ax=plt.axes(ylim=(0,60)), fmin=1.0, fmax=80.0, dB=False, n_fft=160)
+    plot_post_psd = reco_raw.plot_psd(area_mode=None, show=False, average=False,fmin=1.0, fmax=80.0, dB=False, n_fft=160)
     psd_name_post = os.path.join(dir_post_psd, 'S' + str(subjects[index]) + '_real_post.png')
     if os.path.exists(psd_name_post):
         raise Exception('Warning! This plot already exists! :(')
