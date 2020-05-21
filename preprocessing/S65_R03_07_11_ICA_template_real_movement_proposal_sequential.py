@@ -1,7 +1,11 @@
 import numpy as np
+import sys
 import matplotlib.pyplot as plt
+from PIL import Image
+from matplotlib import axes, image
 from mne.datasets import eegbci
-from mne import Epochs, pick_types, events_from_annotations, make_ad_hoc_cov
+from mne import Epochs, pick_types, events_from_annotations, make_ad_hoc_cov,compute_raw_covariance
+from mne.simulation import add_noise
 from mne.io import concatenate_raws, read_raw_edf
 from mne.channels import make_standard_montage
 from mne.preprocessing import ICA, corrmap, read_ica
@@ -126,24 +130,32 @@ raw_loaded = load_data()
 #list of lists of Raw objects of runs to be concatenated
 
 #%% Whitening data
+#Non ho ben capito come fare
 
 def whitening ():
     
+    ls_cov_tot = []
+    
     for list in raw_loaded:
-        ls_cov_tot = []
         
+        ls_cov = []
+            
         for run in range (len(list)):
             
             cov = make_ad_hoc_cov(list[run].info) 
+            
             print(list[run])      
+            white = add_noise(list[run], cov, iir_filter=[0.2, -0.2, 0.04], random_state= 42)
             
-            ls_cov_tot.append(cov)
-            
-return ls_cov_tot = []
+            ls_cov.append(white)           
+           
+              
+        ls_cov_tot.append(ls_cov)
 
-raw_loaded_whitened = whitening()
+    return ls_cov_tot
 
-        
+raw_loaded_whitened = whitening() #list of raw data whitened
+      
 
 
 
@@ -152,7 +164,9 @@ raw_loaded_whitened = whitening()
 # returns list of concatenated raw
 # e.g. for subject = [2,45]
 #returns list = [Raw_S2(concatenated), Raw_S45(concatenated)]
-#data = raw_loaded or raw_loaded_whitened
+
+
+#data = raw_loaded or raw_loaded_whitened, choose wheter you want whitened data
 
 def concatenation(data):
     
@@ -161,13 +175,15 @@ def concatenation(data):
     for subj in range (len(subjects)):
           #print(subj)
           #print(rawdata_loaded[subj])
+          #print(data[subj])
           raw_conc = concatenate_raws(data[subj])
           
           raw_conc_list.append(raw_conc)
         
     return raw_conc_list
 
-raw_conc_list = concatenation(raw_loaded_whitened)
+raw_conc_list = concatenation(data = raw_loaded)
+#return a list of raw data concatenated per subject
 
 #%% Change channel names, set montage
 
@@ -209,7 +225,7 @@ raws_filt = filtering()
 
 #%% Delete annotations
 
-#returns raw objects with delete bad and useless annotations
+# raw objects with delete bad and useless annotations
 
 def del_annotations():
     
@@ -228,13 +244,16 @@ del_annotations()
 
 #%% Display and save plot psd of filtered raw data, real movement
 
+#Choose wheter to overwrite existing plots
+
 def plot_pre_psd(overwrite = True):
     
      for subj in range(len(subjects)): 
          
-        plot_pre = plt.figure()
+        plot_pre = plt.figure() #I create an empty figure so I can apply clear next line
            
-        plot_pre.clear()
+        plot_pre.clear() #Clearing the plot each iteration I do not obtain overlapping plots
+        
         #Plots psd of filtered raw data
         plot_pre = raws_filt[subj].plot_psd(area_mode=None, show=True, average=False, ax=plt.axes(ylim=(0,60)),fmin =1.0, fmax=80.0, dB=False, n_fft=160)
         
@@ -242,13 +261,15 @@ def plot_pre_psd(overwrite = True):
         psd_name = os.path.join(dir_pre_psd,'S'+ str(subjects[subj]) + '_real_pre.png')
         
         #Check if plot exists by checking its path
-        if os.path.exists(psd_name) and overwrite == False:
+        if os.path.exists(psd_name) and overwrite == False: #stops only if overwrite == False
             raise Exception('Warning! This plot already exists! :(' ) 
-        elif os.path.exists(psd_name) and overwrite == True:
             
-            os.remove(psd_name)
+        elif os.path.exists(psd_name) and overwrite == True:
+            os.remove(psd_name) #removes existing saved plot
+            
+            
             if os.path.exists(psd_name):
-                raise Exception('You did not remove existing plot!')
+                raise Exception('You did not remove existing plot!') #check if plot being deleted, not always os.remove works
             else:
                 
                 plot_pre.savefig(psd_name)
@@ -261,9 +282,7 @@ def plot_pre_psd(overwrite = True):
      return None
 plot_pre_psd(overwrite = True)
 
-#Todos: Fix axes plot
-#Todos: if fixed like before cumulates the same plot
-#even del plot doesn't work
+
 #Join pre psd and post psd plots 
         
 
@@ -271,31 +290,30 @@ plot_pre_psd(overwrite = True)
 
 #Fitting Ica on raw_filtered data
 # Save = True to save icas 
-# Overwrite = True to overwrite existing icas
+# Overwrite = True to overwrite existing saved icas
 
 def ica_function (save = True, overwrite = True):    
   
-    # Ica
-    #del plot_pre_psd
-    
-    icas_names = []
-    icas = []
+       
+    icas_names = [] #Creating here empty list to clean it before using it, return ica saved paths for future loading
+    icas = [] #return icas 
     
     for subj in range (len(subjects)):
+        
         ica = ICA(n_components=64, random_state=42, method="fastica", max_iter=1000)    
         
-        ica.fit(raws_filt[subj])
+        ica.fit(raws_filt[subj]) #fitting ica 
         
         if save == True:
             
-            icas_name = os.path.join(dir_icas,'S'+ str(subjects[subj]) + '_ica.fif')
+            icas_name = os.path.join(dir_icas,'S'+ str(subjects[subj]) + '_ica.fif') #creating ica name path
             
             if os.path.exists(icas_name) and overwrite == False:
-                raise Exception('Warning! This ica already exists! :(' ) 
+                raise Exception('Warning! This ica already exists! :( ' + str(icas_name)) #stops if you don't want to overwrite a saved ica
                 
             elif os.path.exists(icas_name) and overwrite == True:
                 
-                os.remove(icas_name)               
+                os.remove(icas_name)  # to overwrite delets existing ica             
                                                             
                 ica.save(icas_name)        
                 icas_names.append(icas_name)
@@ -313,7 +331,8 @@ def ica_function (save = True, overwrite = True):
 icas,icas_names = ica_function(save = True, overwrite= True)
 
 
-#%% Load saved icas
+
+#%% Load saved icas from icas_names = paths
 
 def loading_icas ():
     
@@ -332,7 +351,7 @@ print(icas_load)
 
 #%% Ica plot properties
    
-icas_load[0].plot_properties(raws_filt[0], picks=[26], dB=False)
+icas[0].plot_properties(raws_filt[0], picks=[30,31,32,33,34,35,36,37,38,39,40], dB=False)
 
 #%% Ica psd components instead of channels 
 
@@ -352,7 +371,7 @@ icas_load[2].plot_properties(raws_filt[2], picks=[1], dB=False)
 exc_66 = [0,1,3,13,14,17,29,32,33,35,47,50,53]
 
 #Here we report what kind of artifact
-#eyes = [0,1,3,14,33,35,47]
+eyes = [0,1,3,14,33,35,47]
 #ecg = []
 #movement =[17,32,] 
 #odd = [13]
@@ -364,7 +383,7 @@ exc_66 = [0,1,3,13,14,17,29,32,33,35,47,50,53]
 #exc_template = 
 
 
-corrmap(icas_load, template=(0, 22), plot=True, threshold=0.40, label = 'artifact Subject' )
+corrmap(icas, template=(0, 33), plot=True, threshold=0.75, label = 'artifact Subject' )
 
 for subj in range (len(subjects)):
     
@@ -400,15 +419,100 @@ for index in index_sub_temp:
 #print([ica.labels_ for ica in icas])
 # todo: capire come fare questa corr map
 
-#%%
-reco_raws = []
-for index, ica in enumerate(icas):
-    reco_raw = raws[index].copy()
-    icas[index].exclude = icas[index].labels_["artifact_0"]
-    icas[index].apply(reco_raw)
-    plot_post_psd = reco_raw.plot_psd(area_mode=None, show=False, average=False,fmin=1.0, fmax=80.0, dB=False, n_fft=160)
-    psd_name_post = os.path.join(dir_post_psd, 'S' + str(subjects[index]) + '_real_post.png')
-    if os.path.exists(psd_name_post):
-        raise Exception('Warning! This plot already exists! :(')
-    plot_post_psd.savefig(psd_name_post)
-    reco_raws.append(reco_raw)
+#%% Reconstruct raw files with excluded components
+            
+def reconstruct_raws ():
+    
+    reco_raws = []
+    
+    for index, ica in enumerate(icas):
+        
+        reco_raw = raws[index].copy()
+        icas[index].exclude = icas[index].labels_["artifact_0"]
+        icas[index].apply(reco_raw)
+        reco_raws.append(reco_raw)
+    
+    return reco_raws
+
+reco_raws = reconstruct_raws()
+
+#%% Create plot post psd
+
+def plot_post_psd(overwrite = True):
+    
+     for subj in range(len(subjects)): 
+         
+        plot_post = plt.figure() #I create an empty figure so I can apply clear next line
+           
+        plot_post.clear() #Clearing the plot each iteration I do not obtain overlapping plots
+        
+        #Plots psd of filtered raw data
+        plot_post = reco_raws[subj].plot_psd(area_mode=None, show=True, average=False, ax=plt.axes(ylim=(0,60)),fmin =1.0, fmax=80.0, dB=False, n_fft=160)
+        
+        #Creates plot's name
+        psd_name = os.path.join(dir_post_psd,'S'+ str(subjects[subj]) + '_real_post.png')
+        
+        #Check if plot exists by checking its path
+        if os.path.exists(psd_name) and overwrite == False: #stops only if overwrite == False
+            raise Exception('Warning! This plot already exists! :(' ) 
+            
+        elif os.path.exists(psd_name) and overwrite == True:
+            os.remove(psd_name) #removes existing saved plot
+            
+            
+            if os.path.exists(psd_name):
+                raise Exception('You did not remove existing plot!') #check if plot being deleted, not always os.remove works
+            else:
+                
+                plot_post.savefig(psd_name)
+              
+            
+        else:
+            plot_post.savefig(psd_name)
+            
+                                                                         
+     return None
+ 
+plot_post_psd(overwrite = True)
+#%%  Tests to join psd
+
+plot_post = raws_filt[0].plot_psd(area_mode=None, show=True, average=False, ax=plt.axes(ylim=(0,60)),fmin =1.0, fmax=80.0, dB=False, n_fft=160)
+
+plot_pre = raws_filt[1].plot_psd(area_mode=None, show=True, average=False, ax=plt.axes(ylim=(0,60)),fmin =1.0, fmax=80.0, dB=False, n_fft=160)
+
+
+
+path = "C:\\Users\\admin\\Desktop\\eeGNN\\preprocessing\\psd_real\\pre_psd\\S23_real_pre.png"
+path2 = "C:\\Users\\admin\\Desktop\\eeGNN\\preprocessing\\psd_real\\pre_psd\\S66_real_pre.png"
+
+b = image.FigureImage(plot_post)
+c = image.FigureImage(plot_pre)
+a = [b,c]
+
+list_im = [path, path2]
+new_im = Image.new('RGB', (444,95)) #creates a new empty image, RGB mode, and size 444 by 95
+
+for elem in list_im:
+    im=Image.open(elem)
+    print(elem)
+    #im.show()
+
+    new_im.paste(im, (i,0))
+new_im.save('test2.jpg')
+    
+#%% Other tests
+    
+images = [Image.open(x) for x in [path, path2]
+widths, heights = zip(*(i.size for i in images))
+
+total_width = sum(widths)
+max_height = max(heights)
+
+new_im = Image.new('RGB', (total_width, max_height))
+
+x_offset = 0
+for im in images:
+  new_im.paste(im, (x_offset,0))
+  x_offset += im.size[0]
+
+new_im.save('test.jpg')
