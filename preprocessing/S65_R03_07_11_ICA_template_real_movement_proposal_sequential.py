@@ -4,7 +4,7 @@ from mne.datasets import eegbci
 from mne import Epochs, pick_types, events_from_annotations
 from mne.io import concatenate_raws, read_raw_edf
 from mne.channels import make_standard_montage
-from mne.preprocessing import ICA, corrmap
+from mne.preprocessing import ICA, corrmap, read_ica
 import os
 #%% Creating directories for saving plots psd
 
@@ -55,11 +55,23 @@ def folders_psd ():
         print("Path not found, creating post_psd directory...")
         os.mkdir(dir_post_psd)
         
-    return dir_preprocessing,dir_psd_real, dir_pre_psd,dir_post_psd
+    
+
+
+    dir_icas = os.path.join(dir_preprocessing,'icas')
+    if os.path.isdir(dir_icas):
+        print('Icas directory already exists')
+    else:
+        print("Path not found, creating icas directory...")
+        os.mkdir(dir_icas)
+        
+    return dir_preprocessing,dir_psd_real, dir_pre_psd,dir_post_psd,dir_icas
 
 # returning folder directories 
         
-dir_preprocessing,dir_psd_real, dir_pre_psd,dir_post_psd = folders_psd()
+dir_preprocessing,dir_psd_real, dir_pre_psd,dir_post_psd, dir_icas = folders_psd()
+
+
 
 #%% Initializing: raws, icas, subjects, runs
     
@@ -105,7 +117,7 @@ def load_data ():
         
     return ls_run_tot
 
-rawdata_loaded = load_data()
+raw_loaded = load_data()
 #list of lists of Raw objects of runs to be concatenated
 
 #%% Concatenate raws 
@@ -122,7 +134,7 @@ def concatenation():
     for subj in range (len(subjects)):
           #print(subj)
           #print(rawdata_loaded[subj])
-          raw_conc = concatenate_raws(rawdata_loaded[subj])
+          raw_conc = concatenate_raws(raw_loaded[subj])
           
           raw_conc_list.append(raw_conc)
         
@@ -166,7 +178,7 @@ def filtering ():
         #todo: azzerare variabile
     return raw_setted
 
-raw_filtered = filtering()
+raws_filt = filtering()
 
 #%% Delete annotations
 
@@ -177,37 +189,47 @@ def del_annotations():
     for subj in range (len(subjects)):
         ind = []
         
-        for index, value in enumerate((raw_filtered[subj].annotations).description):            
+        for index, value in enumerate((raws_filt[subj].annotations).description):            
             if value == "BAD boundary" or value == "EDGE boundary":
                 ind.append(index)
-        (raw_filtered[subj].annotations).delete(ind)
+        (raws_filt[subj].annotations).delete(ind)
     
-    return raw_filtered
+    return raws_filt
 
 del_annotations()
 
 
 #%% Display and save plot psd of filtered raw data, real movement
 
-def plot_pre_psd():
+def plot_pre_psd(overwrite = True):
     
      for subj in range(len(subjects)): 
         
         #Plots psd of filtered raw data
-        plot_pre = raw_filtered[subj].plot_psd(area_mode=None, show=True, average=False, fmin =1.0, fmax=80.0, dB=False, n_fft=160)
+        plot_pre = raws_filt[subj].plot_psd(area_mode=None, show=True, average=False, fmin =1.0, fmax=80.0, dB=False, n_fft=160)
         
         #Creates plot's name
         psd_name = os.path.join(dir_pre_psd,'S'+ str(subjects[subj]) + '_real_pre.png')
         
         #Check if plot exists by checking its path
-        if os.path.exists(psd_name):
-            raise Exception('Warning! This plot already exists! :(' )           
-        plot_pre.savefig(psd_name) #Saves plot
-        
+        if os.path.exists(psd_name) and overwrite == False:
+            raise Exception('Warning! This plot already exists! :(' ) 
+        elif os.path.exists(psd_name) and overwrite == True:
+            
+            os.remove(psd_name)
+            if os.path.exists(psd_name):
+                raise Exception('You did not remove existing plot!')
+            else: 
+                plot_pre.savefig(psd_name)
+            
+        else:
+            plot_pre.savefig(psd_name)
+                           
+                               
                 
      return plot_pre
 
-plot_pre_psd()
+plot_pre_psd(overwrite = False)
 
 #Todos: Fix axes plot
 #Todos: if fixed like before cumulates the same plot
@@ -218,64 +240,120 @@ plot_pre_psd()
 #%%ICA
 
 #Fitting Ica on raw_filtered data
+# Save = True to save icas 
+# Overwrite = True to overwrite existing icas
 
-def ica_function ():    
+def ica_function (save = True, overwrite = True):    
   
     # Ica
     #del plot_pre_psd
+    
+    icas_names = []
+    icas = []
+    
     for subj in range (len(subjects)):
         ica = ICA(n_components=64, random_state=42, method="fastica", max_iter=1000)    
         
-        ica.fit(raw_filtered[subj])
+        ica.fit(raws_filt[subj])
+        
+        if save == True:
+            
+            icas_name = os.path.join(dir_icas,'S'+ str(subjects[subj]) + '_ica.fif')
+            
+            if os.path.exists(icas_name) and overwrite == False:
+                raise Exception('Warning! This ica already exists! :(' ) 
+                
+            elif os.path.exists(icas_name) and overwrite == True:
+                
+                os.remove(icas_name)               
+                                                            
+                ica.save(icas_name)        
+                icas_names.append(icas_name)
+                print('Overwriting existing icas')
+            
+            else:
+                ica.save(icas_name)        
+                print('Creating ica files')
+                icas_names.append(icas_name)
+             
         icas.append(ica)
     
-    return icas 
+    return icas, icas_names 
 
-icas = ica_function()
-# Save icas?
+icas,icas_names = ica_function(save = True, overwrite= True)
+
+
+#%% Load saved icas
+
+def loading_icas ():
+    
+    icas = []
+    
+    for subj in range (len(subjects)):
+        
+        loaded_ica = read_ica(icas_names[subj])
+        icas.append(loaded_ica)
+    
+    return icas
+
+icas_load = loading_icas()
+print(icas_load)
+        
 
 #%% Ica plot properties
    
-icas[0].plot_properties(raw_filtered[0], picks=[26], dB=False)
+icas_load[0].plot_properties(raws_filt[0], picks=[26], dB=False)
 
 #%% Ica psd components instead of channels 
 
 #Todos plot psd of ica components
 
-#%% Correlational map
-
-
-
-corrmap(icas, template=(0, 33), plot=True, threshold=0.70, label = 'artifact_')
-
-#Todos
-# Understand how to retrieve bad components found with corrmap
-
-#%% Template for corrmap for real movement 
-
+#%% Selection of components for template matching, real movement
 
 #eog_inds, eog_scores = icas[0].find_bads_eog(raws[0], ch_name='Fpz')
-icas[10].plot_properties(raws[0], picks=[1,42,43,44,45,46,47,48,49,50,51,52], dB=False)
+icas_load[2].plot_properties(raws_filt[2], picks=[1], dB=False)
 
-
-#components [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
+#components displayed so you can past and copy them
+#[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
 #21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,
 #41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60
 # 61,62,63]
 
-#exc_0 = [0,8,9,10,13,15,18,28,31,32,49,43,44,51,57]
-#maybe = [ ]
-#eyes= [0,]
-#ecg=
-#movement=
+exc_66 = [0,1,3,13,14,17,29,32,33,35,47,50,53]
 
-#template from subject 66
-exc_0_66 = [0,1,3,13,14,17,29,32,33,35,47,50,53]
-eyes = [0,1,3,14,33,35,47]
-ecg = []
-movement =[17,32,] 
-odd = [13]
-electrode =[53]
+#Here we report what kind of artifact
+#eyes = [0,1,3,14,33,35,47]
+#ecg = []
+#movement =[17,32,] 
+#odd = [13]
+#electrode =[53]
+
+
+#%% Correlational map
+
+#exc_template = 
+
+
+corrmap(icas_load, template=(0, 22), plot=True, threshold=0.40, label = 'artifact Subject' )
+
+for subj in range (len(subjects)):
+    
+    
+    print(str(icas_load[subj].labels_ ))
+    
+    artifacts_dic = []
+    
+    #artifacts_dic.append(icas[subj].labels_.items())
+    
+    #artifacts_dic.append(icas[subj].labels_)
+    print(artifacts_dic)
+   # print(' Subject' + str(subjects[subj]) +' ' + str([icas[subj].labels_ for ica in icas]))
+    
+i = icas_load[1].labels_
+#Todos
+# Understand how to retrieve bad components found with corrmap
+
+#%% Template for corrmap for real movement 
 
 #reconst_raw = raws[0].copy()
 #icas[0].plot_overlay(reconst_raw, exclude=exc_0)

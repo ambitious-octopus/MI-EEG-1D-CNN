@@ -7,9 +7,11 @@ from mne.channels import make_standard_montage
 from mne.preprocessing import ICA, corrmap
 import os
 #%% Creating directories for saving plots psd
+
 #Checking current work directory
 cwd = os.getcwd()
 print(cwd)
+
 #Verifying "Preprocessing" directory existence
 #If not creating one
 dir_preprocessing = os.path.join(cwd, 'preprocessing')
@@ -18,7 +20,9 @@ if os.path.isdir(dir_preprocessing):
 else:
     print('Path not found, creating preprocessing directory...')
     os.mkdir(dir_preprocessing)
-#Verifying dir_psd_imagined directory existence
+    
+    
+#Verifying dir_psd_real directory existence
 #If not creating one
 dir_psd_real = os.path.join(dir_preprocessing, 'psd_real')
 if os.path.isdir(dir_psd_real):
@@ -26,6 +30,8 @@ if os.path.isdir(dir_psd_real):
 else:
     print('Path not found, creating psd_real directory...')
     os.mkdir(dir_psd_real)
+    
+    
 #Verifying pre_psd directory existence
 #If not creating one
 dir_pre_psd = os.path.join(dir_psd_real,'pre_psd')
@@ -34,6 +40,8 @@ if os.path.isdir(dir_pre_psd):
 else:
     print("Path not found, creating pre_psd directory...")
     os.mkdir(dir_pre_psd)
+    
+    
 #Verifying post_psd directory existence
 #If not creating one
 dir_post_psd = os.path.join(dir_psd_real,'post_psd')
@@ -42,17 +50,20 @@ if os.path.isdir(dir_post_psd):
 else:
     print("Path not found, creating post_psd directory...")
     os.mkdir(dir_post_psd)
-#%%
+#%% Load data
+    
 #Lista dei file raw
 raws = list()
 
-raws_filtered = list()
 #Lista degli oggetti ica
 icas = list()
+
 #Lista dei soggetti
 subjects = [66,23,31,46,109,95,38,102,77,12,57]
+
 #Lista delle runs
 runs = [3,7,11]
+
 
 ica_true = True
 
