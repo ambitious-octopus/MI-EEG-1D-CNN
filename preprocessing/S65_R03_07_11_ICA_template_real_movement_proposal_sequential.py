@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from mne.datasets import eegbci
-from mne import Epochs, pick_types, events_from_annotations
+from mne import Epochs, pick_types, events_from_annotations, make_ad_hoc_cov
 from mne.io import concatenate_raws, read_raw_edf
 from mne.channels import make_standard_montage
 from mne.preprocessing import ICA, corrmap, read_ica
@@ -109,10 +109,15 @@ def load_data ():
             
             if len_run > 123:
                 raw_run.crop(tmax=124.4) #Taglio la parte finale
+            
+            
                 
             ls_run.append(raw_run) 
             
         ls_run_tot.append(ls_run)
+        
+        
+        
       
         
     return ls_run_tot
@@ -120,27 +125,49 @@ def load_data ():
 raw_loaded = load_data()
 #list of lists of Raw objects of runs to be concatenated
 
+#%% Whitening data
+
+def whitening ():
+    
+    for list in raw_loaded:
+        ls_cov_tot = []
+        
+        for run in range (len(list)):
+            
+            cov = make_ad_hoc_cov(list[run].info) 
+            print(list[run])      
+            
+            ls_cov_tot.append(cov)
+            
+return ls_cov_tot = []
+
+raw_loaded_whitened = whitening()
+
+        
+
+
+
 #%% Concatenate raws 
 
 # returns list of concatenated raw
 # e.g. for subject = [2,45]
 #returns list = [Raw_S2(concatenated), Raw_S45(concatenated)]
+#data = raw_loaded or raw_loaded_whitened
 
-
-def concatenation():
+def concatenation(data):
     
     raw_conc_list = []
     
     for subj in range (len(subjects)):
           #print(subj)
           #print(rawdata_loaded[subj])
-          raw_conc = concatenate_raws(raw_loaded[subj])
+          raw_conc = concatenate_raws(data[subj])
           
           raw_conc_list.append(raw_conc)
         
     return raw_conc_list
 
-raw_conc_list = concatenation()
+raw_conc_list = concatenation(raw_loaded_whitened)
 
 #%% Change channel names, set montage
 
@@ -204,9 +231,12 @@ del_annotations()
 def plot_pre_psd(overwrite = True):
     
      for subj in range(len(subjects)): 
-        
+         
+        plot_pre = plt.figure()
+           
+        plot_pre.clear()
         #Plots psd of filtered raw data
-        plot_pre = raws_filt[subj].plot_psd(area_mode=None, show=True, average=False, fmin =1.0, fmax=80.0, dB=False, n_fft=160)
+        plot_pre = raws_filt[subj].plot_psd(area_mode=None, show=True, average=False, ax=plt.axes(ylim=(0,60)),fmin =1.0, fmax=80.0, dB=False, n_fft=160)
         
         #Creates plot's name
         psd_name = os.path.join(dir_pre_psd,'S'+ str(subjects[subj]) + '_real_pre.png')
@@ -219,17 +249,17 @@ def plot_pre_psd(overwrite = True):
             os.remove(psd_name)
             if os.path.exists(psd_name):
                 raise Exception('You did not remove existing plot!')
-            else: 
+            else:
+                
                 plot_pre.savefig(psd_name)
+              
             
         else:
             plot_pre.savefig(psd_name)
-                           
-                               
-                
-     return plot_pre
-
-plot_pre_psd(overwrite = False)
+            
+                                                                         
+     return None
+plot_pre_psd(overwrite = True)
 
 #Todos: Fix axes plot
 #Todos: if fixed like before cumulates the same plot
