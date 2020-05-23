@@ -14,7 +14,7 @@ import os
 
 #returns folder directories for psd saving
 
-def folders_psd ():
+def folders ():
     
     #Checking current work directory
     cwd = os.getcwd()
@@ -60,8 +60,6 @@ def folders_psd ():
         os.mkdir(dir_post_psd)
         
     
-
-
     dir_icas = os.path.join(dir_preprocessing,'icas')
     if os.path.isdir(dir_icas):
         print('Icas directory already exists')
@@ -73,8 +71,9 @@ def folders_psd ():
 
 # returning folder directories 
         
-dir_preprocessing,dir_psd_real, dir_pre_psd,dir_post_psd, dir_icas = folders_psd()
+dir_preprocessing,dir_psd_real, dir_pre_psd,dir_post_psd, dir_icas = folders()
 
+#dir movimento immaginato 
 
 
 #%% Initializing: raws, icas, subjects, runs
@@ -142,7 +141,7 @@ def whitening ():
             
         for run in range (len(list)):
             
-            cov = make_ad_hoc_cov(list[run].info) 
+            cov = make_ad_hoc_cov(list[run].info) #su mne whitening raw data, ci sarebbe anche con epochs
             
             print(list[run])      
             white = add_noise(list[run], cov, iir_filter=[0.2, -0.2, 0.04], random_state= 42)
@@ -156,7 +155,7 @@ def whitening ():
 
 raw_loaded_whitened = whitening() #list of raw data whitened
       
-
+#capire se è whitening
 
 
 #%% Concatenate raws 
