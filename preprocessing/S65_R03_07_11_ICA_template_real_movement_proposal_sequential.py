@@ -12,9 +12,7 @@ from mne.preprocessing import ICA, corrmap, read_ica
 import os
 #%% Creating directories for saving plots psd
 
-#returns folder directories for psd saving
-
-def folders_psd ():
+def folders_psd():
     
     #Checking current work directory
     cwd = os.getcwd()
@@ -71,7 +69,9 @@ def folders_psd ():
         
     return dir_preprocessing,dir_psd_real, dir_pre_psd,dir_post_psd,dir_icas
 
-# returning folder directories 
+# returning folder directories
+
+folders_psd()
         
 dir_preprocessing,dir_psd_real, dir_pre_psd,dir_post_psd, dir_icas = folders_psd()
 
