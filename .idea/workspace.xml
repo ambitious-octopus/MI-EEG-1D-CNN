@@ -21,6 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d006e634-978a-4734-b83e-f8ac35d0d0f5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/S01_R02_ICA.py" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/S01_R02_ICA.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/preprocessing/S65_R03_07_11_ICA_template_real_movement_proposal_sequential.py" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/S65_R03_07_11_ICA_template_real_movement_proposal_sequential.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -214,7 +215,7 @@
       <workItem from="1589440447299" duration="10000" />
       <workItem from="1589537344313" duration="225000" />
       <workItem from="1589624935898" duration="599000" />
-      <workItem from="1590220024035" duration="2082000" />
+      <workItem from="1590220024035" duration="6207000" />
     </task>
     <task id="LOCAL-00001" summary="Added FastICA">
       <created>1584546011748</created>
