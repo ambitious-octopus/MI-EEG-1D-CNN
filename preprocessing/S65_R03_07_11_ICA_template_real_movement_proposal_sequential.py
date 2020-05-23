@@ -69,7 +69,9 @@ def folders ():
         
     return dir_preprocessing,dir_psd_real, dir_pre_psd,dir_post_psd,dir_icas
 
-# returning folder directories 
+# returning folder directories
+
+folders_psd()
         
 dir_preprocessing,dir_psd_real, dir_pre_psd,dir_post_psd, dir_icas = folders()
 
