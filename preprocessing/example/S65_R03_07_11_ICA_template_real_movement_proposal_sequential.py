@@ -14,16 +14,9 @@ import os
 
 # %% Creating directories for saving plots psd
 
-<<<<<<< Updated upstream
-#returns folder directories for psd saving
-
-def folders ():
-    
-    #Checking current work directory
-=======
 def folders_psd():
     # Checking current work directory
->>>>>>> Stashed changes
+
     cwd = os.getcwd()
     print(cwd)
 
@@ -62,14 +55,8 @@ def folders_psd():
     else:
         print("Path not found, creating post_psd directory...")
         os.mkdir(dir_post_psd)
-<<<<<<< Updated upstream
-        
-    
-    dir_icas = os.path.join(dir_preprocessing,'icas')
-=======
 
-    dir_icas = os.path.join(dir_preprocessing, 'icas')
->>>>>>> Stashed changes
+    dir_icas = os.path.join(dir_preprocessing,'icas')
     if os.path.isdir(dir_icas):
         print('Icas directory already exists')
     else:
@@ -81,16 +68,9 @@ def folders_psd():
 
 # returning folder directories
 
-folders_psd()
-<<<<<<< Updated upstream
-        
-dir_preprocessing,dir_psd_real, dir_pre_psd,dir_post_psd, dir_icas = folders()
-
-#dir movimento immaginato 
-=======
+#dir movimento immaginato
 
 dir_preprocessing, dir_psd_real, dir_pre_psd, dir_post_psd, dir_icas = folders_psd()
->>>>>>> Stashed changes
 
 # %% Initializing: raws, icas, subjects, runs
 

@@ -20,9 +20,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d006e634-978a-4734-b83e-f8ac35d0d0f5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/preprocessing/Smulti_Rmulti_pirate.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/S01_R02_ICA.py" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/S01_R02_ICA.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/S65_R03_07_11_ICA_template_real_movement_proposal_sequential.py" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/S65_R03_07_11_ICA_template_real_movement_proposal_sequential.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pirate.py" beforeDir="false" afterPath="$PROJECT_DIR$/pirate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/S01_R02_ICA.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/S01_R04_ICA.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/S65_R03_07_11_ICA_template_real_movement.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/S65_R03_07_11_ICA_template_real_movement_proposal_sequential.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/S65_R04_08_12_ICA_template.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/Smulti_R04_08_12_ICA.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/psd_imagined/pre_psd/S65_imagined_pre.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/psd_imagined/pre_psd/S67_imagined_pre.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/psd_imagined/pre_psd/S80_imagined_pre.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/psd_real/pre_psd/S23_real_pre.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/psd_real/pre_psd/S31_real_pre.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/psd_real/pre_psd/S66_real_pre.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test2.jpg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +76,9 @@
   </component>
   <component name="JupyterTrust" id="eefe9338-5745-4b06-a51b-de9ff4edddc3" />
   <component name="ProjectId" id="1ZFX7VkozZKfa7kmpQEoZ2QEtPw" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -216,6 +233,11 @@
       <workItem from="1589537344313" duration="225000" />
       <workItem from="1589624935898" duration="599000" />
       <workItem from="1590220024035" duration="6207000" />
+      <workItem from="1590240399897" duration="49000" />
+      <workItem from="1590240481977" duration="2385000" />
+      <workItem from="1590242940237" duration="729000" />
+      <workItem from="1590243680984" duration="2299000" />
+      <workItem from="1590245996090" duration="9641000" />
     </task>
     <task id="LOCAL-00001" summary="Added FastICA">
       <created>1584546011748</created>
@@ -247,6 +269,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="Added FastICA" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="395" y="95" key="#Inspections" timestamp="1590243561753">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="395" y="95" key="#Inspections/0.0.1536.834@0.0.1536.834" timestamp="1590243561753" />
     <state x="871" y="277" key="#xdebugger.XInspectDialog" timestamp="1584518010127">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
