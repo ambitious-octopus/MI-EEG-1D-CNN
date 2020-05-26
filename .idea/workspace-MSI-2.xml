@@ -232,9 +232,8 @@
       <workItem from="1590324463653" duration="10730000" />
       <workItem from="1590355189030" duration="407000" />
       <workItem from="1590396943882" duration="9000" />
-      <workItem from="1590424373474" duration="1248000" />
-      <workItem from="1590496306270" duration="37000" />
-      <workItem from="1590496464483" duration="11790000" />
+      <workItem from="1590424373474" duration="1062000" />
+      <workItem from="1590426427925" duration="5954000" />
     </task>
     <task id="LOCAL-00001" summary="Added FastICA">
       <created>1584546011748</created>
@@ -290,9 +289,5 @@
       <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state x="465" y="241" key="com.intellij.ide.util.TipDialog/0.0.1536.834@0.0.1536.834" timestamp="1586599925398" />
-    <state x="1920" y="235" width="1382" height="732" maximized="true" key="dock-window-1" timestamp="1590499675442">
-      <screen x="1920" y="235" width="1366" height="738" />
-    </state>
-    <state x="1920" y="235" width="1382" height="732" maximized="true" key="dock-window-1/0.0.1920.1050/1920.235.1366.738@0.0.1920.1050" timestamp="1590499675442" />
   </component>
 </project>
