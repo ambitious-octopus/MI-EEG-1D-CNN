@@ -35,8 +35,8 @@ class Pirates:
                 fname = eegbci.load_data(subj, runs=run)[0]  # Prendo le run
                 raw_run = read_raw_edf(fname, preload=True)  # Le carico
                 len_run = np.sum(raw_run._annotations.duration)  # Controllo la durata
-                if len_run > 123:
-                    raw_run.crop(tmax=124.4)  # Taglio la parte finale
+                if len_run > 124:
+                    raw_run.crop(tmax=124)  # Taglio la parte finale
                 ls_run.append(raw_run)
             ls_run_tot.append(ls_run)
         return ls_run_tot
@@ -211,7 +211,7 @@ class Pirates:
         icas = []  # return icas
 
         for subj in list_of_raws:
-            ica = ICA(n_components=64, random_state=42, method="fastica", max_iter=1000)
+            ica = ICA(n_components=64, random_state=10, method="fastica", max_iter=1000)
             ica.fit(subj)  # fitting ica
             if save == True:
                 icas_name = os.path.join(dir_icas, subj.__repr__()[10:14] + '_ica.fif')  # creating ica name path
@@ -335,28 +335,59 @@ class Pirates:
         :param label: string, label
         """
         for comp in comp_template:
-            corr = corrmap(list_icas, template=(ica_template, comp), plot=True, show=False, threshold=threshold, label=label)
-            path_topos = os.path.join(dir_templates, str(comp) + ".png")
-            path_found = os.path.join(dir_templates, str(comp) + "a" + ".png")
-            corr[0].savefig(path_topos)
-            corr[1].savefig(path_found)
-            topos = Image.open(path_topos)
-            found = Image.open(path_found)
-            img = [topos, found]
-            width_0, height_0 = img[0].size
-            width_1, height_1 = img[1].size
-            real_width = width_0 + width_1
-            real_height = height_1
-            new_im = Image.new('RGBA', (real_width, real_height))
-            x_offset = 0
-            for im in img:
-                new_im.paste(im, (x_offset, 0))
-                x_offset += im.size[0]
-            new_im.save(os.path.join(dir_templates, "component" + str(comp) + ".png"))
-            os.remove(path_topos)
-            os.remove(path_found)
-            plt.close('all')
+            for comp in comp_template:
+                corr = corrmap(list_icas, template=(ica_template, comp), plot=True, show=False, threshold=threshold,
+                               label=label)
+                path_topos = os.path.join(dir_templates, str(comp) + ".png")
+                corr[0].savefig(path_topos)
+                topos = Image.open(path_topos)
+                if type(corr[1]) == list:
+                    lst = [topos]
+                    paths = [path_topos]
+                    total_width = 0
+                    total_height = 0
+                    for ind, im in enumerate(corr[1]):
+                        path_im = os.path.join(dir_templates, str(comp) + str(ind) + ".png")
+                        paths.append(path_im)
+                        im.savefig(path_im)
+                        scalps = Image.open(path_im)
+                        lst.append(scalps)
+                        width, height = scalps.size
+                        total_width += width
+                        if height > total_height:
+                            total_height = height
+                    new_im = Image.new('RGBA', (total_width, total_height))
+                    x_offset = 0
+                    for scalp in lst:
+                        new_im.paste(scalp, (x_offset, 0))
+                        x_offset += scalp.size[0]
+                    new_im.save(os.path.join(dir_templates, "component" + str(comp) + ".png"))
+                    # for i in lst:
+                    # i.close()
+                    for p in paths:
+                        os.remove(p)
+                    plt.close('all')
 
+                else:
+                    path_found = os.path.join(dir_templates, str(comp) + "a" + ".png")
+                    corr[1].savefig(path_found)
+
+                    topos = Image.open(path_topos)
+                    found = Image.open(path_found)
+                    img = [topos, found]
+                    width_0, height_0 = img[0].size
+                    width_1, height_1 = img[1].size
+                    real_width = width_0 + width_1
+                    real_height = height_1
+                    new_im = Image.new('RGBA', (real_width, real_height))
+                    x_offset = 0
+                    for im in img:
+                        new_im.paste(im, (x_offset, 0))
+                        x_offset += im.size[0]
+                    new_im.save(os.path.join(dir_templates, "component" + str(comp) + ".png"))
+                    os.remove(path_topos)
+                    os.remove(path_found)
+                    plt.close('all')
 
 
 if __name__ == "__main__":

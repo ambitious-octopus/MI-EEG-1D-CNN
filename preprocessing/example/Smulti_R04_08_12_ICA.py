@@ -15,6 +15,11 @@ icas = list()
 subjects = [67]
 #Lista delle runs
 runs = [4,8,12]
+subj = np.arange(1,110)
+
+
+eegbci.load_data(106, runs=runs)
+
 
 
 for subj in subjects:
