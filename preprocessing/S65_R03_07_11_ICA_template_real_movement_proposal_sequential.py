@@ -5,10 +5,12 @@ from PIL import Image
 from matplotlib import axes, image
 from mne.datasets import eegbci
 from mne import Epochs, pick_types, events_from_annotations, make_ad_hoc_cov,compute_raw_covariance
+from mne.cov import compute_whitener
 from mne.simulation import add_noise
-from mne.io import concatenate_raws, read_raw_edf
+from mne.io import concatenate_raws, read_raw_edf,RawArray
 from mne.channels import make_standard_montage
 from mne.preprocessing import ICA, corrmap, read_ica
+from scipy import stats
 import os
 #%% Creating directories for saving plots psd
 
@@ -128,36 +130,64 @@ def load_data ():
     return ls_run_tot
 
 raw_loaded = load_data()
+
+m = raw_loaded[0][0]._data
+
+m1 = raw_loaded[0][1]._data
+
+m2 = raw_loaded[0][2]._data
+
+varm = np.var(m)
+varm1 = np.var(m1)
+varm2 = np.var(m2)
+
 #list of lists of Raw objects of runs to be concatenated
 
 #%% Whitening data
 #Non ho ben capito come fare
 
+#a = raw_loaded[0][0]._data
+#stand_a = stats.zscore(a)
+
+#stand =  stats.zscore(raw_loaded[0][0]._data)
+
+#raw_loaded[0][0]._data = stand
+
+
 def whitening ():
     
-    ls_cov_tot = []
+    ls_z_tot = [] #lista di liste di run 
+   
     
     for list in raw_loaded:
         
-        ls_cov = []
-            
+        ls_z = [] #lista di run di uno stesso soggetto 
+           
         for run in range (len(list)):
             
-            cov = make_ad_hoc_cov(list[run].info) #su mne whitening raw data, ci sarebbe anche con epochs
+                        
+            raw_data = list[run]._data #prendo l'array dei dati raw
             
-            print(list[run])      
-            white = add_noise(list[run], cov, iir_filter=[0.2, -0.2, 0.04], random_state= 42)
+                                  
+            #print(list[run])
             
-            ls_cov.append(white)           
+            stand =  stats.zscore(raw_data) #standardizzo l'array dei dati raw
+            
+            list[run]._data = stand  #sostituisco i dati del raw originale con i dati standardizzati
            
+            
+            ls_z.append(list[run])           
+            
               
-        ls_cov_tot.append(ls_cov)
+        ls_z_tot.append(ls_z)
+        
 
-    return ls_cov_tot
+    return ls_z_tot #, ls_info_tot
 
-raw_loaded_whitened = whitening() #list of raw data whitened
-      
+raw_whitened = whitening() #list of raw data whitened
+#raw_zetas, raws_infos = whitening() #list of raw data whitened      
 #capire se è whitening
+
 
 
 #%% Concatenate raws 
@@ -183,7 +213,7 @@ def concatenation(data):
         
     return raw_conc_list
 
-raw_conc_list = concatenation(data = raw_loaded)
+raw_conc_list = concatenation(data = raw_whitened)
 #return a list of raw data concatenated per subject
 
 #%% Change channel names, set montage
@@ -289,11 +319,11 @@ plot_pre_psd(overwrite = True)
 
 #%%ICA
 
-#Fitting Ica on raw_filtered data
+#Fitting Ica on raw_filtered dataicas
 # Save = True to save icas 
 # Overwrite = True to overwrite existing saved icas
 
-def ica_function (save = True, overwrite = True):    
+def ica_function (save = False, overwrite = False):    
   
        
     icas_names = [] #Creating here empty list to clean it before using it, return ica saved paths for future loading
@@ -301,7 +331,7 @@ def ica_function (save = True, overwrite = True):
     
     for subj in range (len(subjects)):
         
-        ica = ICA(n_components=64, random_state=42, method="fastica", max_iter=1000)    
+        ica = ICA(n_components=64, random_state=42, method="fastica", max_iter=2000)    
         
         ica.fit(raws_filt[subj]) #fitting ica 
         
@@ -329,10 +359,16 @@ def ica_function (save = True, overwrite = True):
     
     return icas, icas_names 
 
-icas,icas_names = ica_function(save = True, overwrite= True)
+icas,icas_names = ica_function(save = False, overwrite= False)
 
+#icas[0]._pre_whiten(${1:raws_filt}, info, picks=64)
+bm = icas[0].get_components()
+#plot_psd(m)
 
-
+#%%
+b = icas[0].get_components()
+raw = RawArray(b, raws_filt[0].info)
+raw.plot_psd(area_mode=None, show=True, average=False,fmin =1.0, fmax=80.0, dB=False)
 #%% Load saved icas from icas_names = paths
 #BUG ICAS_NAMES not defined, you should run 
 
@@ -350,21 +386,67 @@ def loading_icas ():
 
 icas_load = loading_icas()
 print(icas_load)
-        
+
 
 #%% Ica plot properties
    
 icas[0].plot_properties(raws_filt[0], picks=[30,31,32,33,34,35,36,37,38,39,40], dB=False)
-
+score_sources(self, inst, target=None, score_func='pearsonr', start=None, stop=None, l_freq=None, h_freq=None, reject_by_annotation=True, verbose=None)[source]
 #%% Ica psd components instead of channels 
 
+pre_whitener = np.empty([len(raws_filt[0]), 1])
+pre_whitener_2 = np.std(raws_filt[0]
+                        
+                        )
+ def _pre_whiten(self, data, info, picks):
+        """Aux function."""
+        has_pre_whitener = hasattr(self, 'pre_whitener_')
+        if not has_pre_whitener and self.noise_cov is None:
+            # use standardization as whitener
+            # Scale (z-score) the data by channel type
+            info = pick_info(info, picks)
+            pre_whitener = np.empty([len(data), 1])
+            for ch_type in _DATA_CH_TYPES_SPLIT + ('eog', "ref_meg"):
+                if _contains_ch_type(info, ch_type):
+                    if ch_type == 'seeg':
+                        this_picks = pick_types(info, meg=False, seeg=True)
+                    elif ch_type == 'ecog':
+                        this_picks = pick_types(info, meg=False, ecog=True)
+                    elif ch_type == 'eeg':
+                        this_picks = pick_types(info, meg=False, eeg=True)
+                    elif ch_type in ('mag', 'grad'):
+                        this_picks = pick_types(info, meg=ch_type)
+                    elif ch_type == 'eog':
+                        this_picks = pick_types(info, meg=False, eog=True)
+                    elif ch_type in ('hbo', 'hbr'):
+                        this_picks = pick_types(info, meg=False, fnirs=ch_type)
+                    elif ch_type == 'ref_meg':
+                        this_picks = pick_types(info, meg=False, ref_meg=True)
+                    else:
+                        raise RuntimeError('Should not be reached.'
+                                           'Unsupported channel {}'
+                                           .format(ch_type))
+                    pre_whitener[this_picks] = np.std(data[this_picks])
+            data /= pre_whitener
+        elif not has_pre_whitener and self.noise_cov is not None:
+            pre_whitener, _ = compute_whitener(self.noise_cov, info, picks)
+            assert data.shape[0] == pre_whitener.shape[1]
+            data = np.dot(pre_whitener, data)
+        elif has_pre_whitener and self.noise_cov is None:
+            data /= self.pre_whitener_
+            pre_whitener = self.pre_whitener_
+        else:
+            data = np.dot(self.pre_whitener_, data)
+            pre_whitener = self.pre_whitener_
+
+        return data, pre_whitener
 #Todos plot psd of ica components
 
 #%% Selection of components for template matching, real movement
 
 #eog_inds, eog_scores = icas[0].find_bads_eog(raws[0], ch_name='Fpz')
 icas_load[2].plot_properties(raws_filt[2], picks=[1], dB=False)
-
+ica[0]._
 #components displayed so you can past and copy them
 #[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
 #21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,
