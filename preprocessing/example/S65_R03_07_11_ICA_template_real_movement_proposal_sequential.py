@@ -130,7 +130,6 @@ def whitening():
     for list in raw_loaded:
 
         ls_cov = []
-<<<<<<< Updated upstream
             
         for run in range (len(list)):
             
@@ -140,31 +139,14 @@ def whitening():
             white = add_noise(list[run], cov, iir_filter=[0.2, -0.2, 0.04], random_state= 42)
             
             ls_cov.append(white)           
-           
-              
-=======
 
-        for run in range(len(list)):
-            cov = make_ad_hoc_cov(list[run].info)
-
-            print(list[run])
-            white = add_noise(list[run], cov, iir_filter=[0.2, -0.2, 0.04], random_state=42)
-
-            ls_cov.append(white)
-
->>>>>>> Stashed changes
         ls_cov_tot.append(ls_cov)
 
     return ls_cov_tot
 
-<<<<<<< Updated upstream
-raw_loaded_whitened = whitening() #list of raw data whitened
-      
-#capire se è whitening
-=======
 
 raw_loaded_whitened = whitening()  # list of raw data whitened
->>>>>>> Stashed changes
+
 
 
 # %% Concatenate raws
@@ -377,7 +359,6 @@ icas_load[2].plot_properties(raws_filt[2], picks=[1], dB=False)
 # 61,62,63]
 
 exc_66 = [0, 1, 3, 13, 14, 17, 29, 32, 33, 35, 47, 50, 53]
-
 # Here we report what kind of artifact
 eyes = [0, 1, 3, 14, 33, 35, 47]
 # ecg = []
