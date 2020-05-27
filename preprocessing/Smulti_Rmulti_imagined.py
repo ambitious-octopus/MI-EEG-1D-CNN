@@ -8,7 +8,7 @@ imagined = os.path.join(preprocessing, "imagined")
 
 dir_psd, dir_pre_psd, dir_post_psd, dir_icas, dir_report, dir_templates = Pirates.setup_folders(imagined)  # setuppo le cartelle
 
-chort = np.arange(2, 4).tolist()
+chort = np.arange(2, 30).tolist()
 temp = [1]
 sub = temp + chort
 
@@ -22,19 +22,18 @@ raws_clean = Pirates.del_annotations(raws_filtered)  # Elimino annotazioni
 Pirates.plot_pre_psd(raws_clean, dir_pre_psd, overwrite=True)
 icas = Pirates.ica_function(raws_clean, dir_icas, save=True)  # Applico una ica
 
-icas[0].plot_sources(raws_clean[0])
-icas[0].plot_properties(raws_clean[0], picks=[51,52,53,54,55,56,57,58,59,60,61,62,63], dB=False)
-
-eye = [5,0, 23, 32]
+eye = [5,0, 32]
 other = [1,2]
 mov = [33, 42]
-nb = [21, 40, 44, 46, 48,62]
-
+nb = [21, 40, 44, 48]
 comp_template = eye + other + mov + nb
+not_found = [23, 46, 62]
 
-Pirates.corr_map(icas, 0, comp_template, dir_templates, threshold=0.85, label="artifact")
+Pirates.corr_map(icas, 0, comp_template, dir_templates, threshold=0.80, label="artifact")
 reco_raws = Pirates.reconstruct_raws(icas, raws_clean, "artifact")
 Pirates.plot_post_psd(reco_raws, dir_post_psd, overwrite=True)
 Pirates.create_report_psd(dir_pre_psd, dir_post_psd, dir_report)
+
+
 
 
