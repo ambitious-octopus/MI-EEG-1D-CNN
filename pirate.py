@@ -1,7 +1,7 @@
 import numpy as np
 import sys
 import matplotlib.pyplot as plt
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 from matplotlib import axes, image
 from mne.datasets import eegbci
 from mne import Epochs, pick_types, events_from_annotations, make_ad_hoc_cov, compute_raw_covariance
@@ -11,12 +11,12 @@ from mne.channels import make_standard_montage
 from mne.preprocessing import ICA, corrmap, read_ica
 import os
 
+
 class Pirates:
     """
     Class Pirates
     """
     print("Seems that your are using Pirates, have fun!")
-
 
     @staticmethod
     def load_data(subjects, runs):
@@ -41,7 +41,6 @@ class Pirates:
             ls_run_tot.append(ls_run)
         return ls_run_tot
 
-
     @staticmethod
     def concatenate_runs(list_runs):
         """ Concatenate a list of runs
@@ -49,8 +48,8 @@ class Pirates:
         :return: list of concatenate raw
         """
         raw_conc_list = []
-        for subj in range(len(list_runs)):
-            raw_conc = concatenate_raws(list_runs[subj])
+        for subj in list_runs:
+            raw_conc = concatenate_raws(subj)
             raw_conc_list.append(raw_conc)
         return raw_conc_list
 
@@ -107,6 +106,13 @@ class Pirates:
             print("Path not found, creating post_psd directory...")
             os.mkdir(dir_post_psd)
 
+        dir_dis = os.path.join(dir_psd, 'discrepancy')
+        if os.path.isdir(dir_dis):
+            print('discrepancy directory already exists')
+        else:
+            print("Path not found, creating discrepancy directory...")
+            os.mkdir(dir_dis)
+
         dir_icas = os.path.join(path, 'icas')
         if os.path.isdir(dir_icas):
             print('Icas directory already exists')
@@ -128,8 +134,7 @@ class Pirates:
             print("Path not found, creating icas directory...")
             os.mkdir(dir_templates)
 
-
-        return dir_psd, dir_pre_psd, dir_post_psd, dir_icas, dir_report, dir_templates
+        return dir_dis, dir_psd, dir_pre_psd, dir_post_psd, dir_icas, dir_report, dir_templates
 
     @staticmethod
     def eeg_settings(raws):
@@ -160,7 +165,7 @@ class Pirates:
             plot_pre = plt.figure()  # I create an empty figure so I can apply clear next line
             plot_pre.clear()  # Clearing the plot each iteration I do not obtain overlapping plots
             # Plots psd of filtered raw data
-            plot_pre = subj.plot_psd(area_mode=None, show=False, average=False, ax=plt.axes(ylim=(0, 60)), fmin=1.0,
+            plot_pre = subj.plot_psd(area_mode=None, show=False, average=False, ax=plt.axes(ylim=(0, 30)), fmin=1.0,
                                      fmax=80.0, dB=False, n_fft=160)
             # Creates plot's name
             psd_name = os.path.join(dir_pre_psd, subj.__repr__()[10:14] + '.png')
@@ -179,7 +184,6 @@ class Pirates:
             plt.close('all')
         return None
 
-
     @staticmethod
     def filtering(list_of_raws):
         """
@@ -195,20 +199,23 @@ class Pirates:
 
         return raw_filtered
 
-
     @staticmethod
-    def ica_function(list_of_raws,dir_icas, save=True, overwrite=True):
+    def ica_function(list_of_raws, dir_icas=None, save=False, overwrite=False):
         """
-
-        :param list_of_raws: list of raws
+            Perform an ica
+        :param list_of_raws: list of raws objects
         :param dir_icas: dir to save icas
         :param save: boolean
         :param overwrite: boolean
         :return: list of icas objects
         """
-
         icas_names = []  # Creating here empty list to clean it before using it, return ica saved paths for future loading
         icas = []  # return icas
+
+        if type(list_of_raws) == list:
+            pass
+        else:
+            list(list_of_raws)
 
         for subj in list_of_raws:
             ica = ICA(n_components=64, random_state=10, method="fastica", max_iter=1000)
@@ -216,7 +223,8 @@ class Pirates:
             if save == True:
                 icas_name = os.path.join(dir_icas, subj.__repr__()[10:14] + '_ica.fif')  # creating ica name path
                 if os.path.exists(icas_name) and overwrite == False:
-                    raise Exception('Warning! This ica already exists! :( ' + str(icas_name))  # stops if you don't want to overwrite a saved ica
+                    raise Exception('Warning! This ica already exists! :( ' + str(
+                        icas_name))  # stops if you don't want to overwrite a saved ica
                 elif os.path.exists(icas_name) and overwrite == True:
                     os.remove(icas_name)  # to overwrite delets existing ica
                     ica.save(icas_name)
@@ -228,7 +236,6 @@ class Pirates:
                     icas_names.append(icas_name)
             icas.append(ica)
         return icas
-
 
     @staticmethod
     def plot_post_psd(list_of_raws, dir_post_psd, overwrite=False):
@@ -243,7 +250,8 @@ class Pirates:
             plot_post = plt.figure()  # I create an empty figure so I can apply clear next line
             plot_post.clear()  # Clearing the plot each iteration I do not obtain overlapping plots
             # Plots psd of filtered raw data
-            plot_post = subj.plot_psd(area_mode=None, show=False, average=False, ax=plt.axes(ylim=(0, 60)), fmin=1.0, fmax=80.0, dB=False, n_fft=160)
+            plot_post = subj.plot_psd(area_mode=None, show=False, average=False, ax=plt.axes(ylim=(0, 30)), fmin=1.0,
+                                      fmax=80.0, dB=False, n_fft=160)
             # Creates plot's name
             psd_name = os.path.join(dir_post_psd, subj.__repr__()[10:14] + '.png')
             # Check if plot exists by checking its path
@@ -261,8 +269,6 @@ class Pirates:
             plt.close('all')
         return None
 
-
-    
     @staticmethod
     def reconstruct_raws(list_icas, list_raws, labels):
         """
@@ -283,16 +289,18 @@ class Pirates:
         return reco_raws
 
     @staticmethod
-    def create_report_psd(directory_pre_psd, directory_post_psd,dir_report):
+    def create_report_psd(directory_pre_psd, directory_post_psd, dir_dis, dir_report):
         """
         Take pre_psd and post_psd and merge in one image located in the dir_report
         :param directory_pre_psd: string, directory of pre_psd
         :param directory_post_psd: string, directory of post_psd
+        :param dir_dis: string, directory that contains discrepancy
         :param dir_report: string, directory to save the merged images
         :return: None
         """
         pre_psd = []
         post_psd = []
+        dis_psd = []
         # r=root, d=directories, f = files
         for r, d, f in os.walk(directory_pre_psd):
             for file in f:
@@ -302,40 +310,46 @@ class Pirates:
             for file in f:
                 # if '.png' in file:
                 post_psd.append(os.path.join(r, file))
+        for r, d, f in os.walk(dir_dis):
+            for file in f:
+                # if '.png' in file:
+                dis_psd.append(os.path.join(r, file))
 
         pre_images = [Image.open(x) for x in pre_psd]
         post_images = [Image.open(x) for x in post_psd]
-
-        for index, image in enumerate(pre_images):
-            img = [pre_images[index], post_images[index]]
+        dis_images = [Image.open(x) for x in dis_psd]
+        text = ["PRE", "POST", "DISCREPANCY"]
+        font = ImageFont.truetype("arial.ttf", 20)
+        for ind, image in enumerate(pre_images):
+            img = [pre_images[ind], post_images[ind], dis_images[ind]]
             width, height = image.size
-            real_width = width * 2
+            real_width = width * len(img)
             real_height = height
             new_im = Image.new('RGB', (real_width, real_height))
             x_offset = 0
-            for im in img:
+            for index,im in enumerate(img):
+                d = ImageDraw.Draw(im)
+                d.text((150, 2), text[index], fill=(0, 0, 0), font=font)
                 new_im.paste(im, (x_offset, 0))
                 x_offset += im.size[0]
+            new_im.save(os.path.join(dir_report, pre_psd[ind][-8:-4] + ".png"))
 
-            new_im.save(os.path.join(dir_report, str(pre_psd[index][-8:-4]) + ".png"))
+        return None
 
-
+    #todo: Aggiungere un controllo sulla sovrascrittura!
     @staticmethod
-    def whitening():
-        pass
-
-    @staticmethod
-    def corr_map(list_icas,ica_template,comp_template, dir_templates, label, threshold=0.85):
+    def corr_map(list_icas, ica_template, comp_template, dir_templates, label, threshold=0.85):
         """
         apply a corr map modify objects list_icas inplace
         :param list_icas: list of icas objects
         :param ica_template: int positional int of the ica to use as template
         :param comp_template: list of int, list of components
         :param dir_templates: string, diretory to save templates
+        :param threshold: float64, set the threshold
         :param label: string, label
         """
         for comp in comp_template:
-            corr = corrmap(list_icas, template=(ica_template, comp), plot=True, show=False, threshold=threshold,label=label)
+            corr = corrmap(list_icas, template=(ica_template, comp), plot=True, show=False, threshold=threshold, label=label)
             path_topos = os.path.join(dir_templates, str(comp) + ".png")
             corr[0].savefig(path_topos)
             topos = Image.open(path_topos)
@@ -360,8 +374,8 @@ class Pirates:
                     new_im.paste(scalp, (x_offset, 0))
                     x_offset += scalp.size[0]
                 new_im.save(os.path.join(dir_templates, "component" + str(comp) + ".png"))
-                    # for i in lst:
-                    # i.close()
+                # for i in lst:
+                # i.close()
                 for p in paths:
                     os.remove(p)
                 plt.close('all')
@@ -387,9 +401,8 @@ class Pirates:
                 os.remove(path_found)
                 plt.close('all')
 
-
     @staticmethod
-    def load_icas(dir_icas):
+    def load_saved_icas(dir_icas):
         icas = []
         for dir, _, file in os.walk(dir_icas):
             for fi in file:
@@ -397,6 +410,17 @@ class Pirates:
                 icas.append(ica)
         return icas
 
+    @staticmethod
+    def discrepancy(raws,clean_raws,dir_discrepancy):
+        for raw,c_raw in zip(list(raws),list(clean_raws)):
+            dis = np.subtract(raw._data, c_raw._data)
+            raw_cop = raw.copy()
+            raw_cop._data = dis
+            psd = raw_cop.plot_psd(area_mode=None, show=False, average=False, ax=plt.axes(ylim=(0, 30)), fmin=1.0, fmax=80.0, dB=False, n_fft=160)
+            psd_name = os.path.join(dir_discrepancy, raw_cop.__repr__()[10:14] + '.png')
+            psd.savefig(psd_name)
+            plt.close('all')
+        return None
 
 if __name__ == "__main__":
     # Make sure that you have the latest version of mne-pyhton

@@ -8,7 +8,7 @@ imagined = os.path.join(preprocessing, "imagined")
 
 dir_psd, dir_pre_psd, dir_post_psd, dir_icas, dir_report, dir_templates = Pirates.setup_folders(imagined)  # setuppo le cartelle
 
-chort = np.arange(2, 30).tolist()
+chort = np.arange(2, 35).tolist()
 temp = [1]
 sub = temp + chort
 
@@ -20,7 +20,12 @@ raws_set = Pirates.eeg_settings(raws)  # Standardizzo nomi ecc
 raws_filtered = Pirates.filtering(raws_set)  # Filtro
 raws_clean = Pirates.del_annotations(raws_filtered)  # Elimino annotazioni
 Pirates.plot_pre_psd(raws_clean, dir_pre_psd, overwrite=True)
-icas = Pirates.ica_function(raws_clean, dir_icas, save=True)  # Applico una ica
+#icas = Pirates.ica_function(raws_clean, dir_icas, save=True)  # Applico una ica
+icas = Pirates.load_saved_icas(dir_icas)
+
+icas[0].plot_properties(raws_clean[0], picks=[2], dB=False)
+
+icas[0].plot_sources(raws_clean[0])
 
 eye = [5,0, 32]
 other = [1,2]
@@ -33,7 +38,3 @@ Pirates.corr_map(icas, 0, comp_template, dir_templates, threshold=0.80, label="a
 reco_raws = Pirates.reconstruct_raws(icas, raws_clean, "artifact")
 Pirates.plot_post_psd(reco_raws, dir_post_psd, overwrite=True)
 Pirates.create_report_psd(dir_pre_psd, dir_post_psd, dir_report)
-
-
-
-
