@@ -6,7 +6,7 @@ cwd = os.getcwd()
 preprocessing = os.path.join(cwd, "preprocessing")
 imagined = os.path.join(preprocessing, "imagined")
 
-dir_psd, dir_pre_psd, dir_post_psd, dir_icas, dir_report, dir_templates = Pirates.setup_folders(imagined)  # setuppo le cartelle
+dir_dis, dir_psd, dir_pre_psd, dir_post_psd, dir_icas, dir_report, dir_templates = Pirates.setup_folders(imagined)  # setuppo le cartelle
 
 chort = np.arange(2, 35).tolist()
 temp = [1]
