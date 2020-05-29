@@ -62,3 +62,12 @@ sources = ica.get_sources(raw)
 ica01 = sources.pick_channels(["ICA000"])
 ica01_notch = ica01.notch_filter(freqs=freqs)
 
+____________________________________________________________________________________________________________________________
+
+def prova():
+    
+    pull_request = 2
+    
+    return pull_request 
+    
+    
