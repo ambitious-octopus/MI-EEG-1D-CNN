@@ -1,6 +1,7 @@
 from pirate import Pirates
 import os
 import numpy as np
+import matplotlib.pyplot as plt
 
 cwd = os.getcwd()
 preprocessing = os.path.join(cwd, "preprocessing")
@@ -27,10 +28,9 @@ other = [1,2]
 mov = [33, 42]
 nb = [21, 40, 44, 48]
 comp_template = eye + other + mov + nb
-not_found = [23, 46, 62]
 
 
-Pirates.corr_map(icas, 0, comp_template, dir_templates, threshold=0.80, label="artifact")
+corr = Pirates.corr_map(icas, 0, comp_template, dir_templates, "arti", threshold=0.85)
 #reco_raws = Pirates.reconstruct_raws(icas, raws_clean, "artifact")
 #Pirates.plot_post_psd(reco_raws, dir_post_psd, overwrite=True)
 
@@ -39,39 +39,66 @@ Pirates.corr_map(icas, 0, comp_template, dir_templates, threshold=0.80, label="a
 
 
 import matplotlib.pyplot as plt
+from PIL import Image
 from mne.time_frequency import psd_multitaper, psd_welch
 
+icas = icas
+label = "arti"
+dir_topo_psd = os.getcwd()
+list_sub = sub
+raws = raws_clean
 
-cwd = os.getcwd()
-ax1 = icas[0].plot_components(picks=0)
-path_comp = os.path.join(cwd, "1.png")
-ax1.savefig(path_comp)
-plt.close(ax1)
-sources = icas[0].get_sources(raws_clean[0])
-psds, freqs = psd_welch(sources, picks=[0])
-psds = 10*np.log10(psds)
-psds_mean = psds.mean(0)
-plt.figure(figsize=(2.5,2))
-plt.plot(freqs, psds_mean)
-path_psd = os.path.join(cwd, "la.png")
-plt.savefig(path_psd)
-plt.close("all")
+#Qui defnire
+subjs = list()
+for ica,subj in zip(icas[1:],raws[1:]):
+    img_paths = list()
+    lab = ica.labels_[label]
+    for n in lab:
+        ax1 = ica.plot_components(picks=n, title=subj.__repr__()[10:14])
+        path_comp = os.path.join(dir_topo_psd, "TOPO"  + subj.__repr__()[10:14] + "C" + str(n) + ".png")
+        ax1.savefig(path_comp)
+        plt.close(ax1)
+        sources = ica.get_sources(subj)
+        psds, freqs = psd_welch(sources, picks=[n])
+        psds = 10 * np.log10(psds)
+        psds_mean = psds.mean(0)
+        plt.figure(figsize=(2.5, 2))
+        plt.plot(freqs, psds_mean)
+        path_psd = os.path.join(dir_topo_psd, "PSD" + subj.__repr__()[10:14] + "C" + str(n) + ".png")
+        plt.savefig(path_psd)
+        plt.close("all")
+        psd = Image.open(path_comp)
+        topo = Image.open(path_psd)
+        imgs = [psd, topo]
+        width_0, height_0 = imgs[0].size
+        width_1, height_1 = imgs[1].size
+        real_width = width_0 + width_1
+        real_height = height_1 + 15
+        new_im = Image.new('RGBA', (real_width, real_height))
+        x_offset = 0
+        for im in imgs:
+            new_im.paste(im, (x_offset, 0))
+            x_offset += im.size[0]
 
-from PIL import Image
-psd = Image.open(path_comp)
-topo = Image.open(path_psd)
-imgs = [psd, topo]
-width_0, height_0 = imgs[0].size
-width_1, height_1 = imgs[1].size
-real_width = width_0 + width_1
-real_height = height_1 + 15
-new_im = Image.new('RGBA', (real_width, real_height))
-x_offset = 0
-for im in imgs:
-    new_im.paste(im, (x_offset, 0))
-    x_offset += im.size[0]
-new_im.save(os.path.join(cwd, "new.png"))
-os.remove(path_psd)
-os.remove(path_comp)
-plt.close('all')
+        img_path = os.path.join(dir_topo_psd, subj.__repr__()[10:14] + "C" + str(n) + ".png")
+        new_im.save(img_path)
+        img_paths.append(img_path)
+        os.remove(path_psd)
+        os.remove(path_comp)
+        plt.close('all')
+    subjs.append(img_paths)
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
 

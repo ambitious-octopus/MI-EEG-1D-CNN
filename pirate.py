@@ -421,6 +421,16 @@ class Pirates:
             plt.close('all')
         return None
 
+
+    @staticmethod
+    def psd_top_corr_map(icas, ica_temp, comp_template,):
+        for comp in comp_template:
+            corrmap(icas, template=(ica_temp, comp), label=str(comp))
+            plt.close("all")
+
+
+
+
 if __name__ == "__main__":
     # Make sure that you have the latest version of mne-pyhton
     pass
