@@ -8,9 +8,9 @@ imagined = os.path.join(preprocessing, "imagined")
 
 dir_dis, dir_psd, dir_pre_psd, dir_post_psd, dir_icas, dir_report, dir_templates = Pirates.setup_folders(imagined)  # setuppo le cartelle
 
-chort = np.arange(2, 35).tolist()
-temp = [1]
-sub = temp + chort
+#chort = np.arange(34).tolist()
+temp = [34]
+sub = temp
 
 # Ricordarsi di far passare il template come prima
 runs = Pirates.load_data(sub, [4, 8, 12])  # carico i dati e croppo
@@ -38,3 +38,25 @@ Pirates.corr_map(icas, 0, comp_template, dir_templates, threshold=0.80, label="a
 reco_raws = Pirates.reconstruct_raws(icas, raws_clean, "artifact")
 Pirates.plot_post_psd(reco_raws, dir_post_psd, overwrite=True)
 Pirates.create_report_psd(dir_pre_psd, dir_post_psd, dir_report)
+
+icas[0].plot_properties(raws_clean[0], picks=[0])
+
+
+import matplotlib.pyplot as plt
+
+sources = icas[0].get_sources(raws_clean[0])
+
+data_sources = sources.get_data()
+
+import numpy as np
+
+freq = np.arange(1,81)
+amp, fre =plt.psd(data_sources[0], Fs=160.0, scale_by_freq=False)
+
+plt.close("all")
+
+amp_s = amp
+
+
+from mne.time_frequency import psd_multitaper
+

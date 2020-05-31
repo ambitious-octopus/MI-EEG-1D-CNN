@@ -383,7 +383,6 @@ class Pirates:
             else:
                 path_found = os.path.join(dir_templates, str(comp) + "a" + ".png")
                 corr[1].savefig(path_found)
-
                 topos = Image.open(path_topos)
                 found = Image.open(path_found)
                 img = [topos, found]
