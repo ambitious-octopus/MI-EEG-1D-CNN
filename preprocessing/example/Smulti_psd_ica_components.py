@@ -1,4 +1,4 @@
-nfrom pirate import Pirates
+from pirate import Pirates
 import os
 import numpy as np
 from mne import find_events, EpochsArray
@@ -12,7 +12,7 @@ dir_dis, dir_psd, dir_pre_psd, dir_post_psd, dir_icas, dir_report, dir_templates
 chort = np.arange(2, 35).tolist()
 temp = [1]
 #sub = temp + chort
-sub = [67]
+sub = [52]
 
 
 
@@ -43,15 +43,12 @@ inst = make_fixed_length_epochs(raws_clean[0], duration=2., verbose=False, prelo
 data = icas[0].get_sources(inst).get_data() #prendo l'array delle componenti
 #b = icas[0].get_sources(raws_clean[0])
 
-ica_names = icas[0]._ica_names
-ch_names = icas[0].ch_names
-info2 = raws_clean[0].info
-
-info2['ch_names'] = ica_names #al posto del nome dei canali metto i nomi delle ica
+ica_names = icas[0]._ica_names #mi prendo la lista di nomi di icas da usare al posto dei canali
+info2 = raws_clean[0].info #mi copio le info dai dati raw, da questi mi servirà solo ['chs']
 
 
-'''ALTERNATIVA info structure info3 creare una nuova info structure
-info3 = create_info(sfreq = 160, ch_names = ica_names )'''
+'''ALTERNATIVA con info3 creare una nuova info structure'''
+
 #Bisogna creare un info object con il nome delle ica al posto dei canali
 #Nell'oggetto info il nome dei canali deve essere modificato con le ica sia in 'ch_names'  
 #sia in chs -> chs è una lista con ad ogni posto un dizionario per canale chs = [dict, dict ecc]
@@ -75,24 +72,48 @@ info3 = create_info(sfreq = 160, ch_names = ica_names )'''
 #bisogna fare i procedimenti di cui sotto
 
 chs = info2['chs'] #ho esportato la lista chs nella variabile chs
+# acq_pars = info2['acq_pars']
+# acq_stim = info2['acq_stim']
+# custom_ref_applied = info2['custom_ref_applied']
+# dev_head_t = info2['dev_head_t']
+# dig =info2['dig']
+# highpass = info2['highpass']
+# lowpass = info2['lowpass']
+# nchan = info2['nchan']
 
-#Sostituisco ad ogni nome canale in chs
 
-for index, dic in enumerate(chs):
-   # print(ch)
-    chs[index]['ch_name'] = ica_names[index] #sostituisco al nome dei canali quello delle ica
+info3 = create_info(sfreq = 160, ch_names = ica_names, ch_types ='eeg')
+
+#info3['chs'] = chs #aggiungo alla nuova info structure questo parametro con i canali, ci vuole altrimenti da errore
+
+#altri parametri che si potrebbero aggiungere volendo
+#info3['acq_pars']=acq_pars
+#info3['acq_stim'] = acq_stim
+# info3['custom_ref_applied'] =custom_ref_applied
+# info3['dev_head_t']=dev_head_t
+# info3['dig']=dig
+# info3['highpass']=highpass
+# info3['lowpass']=lowpass
+# info3['nchan']= nchan
+
+
+#Sostituisco ad ogni nome canale in chs il nome delle ica
+
+# for index, dic in enumerate(chs):
+#     print(ch)
+#     chs[index]['ch_name'] = ica_names[index] #sostituisco al nome dei canali quello delle ica
     
-info2['chs'] = chs
+# info3['chs'] = chs
 
-raw_array = EpochsArray(inst,raws_clean[0]._data, raws_clean[0].info )
 
-comp_epocate = EpochsArray(data,info2) #creo un EpochsArray con le epoche calcolate prima(data) e
+
+comp_epocate = EpochsArray(data,info3) #creo un EpochsArray con le epoche calcolate prima(data) e
 #la info structure creata prima
 
-comp_epocate.plot_psd(dB= False,area_mode=None, average=False,fmin=1.0,fmax=80.0, picks = 'all')
+comp_epocate.plot_psd(dB= False,area_mode=None, average=False,fmin=1.0,fmax=80.0, picks = 'all', spatial_colors = True)
 #questo plot psd fa parte di EpochsArray
 
-#icas[0].plot_properties(raws_clean[0],picks = [15,16,17] ,dB= False)
+icas[0].plot_properties(raws_clean[0],picks = [16] ,dB= False)
 
 
 
@@ -147,3 +168,4 @@ reco_raws = Pirates.reconstruct_raws(icas, raws_clean, "artifact")
 Pirates.plot_post_psd(reco_raws, dir_post_psd, overwrite=True)
 Pirates.create_report_psd(dir_pre_psd, dir_post_psd, dir_report)
 
+a = 3/6
