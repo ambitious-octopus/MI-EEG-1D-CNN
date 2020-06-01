@@ -21,7 +21,23 @@
   <component name="ChangeListManager">
     <list default="true" id="d006e634-978a-4734-b83e-f8ac35d0d0f5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/new.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/S002C0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/S002C1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/S002C24.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/S002C3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/S002C37.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/S002C38.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/S002C4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/S003C0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/S003C1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/S003C13.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/S003C2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/S003C27.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/S003C3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/S003C4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/S003C40.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/S003C49.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/S003C7.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pirate.py" beforeDir="false" afterPath="$PROJECT_DIR$/pirate.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/preprocessing/example/template/component0.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/example/template/component0.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/preprocessing/example/template/component1.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/example/template/component1.png" afterDir="false" />
@@ -144,9 +160,6 @@
       <module name="eeGNN" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -284,6 +297,8 @@
       <workItem from="1590941756120" duration="11031000" />
       <workItem from="1590955357097" duration="810000" />
       <workItem from="1590956337796" duration="1144000" />
+      <workItem from="1590995417521" duration="23254000" />
+      <workItem from="1591022334167" duration="1441000" />
     </task>
     <task id="LOCAL-00001" summary="Added FastICA">
       <created>1584546011748</created>

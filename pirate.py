@@ -10,7 +10,7 @@ from mne.io import concatenate_raws, read_raw_edf
 from mne.channels import make_standard_montage
 from mne.preprocessing import ICA, corrmap, read_ica
 import os
-
+from mne.time_frequency import psd_multitaper, psd_welch
 
 class Pirates:
     """
@@ -134,7 +134,14 @@ class Pirates:
             print("Path not found, creating icas directory...")
             os.mkdir(dir_templates)
 
-        return dir_dis, dir_psd, dir_pre_psd, dir_post_psd, dir_icas, dir_report, dir_templates
+        dir_psd_topo_map = os.path.join(path, 'psd_topo_map')
+        if os.path.isdir(dir_psd_topo_map):
+            print('dir_psd_topo_map directory already exists')
+        else:
+            print('Path not found, creating dir_psd_topo_map directory...')
+            os.mkdir(dir_psd_topo_map)
+
+        return dir_dis, dir_psd, dir_pre_psd, dir_post_psd, dir_icas, dir_report, dir_templates, dir_psd_topo_map
 
     @staticmethod
     def eeg_settings(raws):
@@ -423,10 +430,74 @@ class Pirates:
 
 
     @staticmethod
-    def psd_top_corr_map(icas, ica_temp, comp_template,):
-        for comp in comp_template:
-            corrmap(icas, template=(ica_temp, comp), label=str(comp))
-            plt.close("all")
+    def psd_topo_map(icas, raws, label ,dir_topo_psd):
+        n_comp = np.arange(0, 64)
+        subjs = list()
+        paths_to_delete = []
+        for ica, subj in zip(icas, raws):
+            img_paths = list()
+            lab = ica.labels_[label]
+            for n in n_comp:
+                if n in lab:
+                    ax1 = ica.plot_components(picks=n, title="Excluded by corr_ma")
+                else:
+                    ax1 = ica.plot_components(picks=n, title="")
+
+                path_comp = os.path.join(dir_topo_psd, "TOPO" + subj.__repr__()[10:14] + "C" + str(n) + ".png")
+                ax1.savefig(path_comp)
+                plt.close(ax1)
+                sources = ica.get_sources(subj)
+                psds, freqs = psd_welch(sources, picks=[n])
+                # psds = 10 * np.log10(psds)
+                psds_mean = psds.mean(0)
+                plt.figure(figsize=(2.5, 2))
+                plt.plot(freqs, psds_mean)
+                path_psd = os.path.join(dir_topo_psd, "PSD" + subj.__repr__()[10:14] + "C" + str(n) + ".png")
+                plt.savefig(path_psd)
+                plt.close("all")
+                psd = Image.open(path_comp)
+                topo = Image.open(path_psd)
+                imgs = [psd, topo]
+                width_0, height_0 = imgs[0].size
+                width_1, height_1 = imgs[1].size
+                real_width = width_0 + width_1
+                real_height = height_1 + 15
+                new_im = Image.new('RGBA', (real_width, real_height))
+                x_offset = 0
+                for im in imgs:
+                    new_im.paste(im, (x_offset, 0))
+                    x_offset += im.size[0]
+                img_path = os.path.join(dir_topo_psd, subj.__repr__()[10:14] + "C" + str(n) + ".png")
+                new_im.save(img_path)
+                img_paths.append(img_path)
+                paths_to_delete.append(path_comp)
+                paths_to_delete.append(path_psd)
+                plt.close('all')
+            subjs.append(img_paths)
+
+        for indi, l in enumerate(subjs):
+            imgs = [Image.open(x) for x in l]
+            width, height = imgs[0].size
+            real_width = width * 8 + 4
+            real_height = height * 8 + 4
+            new_im = Image.new('RGBA', (real_width, real_height))
+            x_offset = 0
+            y_offset = 0
+            count = -1
+            for ind, image in enumerate(imgs):
+                count += 1
+                if count != 0 and count % 8 == 0:
+                    y_offset += image.size[1]
+                    x_offset = 0
+                new_im.paste(image, (x_offset, y_offset))
+                x_offset += image.size[0]
+            new_im.save(os.path.join(dir_topo_psd, "total" + raws[indi].__repr__()[10:14] + ".png"))
+
+        for l in subjs:
+            for p in l:
+                os.remove(p)
+        for y in paths_to_delete:
+            os.remove(y)
 
 
 
