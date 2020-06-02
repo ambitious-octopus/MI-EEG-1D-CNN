@@ -7,12 +7,12 @@ cwd = os.getcwd()
 preprocessing = os.path.join(cwd, "preprocessing")
 imagined = os.path.join(preprocessing, "imagined")
 
-dir_dis, dir_psd, dir_pre_psd, dir_post_psd, dir_icas, dir_report, dir_templates = Pirates.setup_folders(imagined)  # setuppo le cartelle
+#dir_dis, dir_psd, dir_pre_psd, dir_post_psd, dir_icas, dir_report, dir_templates = Pirates.setup_folders(imagined)  # setuppo le cartelle
 
 chort = np.arange(2, 35).tolist()
 temp = [1]
 #sub = temp + chort
-sub = [52]
+sub = [0]
 
 
 
@@ -66,7 +66,8 @@ info2 = raws_clean[0].info #mi copio le info dai dati raw, da questi mi servirà
  'kind': 2 (FIFFV_EEG_CH),
  'loc': array([-0.07563298,  0.04304355,  0.06791385,  0.        ,  0.        ,
          0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
-         0.        ,  0.        ])} '''
+         0.        ,  0.        ])} 
+'''
 
 # per accedere a chs però non si accede tramite info.chs
 #bisogna fare i procedimenti di cui sotto

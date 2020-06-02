@@ -11,6 +11,9 @@ from mne.channels import make_standard_montage
 from mne.preprocessing import ICA, corrmap, read_ica
 import os
 from mne.time_frequency import psd_multitaper, psd_welch
+from mne.epochs import make_fixed_length_epochs
+from mne import create_info
+from mne import find_events, EpochsArray
 
 class Pirates:
     """
@@ -416,6 +419,7 @@ class Pirates:
                 icas.append(ica)
         return icas
 
+
     @staticmethod
     def discrepancy(raws,clean_raws,dir_discrepancy):
         for raw,c_raw in zip(list(raws),list(clean_raws)):
@@ -437,24 +441,28 @@ class Pirates:
         for ica, subj in zip(icas, raws):
             img_paths = list()
             lab = ica.labels_[label]
+            inst = make_fixed_length_epochs(subj.copy(), duration=2., verbose=False, preload=True)
+            data = ica.get_sources(inst).get_data()  # prendo l'array delle componenti
+            ica_names = ica._ica_names  # mi prendo la lista di nomi di icas da usare al posto dei canali
+            info2 = subj.info  # mi copio le info dai dati raw, da questi mi servirà solo ['chs']
+            chs = info2['chs']
+            info3 = create_info(sfreq=160, ch_names=ica_names, ch_types='eeg')
+            comp_epocate = EpochsArray(data, info3)  # creo un EpochsArray con le epoche calcolate prima(data) e
+            # la info structure creata prima
             for n in n_comp:
+                psd = comp_epocate.plot_psd(dB=False, area_mode=None, average=False, ax=plt.axes(yticks=([]), title="Sub"),
+                                        fmin=1.0, fmax=80.0, picks=n, spatial_colors=False, show=False)
                 if n in lab:
-                    ax1 = ica.plot_components(picks=n, title="Excluded by corr_ma")
+                    ax1 = ica.plot_components(picks=n, title="Exclu by corr_ma")
                 else:
                     ax1 = ica.plot_components(picks=n, title="")
-
                 path_comp = os.path.join(dir_topo_psd, "TOPO" + subj.__repr__()[10:14] + "C" + str(n) + ".png")
                 ax1.savefig(path_comp)
                 plt.close(ax1)
-                sources = ica.get_sources(subj)
-                psds, freqs = psd_welch(sources, picks=[n])
-                # psds = 10 * np.log10(psds)
-                psds_mean = psds.mean(0)
-                plt.figure(figsize=(2.5, 2))
-                plt.plot(freqs, psds_mean)
                 path_psd = os.path.join(dir_topo_psd, "PSD" + subj.__repr__()[10:14] + "C" + str(n) + ".png")
-                plt.savefig(path_psd)
-                plt.close("all")
+                psd.set_size_inches(3, 2.5)
+                psd.savefig(path_psd)
+                plt.close(psd)
                 psd = Image.open(path_comp)
                 topo = Image.open(path_psd)
                 imgs = [psd, topo]
@@ -474,7 +482,6 @@ class Pirates:
                 paths_to_delete.append(path_psd)
                 plt.close('all')
             subjs.append(img_paths)
-
         for indi, l in enumerate(subjs):
             imgs = [Image.open(x) for x in l]
             width, height = imgs[0].size
@@ -498,6 +505,30 @@ class Pirates:
                 os.remove(p)
         for y in paths_to_delete:
             os.remove(y)
+
+    @staticmethod
+    def get_ica_psd(raws, icas, dir_icas_psd=None, return_figure=False):
+        psdl = list()
+        for raw, ica in zip(raws, icas):
+            inst = make_fixed_length_epochs(raw.copy(), duration=2., verbose=False, preload=True)
+            data = ica.get_sources(inst).get_data()  # prendo l'array delle componenti
+            ica_names = ica._ica_names  # mi prendo la lista di nomi di icas da usare al posto dei canali
+            info2 = raw.info  # mi copio le info dai dati raw, da questi mi servirà solo ['chs']
+            chs = info2['chs']
+            info3 = create_info(sfreq=160, ch_names=ica_names, ch_types='eeg')
+            comp_epocate = EpochsArray(data, info3)  # creo un EpochsArray con le epoche calcolate prima(data) e
+            # la info structure creata prima
+            psd = comp_epocate.plot_psd(dB=False, area_mode=None, average=False, ax=plt.axes(yticks=([]), title="Sub"),
+                                        fmin=1.0, fmax=80.0,
+                                        picks="all", spatial_colors=False, show=False)
+            psdl.append(psd)
+
+            if dir_icas_psd is not None:
+                psd.savefig(os.path.join(dir_icas_psd, "ICA-psd" + raw.__repr__()[10:14] + ".png"))
+            plt.close(psd)
+            
+        if return_figure:
+            return psdl
 
 
 
