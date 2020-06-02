@@ -118,7 +118,10 @@ icas[0].plot_properties(raws_clean[0],picks = [16] ,dB= False)
 
 #%% I estimate psd to have psd and freqs array
 
-from mne.time_frequency import psd_multitaper
+from mne.time_frequency import psd_multitaper,psd_welch
+
+psdw, freqw = psd_welch(comp_epocate, n_fft = 160, n_overlap = 60)
+plt.plot(freqw, psdw[0][0])
 
 psd, freqs = psd_multitaper(comp_epocate)
 
