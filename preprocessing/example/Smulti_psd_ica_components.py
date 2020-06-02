@@ -116,8 +116,13 @@ comp_epocate.plot_psd(dB= False,area_mode=None, average=False,fmin=1.0,fmax=80.0
 icas[0].plot_properties(raws_clean[0],picks = [16] ,dB= False)
 
 
+#%% I estimate psd to have psd and freqs array
 
+from mne.time_frequency import psd_multitaper
 
+psd, freqs = psd_multitaper(comp_epocate)
+
+plt.plot(freqs,psd[0][0])
 
 
 #%%
