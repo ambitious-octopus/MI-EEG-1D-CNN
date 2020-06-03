@@ -531,6 +531,37 @@ class Pirates:
             return psdl
 
 
+    @staticmethod
+    def select_components(icas, raws, label):
+        if type(icas) == list and type(raws) == list:
+            pass
+        else:
+            icas = [icas]
+            raws = [raws]
+
+        for ica, raw in zip(icas, raws):
+            comand = ""
+            while comand != "next":
+                print("Your are working on subject: " + raw.__repr__()[11:14])
+                comand = input("Inserisci un comando: ")
+                print()
+
+                if comand == "exclude":
+                    number_comp_to_exclude = int(input("Which component do you want to exclude? "))
+                    ica.labels_[label].append(number_comp_to_exclude)
+
+                if comand == "show":
+                    print("Subject: " + raw.__repr__()[11:14] + " Excluded component:")
+                    print(ica.labels_[label])
+                    print()
+
+                if comand == "remove":
+                    number_comp_remove = int(input("Which component do you want to remove from exclusion list? "))
+                    if number_comp_remove in ica.labels_[label]:
+                        ica.labels_[label] = [x for x in ica.labels_[label] if x != number_comp_remove]
+                    else:
+                        print("you didn't exclude this component")
+        return icas
 
 
 if __name__ == "__main__":

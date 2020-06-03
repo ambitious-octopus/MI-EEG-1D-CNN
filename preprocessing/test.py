@@ -20,8 +20,8 @@ raws_set = Pirates.eeg_settings(raws)  # Standardizzo nomi ecc
 raws_filtered = Pirates.filtering(raws_set)  # Filtro
 raws_clean = Pirates.del_annotations(raws_filtered)  # Elimino annotazioni
 Pirates.plot_pre_psd(raws_clean, dir_pre_psd, overwrite=True)
-#icas = Pirates.ica_function(raws_clean, dir_icas, save=True)  # Applico una ica
-icas = Pirates.load_saved_icas(dir_icas)
+icas = Pirates.ica_function(raws_clean, dir_icas, save=True)  # Applico una ica
+#icas = Pirates.load_saved_icas(dir_icas)
 list_psd = Pirates.get_ica_psd(raws_clean,icas, dir_icas)
 
 eye = [5,0, 32]
@@ -31,7 +31,7 @@ nb = [21, 40, 44, 48]
 comp_template = eye + other + mov + nb
 
 
-corr = Pirates.corr_map(icas, 0, comp_template, dir_templates, "arti", threshold=0.85)
+corr = Pirates.corr_map(icas, 0, comp_template, dir_templates, "arti", threshold=0.90)
 Pirates.psd_topo_map(icas, raws_clean, "arti", dir_psd_topo_map)
 
 
@@ -43,5 +43,6 @@ Pirates.psd_topo_map(icas, raws_clean, "arti", dir_psd_topo_map)
 
 #%%
 
+icas_clean = Pirates.select_components(icas,raws_clean,"arti")
 
 
