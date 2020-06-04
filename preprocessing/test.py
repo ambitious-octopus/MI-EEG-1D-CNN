@@ -31,8 +31,11 @@ nb = [21, 40, 44, 48]
 comp_template = eye + other + mov + nb
 
 
-corr = Pirates.corr_map(icas, 0, comp_template, dir_templates, "arti", threshold=0.90)
-Pirates.psd_topo_map(icas, raws_clean, "arti", dir_psd_topo_map)
+corr = Pirates.corr_map(icas, 0, comp_template, dir_templates, "artifact", threshold=0.90)
+Pirates.psd_topo_map(icas, raws_clean, "artifact", dir_psd_topo_map)
+icas_clean = Pirates.select_components(icas,raws_clean,"artifact")
+
+
 
 
 #reco_raws = Pirates.reconstruct_raws(icas, raws_clean, "artifact")
@@ -43,6 +46,6 @@ Pirates.psd_topo_map(icas, raws_clean, "arti", dir_psd_topo_map)
 
 #%%
 
-icas_clean = Pirates.select_components(icas,raws_clean,"arti")
+
 
 

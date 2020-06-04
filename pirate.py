@@ -445,7 +445,7 @@ class Pirates:
             data = ica.get_sources(inst).get_data()  # prendo l'array delle componenti
             ica_names = ica._ica_names  # mi prendo la lista di nomi di icas da usare al posto dei canali
             info2 = subj.info  # mi copio le info dai dati raw, da questi mi servirà solo ['chs']
-            chs = info2['chs']
+            #chs = info2['chs']
             info3 = create_info(sfreq=160, ch_names=ica_names, ch_types='eeg')
             comp_epocate = EpochsArray(data, info3)  # creo un EpochsArray con le epoche calcolate prima(data) e
             # la info structure creata prima
@@ -453,7 +453,7 @@ class Pirates:
                 psd = comp_epocate.plot_psd(dB=False, area_mode=None, average=False, ax=plt.axes(yticks=([]), title="Sub"),
                                         fmin=1.0, fmax=80.0, picks=n, spatial_colors=False, show=False)
                 if n in lab:
-                    ax1 = ica.plot_components(picks=n, title="Exclu by corr_ma")
+                    ax1 = ica.plot_components(picks=n, title="Excluded")
                 else:
                     ax1 = ica.plot_components(picks=n, title="")
                 path_comp = os.path.join(dir_topo_psd, "TOPO" + subj.__repr__()[10:14] + "C" + str(n) + ".png")
@@ -545,25 +545,41 @@ class Pirates:
                 print("Your are working on subject: " + raw.__repr__()[11:14])
                 comand = input("Inserisci un comando: ")
                 print()
-
                 if comand == "exclude":
                     number_comp_to_exclude = int(input("Which component do you want to exclude? "))
                     ica.labels_[label].append(number_comp_to_exclude)
-
                 if comand == "show":
                     print("Subject: " + raw.__repr__()[11:14] + " Excluded component:")
                     print(ica.labels_[label])
                     print()
-
                 if comand == "remove":
                     number_comp_remove = int(input("Which component do you want to remove from exclusion list? "))
                     if number_comp_remove in ica.labels_[label]:
                         ica.labels_[label] = [x for x in ica.labels_[label] if x != number_comp_remove]
                     else:
                         print("you didn't exclude this component")
+                if comand =="help":
+                    print("The available commands are: ")
+                    print()
+                    print("remove: remove a component from the list")
+                    print("exclude: set a component to exclude")
+                    print("show: show the actual components selected")
+        return icas
+
+    @staticmethod
+    def save_exclusion(icas, dir_icas):
+        excluded = []
+        for ica_comp in icas:
+            excluded.append(ica_comp.labels_)
+        np.save(os.path.join(dir_icas, 'components.npy'), excluded)
+
+    @staticmethod
+    def load_exclusion(icas, path):
+        di = np.load(path, allow_pickle=True)
+        for value, ica in zip(di, icas):
+            ica.labels_ = value
         return icas
 
 
 if __name__ == "__main__":
-    # Make sure that you have the latest version of mne-pyhton
     pass
