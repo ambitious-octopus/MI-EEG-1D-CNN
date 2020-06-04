@@ -567,11 +567,11 @@ class Pirates:
         return icas
 
     @staticmethod
-    def save_exclusion(icas, dir_icas):
+    def save_exclusion(icas, dir_icas, name):
         excluded = []
         for ica_comp in icas:
             excluded.append(ica_comp.labels_)
-        np.save(os.path.join(dir_icas, 'components.npy'), excluded)
+        np.save(os.path.join(dir_icas,name ), excluded)
 
     @staticmethod
     def load_exclusion(icas, path):
