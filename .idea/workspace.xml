@@ -20,43 +20,52 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d006e634-978a-4734-b83e-f8ac35d0d0f5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/preprocessing/prova.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_file.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/1-30.npy" beforeDir="false" afterPath="$PROJECT_DIR$/1-30.npy" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pirate.py" beforeDir="false" afterPath="$PROJECT_DIR$/pirate.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/preprocessing/Smulti_Rmulti_imagined.py" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/Smulti_Rmulti_imagined.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS002.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS003.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS004.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS005.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS006.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS007.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS008.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS009.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS010.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS011.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS012.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS013.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS014.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS015.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS016.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS017.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS018.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS019.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS020.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS021.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS022.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS023.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS024.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS025.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS026.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS027.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS028.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS029.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS030.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S001.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S001.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S001.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S001.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS001.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS031.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS032.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS033.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS034.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS035.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS036.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS037.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS038.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS039.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/ICA-psdS040.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS001.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS001.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S001.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S001.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS002.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS002.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS003.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS003.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS004.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS004.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS005.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS005.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS006.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS006.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS007.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS007.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS008.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS008.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS009.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS009.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS010.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS010.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS011.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS011.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS012.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS012.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS013.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS013.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS014.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS014.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS015.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS015.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS016.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS016.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS017.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS017.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS018.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS018.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS019.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS019.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS020.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS020.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS021.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS021.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS022.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS022.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS023.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS023.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS024.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS024.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS025.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS025.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS026.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS026.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS027.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS027.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS028.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS028.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS029.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS029.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS030.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd_topo_map/totalS030.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/preprocessing/imagined/template/component0.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/template/component0.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/preprocessing/imagined/template/component21.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/template/component21.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/preprocessing/imagined/template/component33.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/template/component33.png" afterDir="false" />
@@ -173,6 +182,9 @@
       <module name="eeGNN" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -319,6 +331,12 @@
       <workItem from="1591259446962" duration="37000" />
       <workItem from="1591300045140" duration="127000" />
       <workItem from="1591300182190" duration="3986000" />
+      <workItem from="1591340349154" duration="1298000" />
+      <workItem from="1591350233408" duration="4953000" />
+      <workItem from="1591359713030" duration="4263000" />
+      <workItem from="1591364603094" duration="690000" />
+      <workItem from="1591429087253" duration="6078000" />
+      <workItem from="1591437558456" duration="3000" />
     </task>
     <task id="LOCAL-00001" summary="Added FastICA">
       <created>1584546011748</created>
@@ -370,6 +388,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="461" y="167" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1584872435620" />
+    <state x="739" y="369" key="cloudConfig.PluginsDialog" timestamp="1591429117279">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="739" y="369" key="cloudConfig.PluginsDialog/0.0.1920.1050/1920.235.1366.738@0.0.1920.1050" timestamp="1591429117279" />
     <state x="465" y="241" key="com.intellij.ide.util.TipDialog" timestamp="1586599925398">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
