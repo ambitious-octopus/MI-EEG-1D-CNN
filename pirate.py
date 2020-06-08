@@ -183,8 +183,12 @@ class Pirates:
             plot_pre = plt.figure()  # I create an empty figure so I can apply clear next line
             plot_pre.clear()  # Clearing the plot each iteration I do not obtain overlapping plots
             # Plots psd of filtered raw data
-            plot_pre = subj.plot_psd(area_mode=None, show=False, average=False, ax=plt.axes(ylim=(0, 30)), fmin=1.0,
+            if subj.info["sfreq"] == 160.0:
+                plot_pre = subj.plot_psd(area_mode=None, show=False, average=False, ax=plt.axes(ylim=(0, 30)), fmin=1.0,
                                      fmax=80.0, dB=False, n_fft=160)
+            else:
+                plot_pre = subj.plot_psd(area_mode=None, show=False, average=False, ax=plt.axes(ylim=(0, 30)), fmin=1.0,
+                                         fmax=64.0, dB=False, n_fft=160)
             # Creates plot's name
             psd_name = os.path.join(dir_pre_psd, subj.__repr__()[10:14] + '.png')
             # Check if plot exists by checking its path
@@ -211,9 +215,14 @@ class Pirates:
         """
         raw_filtered = []
         for subj in list_of_raws:
-            subj.filter(1.0, 79.0, fir_design='firwin', skip_by_annotation='edge')  # Filtro passabanda
-            subj.notch_filter(freqs=60)  # Faccio un filtro notch
-            raw_filtered.append(subj)
+            if subj.info["sfreq"] == 160.0:
+                subj.filter(1.0, 79.0, fir_design='firwin', skip_by_annotation='edge')  # Filtro passabanda
+                subj.notch_filter(freqs=60)  # Faccio un filtro notch
+                raw_filtered.append(subj)
+            else:
+                subj.filter(1.0, (subj.info["sfreq"]/2)-1, fir_design='firwin', skip_by_annotation='edge')  # Filtro passabanda
+                subj.notch_filter(freqs=60)  # Faccio un filtro notch
+                raw_filtered.append(subj)
 
         return raw_filtered
 
@@ -269,8 +278,12 @@ class Pirates:
             plot_post = plt.figure()  # I create an empty figure so I can apply clear next line
             plot_post.clear()  # Clearing the plot each iteration I do not obtain overlapping plots
             # Plots psd of filtered raw data
-            plot_post = subj.plot_psd(area_mode=None, show=False, average=False, ax=plt.axes(ylim=(0, 30)), fmin=1.0,
-                                      fmax=80.0, dB=False, n_fft=160)
+            if subj.info["sfreq"] == 160.0:
+                plot_post = subj.plot_psd(area_mode=None, show=False, average=False, ax=plt.axes(ylim=(0, 30)), fmin=1.0,
+                                        fmax=80.0, dB=False, n_fft=160)
+            else:
+                plot_post = subj.plot_psd(area_mode=None, show=False, average=False, ax=plt.axes(ylim=(0, 30)),
+                                          fmin=1.0, fmax=64.0, dB=False, n_fft=160)
             # Creates plot's name
             psd_name = os.path.join(dir_post_psd, subj.__repr__()[10:14] + '.png')
             # Check if plot exists by checking its path
@@ -439,6 +452,7 @@ class Pirates:
 
                 if subj in selection:
                     ica = read_ica(os.path.join(dir, fi))
+                    ica.info["S"] = fi[1:4]
                     icas.append(ica)
         return icas
 
@@ -448,8 +462,12 @@ class Pirates:
             dis = np.subtract(raw._data, c_raw._data)
             raw_cop = raw.copy()
             raw_cop._data = dis
-            psd = raw_cop.plot_psd(area_mode=None, show=False, average=False, ax=plt.axes(ylim=(0, 30)), fmin=1.0,
-                                   fmax=80.0, dB=False, n_fft=160)
+            if raw_cop.info["sfreq"] == 160.0:
+                psd = raw_cop.plot_psd(area_mode=None, show=False, average=False, ax=plt.axes(ylim=(0, 30)), fmin=1.0,
+                                    fmax=80.0, dB=False, n_fft=160)
+            else:
+                psd = raw_cop.plot_psd(area_mode=None, show=False, average=False, ax=plt.axes(ylim=(0, 30)), fmin=1.0,
+                                       fmax=64.0, dB=False, n_fft=160)
             psd_name = os.path.join(dir_discrepancy, raw_cop.__repr__()[10:14] + '.png')
             psd.savefig(psd_name)
             plt.close('all')
@@ -612,13 +630,25 @@ class Pirates:
 
     @staticmethod
     def load_exclusion(icas, path):
+        """
+        Merge a list of icas with corresponding label of excluded components
+        icas are modified in-place
+        :param icas: list, of icas object
+        :param path: str, the master exclusion file
+        :return: None
+        """
         di = np.load(path, allow_pickle=True)
         for value, ica in zip(di, icas):
             ica.labels_ = value
-        return icas
+        return None
 
     @staticmethod
     def check_exclusion(file_path):
+        """
+        Visualize the exclusion for each subject
+        :param file_path: str, file path of the exclusions
+        :return: a dictionary
+        """
         dic = np.load(file_path)
         for index, subj in enumerate(dic):
             subj["Subject: " + str(index + 1)] = subj.pop("artifact")
