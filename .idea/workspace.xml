@@ -21,95 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d006e634-978a-4734-b83e-f8ac35d0d0f5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pirate.py" beforeDir="false" afterPath="$PROJECT_DIR$/pirate.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/preprocessing/Smulti_Rmulti_imagined.py" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/Smulti_Rmulti_imagined.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S004.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S004.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S009.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S009.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S017.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S017.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S019.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S019.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S021.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S021.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S022.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S022.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S023.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S023.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S024.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S024.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S025.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S025.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S028.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S028.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S032.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S032.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S036.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S036.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S039.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S039.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S048.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S048.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S049.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S049.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S053.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S053.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S056.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S056.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S058.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S058.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S060.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S060.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S068.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S068.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S070.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S070.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S071.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S071.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S077.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S077.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S079.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S079.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S085.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/discrepancy/S085.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S004.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S004.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S009.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S009.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S017.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S017.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S019.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S019.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S021.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S021.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S022.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S022.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S023.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S023.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S024.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S024.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S025.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S025.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S028.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S028.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S030.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S030.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S032.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S032.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S034.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S034.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S036.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S036.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S039.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S039.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S048.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S048.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S049.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S049.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S053.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S053.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S055.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S055.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S056.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S056.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S058.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S058.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S060.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S060.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S067.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S067.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S068.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S068.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S070.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S070.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S071.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S071.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S077.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S077.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S079.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S079.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S085.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S085.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S108.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/psd/post_psd/S108.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S004.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S004.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S009.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S009.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S017.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S017.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S019.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S019.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S021.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S021.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S022.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S022.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S023.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S023.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S024.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S024.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S025.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S025.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S028.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S028.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S030.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S030.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S032.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S032.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S034.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S034.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S036.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S036.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S039.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S039.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S048.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S048.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S049.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S049.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S053.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S053.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S055.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S055.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S056.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S056.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S058.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S058.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S060.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S060.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S067.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S067.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S068.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S068.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S070.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S070.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S071.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S071.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S077.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S077.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S079.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S079.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S085.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S085.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S108.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S108.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/prova.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/test.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -381,6 +293,7 @@
       <workItem from="1591713462014" duration="948000" />
       <workItem from="1591734181477" duration="106000" />
       <workItem from="1591735644094" duration="853000" />
+      <workItem from="1591789126220" duration="3937000" />
     </task>
     <task id="LOCAL-00001" summary="Added FastICA">
       <created>1584546011748</created>
