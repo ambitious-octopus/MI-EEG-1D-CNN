@@ -21,44 +21,12 @@
   <component name="ChangeListManager">
     <list default="true" id="d006e634-978a-4734-b83e-f8ac35d0d0f5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pirate.py" beforeDir="false" afterPath="$PROJECT_DIR$/pirate.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/preprocessing/Smulti_Rmulti_imagined.py" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/Smulti_Rmulti_imagined.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/icas/S001_ica.fif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/icas/S002_ica.fif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/icas/S23_ica.fif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/icas/S31_ica.fif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/icas/S66_ica.fif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/S001_ica.fif" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/icas/S001_ica.fif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/S034_ica.fif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/S056_ica.fif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/S065_ica.fif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/S067_ica.fif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/icas/S073_ica.fif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/pre_psd/S034.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/pre_psd/S056.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/pre_psd/S065.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/pre_psd/S067.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/psd/pre_psd/S073.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="DatabaseView">
-    <option name="SHOW_INTERMEDIATE" value="true" />
-    <option name="GROUP_DATA_SOURCES" value="true" />
-    <option name="GROUP_SCHEMA" value="true" />
-    <option name="GROUP_CONTENTS" value="false" />
-    <option name="SORT_POSITIONED" value="false" />
-    <option name="SHOW_EMPTY_GROUPS" value="false" />
-    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
-    <option name="HIDDEN_KINDS">
-      <set />
-    </option>
-    <expand />
-    <select />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -93,7 +61,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.appearance" />
+    <property name="settings.editor.selected.configurable" value="preferences.editor.code.editing" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -149,6 +117,9 @@
       <module name="eeGNN" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -294,7 +265,35 @@
       <workItem from="1591186688608" duration="14931000" />
       <workItem from="1591259446962" duration="37000" />
       <workItem from="1591300045140" duration="127000" />
-      <workItem from="1591300182190" duration="1326000" />
+      <workItem from="1591300182190" duration="3986000" />
+      <workItem from="1591340349154" duration="1298000" />
+      <workItem from="1591350233408" duration="4953000" />
+      <workItem from="1591359713030" duration="4263000" />
+      <workItem from="1591364603094" duration="690000" />
+      <workItem from="1591429087253" duration="6078000" />
+      <workItem from="1591437558456" duration="3000" />
+      <workItem from="1591457086445" duration="225000" />
+      <workItem from="1591457325229" duration="571000" />
+      <workItem from="1591457915354" duration="2783000" />
+      <workItem from="1591486743146" duration="5912000" />
+      <workItem from="1591525923171" duration="3054000" />
+      <workItem from="1591535553713" duration="3012000" />
+      <workItem from="1591547231861" duration="70000" />
+      <workItem from="1591564218901" duration="2983000" />
+      <workItem from="1591567950965" duration="392000" />
+      <workItem from="1591606447290" duration="13421000" />
+      <workItem from="1591624417301" duration="235000" />
+      <workItem from="1591627048417" duration="829000" />
+      <workItem from="1591628056529" duration="3765000" />
+      <workItem from="1591633418979" duration="2204000" />
+      <workItem from="1591637826397" duration="875000" />
+      <workItem from="1591641735561" duration="8000" />
+      <workItem from="1591694960193" duration="2368000" />
+      <workItem from="1591702203013" duration="4599000" />
+      <workItem from="1591713462014" duration="948000" />
+      <workItem from="1591734181477" duration="106000" />
+      <workItem from="1591735644094" duration="853000" />
+      <workItem from="1591789126220" duration="3937000" />
     </task>
     <task id="LOCAL-00001" summary="Added FastICA">
       <created>1584546011748</created>
@@ -330,6 +329,10 @@
       <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state x="395" y="95" key="#Inspections/0.0.1536.834@0.0.1536.834" timestamp="1590243561753" />
+    <state x="654" y="61" width="228" height="493" key="#Notifications" timestamp="1591457933989">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="654" y="61" width="228" height="493" key="#Notifications/0.0.1536.834@0.0.1536.834" timestamp="1591457933989" />
     <state x="871" y="277" key="#xdebugger.XInspectDialog" timestamp="1584518010127">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -342,10 +345,20 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="740" y="279" key="FileChooserDialogImpl/0.0.1920.1050@0.0.1920.1050" timestamp="1585573943640" />
-    <state x="461" y="167" key="SettingsEditor" timestamp="1584872435620">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state x="334" y="59" key="SettingsEditor" timestamp="1591522951314">
+      <screen x="0" y="0" width="1536" height="834" />
     </state>
+    <state x="334" y="59" key="SettingsEditor/0.0.1536.834@0.0.1536.834" timestamp="1591522951314" />
     <state x="461" y="167" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1584872435620" />
+    <state x="591" y="293" key="cloudConfig.PluginsDialog" timestamp="1591457210696">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="591" y="293" key="cloudConfig.PluginsDialog/0.0.1536.834@0.0.1536.834" timestamp="1591457210696" />
+    <state x="739" y="369" key="cloudConfig.PluginsDialog/0.0.1920.1050/1920.235.1366.738@0.0.1920.1050" timestamp="1591429117279" />
+    <state x="640" y="261" key="cloudConfig.SelfSettingsDialog" timestamp="1591457198129">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="640" y="261" key="cloudConfig.SelfSettingsDialog/0.0.1536.834@0.0.1536.834" timestamp="1591457198129" />
     <state x="465" y="241" key="com.intellij.ide.util.TipDialog" timestamp="1586599925398">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
@@ -354,5 +367,9 @@
       <screen x="1920" y="235" width="1366" height="738" />
     </state>
     <state x="1920" y="235" width="1382" height="732" maximized="true" key="dock-window-1/0.0.1920.1050/1920.235.1366.738@0.0.1920.1050" timestamp="1590499675442" />
+    <state x="431" y="155" width="672" height="678" key="search.everywhere.popup" timestamp="1591458200518">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="431" y="155" width="672" height="678" key="search.everywhere.popup/0.0.1536.834@0.0.1536.834" timestamp="1591458200518" />
   </component>
 </project>

@@ -15,6 +15,7 @@ from mne.epochs import make_fixed_length_epochs
 from mne import create_info
 from mne import find_events, EpochsArray
 
+
 class Pirates:
     """
     Class Pirates
@@ -144,7 +145,14 @@ class Pirates:
             print('Path not found, creating dir_psd_topo_map directory...')
             os.mkdir(dir_psd_topo_map)
 
-        return dir_dis, dir_psd, dir_pre_psd, dir_post_psd, dir_icas, dir_report, dir_templates, dir_psd_topo_map
+        dir_psd_icas = os.path.join(path, 'dir_psd_icas')
+        if os.path.isdir(dir_psd_icas):
+            print('dir_psd_icas directory already exists')
+        else:
+            print('Path not found, creating dir_psd_icas directory...')
+            os.mkdir(dir_psd_icas)
+
+        return dir_psd_icas, dir_dis, dir_psd, dir_pre_psd, dir_post_psd, dir_icas, dir_report, dir_templates, dir_psd_topo_map
 
     @staticmethod
     def eeg_settings(raws):
@@ -175,8 +183,12 @@ class Pirates:
             plot_pre = plt.figure()  # I create an empty figure so I can apply clear next line
             plot_pre.clear()  # Clearing the plot each iteration I do not obtain overlapping plots
             # Plots psd of filtered raw data
-            plot_pre = subj.plot_psd(area_mode=None, show=False, average=False, ax=plt.axes(ylim=(0, 30)), fmin=1.0,
+            if subj.info["sfreq"] == 160.0:
+                plot_pre = subj.plot_psd(area_mode=None, show=False, average=False, ax=plt.axes(ylim=(0, 30)), fmin=1.0,
                                      fmax=80.0, dB=False, n_fft=160)
+            else:
+                plot_pre = subj.plot_psd(area_mode=None, show=False, average=False, ax=plt.axes(ylim=(0, 30)), fmin=1.0,
+                                         fmax=64.0, dB=False, n_fft=160)
             # Creates plot's name
             psd_name = os.path.join(dir_pre_psd, subj.__repr__()[10:14] + '.png')
             # Check if plot exists by checking its path
@@ -203,9 +215,14 @@ class Pirates:
         """
         raw_filtered = []
         for subj in list_of_raws:
-            subj.filter(1.0, 79.0, fir_design='firwin', skip_by_annotation='edge')  # Filtro passabanda
-            subj.notch_filter(freqs=60)  # Faccio un filtro notch
-            raw_filtered.append(subj)
+            if subj.info["sfreq"] == 160.0:
+                subj.filter(1.0, 79.0, fir_design='firwin', skip_by_annotation='edge')  # Filtro passabanda
+                subj.notch_filter(freqs=60)  # Faccio un filtro notch
+                raw_filtered.append(subj)
+            else:
+                subj.filter(1.0, (subj.info["sfreq"]/2)-1, fir_design='firwin', skip_by_annotation='edge')  # Filtro passabanda
+                subj.notch_filter(freqs=60)  # Faccio un filtro notch
+                raw_filtered.append(subj)
 
         return raw_filtered
 
@@ -229,9 +246,10 @@ class Pirates:
 
         for subj in list_of_raws:
             ica = ICA(n_components=64, random_state=10, method="fastica", max_iter=1000)
-            ica.fit(subj)  # fitting ica
+            ica.fit(subj)
+            ica.info["S"] = subj.__repr__()[10:14]
             if save == True:
-                icas_name = os.path.join(dir_icas, subj.__repr__()[10:14] + '_ica.fif')  # creating ica name path
+                icas_name = os.path.join(dir_icas, subj.__repr__()[10:14] + '_ica.fif')
                 if os.path.exists(icas_name) and overwrite == False:
                     raise Exception('Warning! This ica already exists! :( ' + str(
                         icas_name))  # stops if you don't want to overwrite a saved ica
@@ -260,15 +278,19 @@ class Pirates:
             plot_post = plt.figure()  # I create an empty figure so I can apply clear next line
             plot_post.clear()  # Clearing the plot each iteration I do not obtain overlapping plots
             # Plots psd of filtered raw data
-            plot_post = subj.plot_psd(area_mode=None, show=False, average=False, ax=plt.axes(ylim=(0, 30)), fmin=1.0,
-                                      fmax=80.0, dB=False, n_fft=160)
+            if subj.info["sfreq"] == 160.0:
+                plot_post = subj.plot_psd(area_mode=None, show=False, average=False, ax=plt.axes(ylim=(0, 30)), fmin=1.0,
+                                        fmax=80.0, dB=False, n_fft=160)
+            else:
+                plot_post = subj.plot_psd(area_mode=None, show=False, average=False, ax=plt.axes(ylim=(0, 30)),
+                                          fmin=1.0, fmax=64.0, dB=False, n_fft=160)
             # Creates plot's name
             psd_name = os.path.join(dir_post_psd, subj.__repr__()[10:14] + '.png')
             # Check if plot exists by checking its path
-            if os.path.exists(psd_name) and overwrite == False:  # stops only if overwrite == False
+            if os.path.exists(psd_name) and overwrite == False:
                 raise Exception('Warning! This plot already exists! :(')
             elif os.path.exists(psd_name) and overwrite == True:
-                os.remove(psd_name)  # removes existing saved plot
+                os.remove(psd_name)
                 if os.path.exists(psd_name):
                     raise Exception(
                         'You did not remove existing plot!')  # check if plot being deleted, not always os.remove works
@@ -337,7 +359,7 @@ class Pirates:
             real_height = height
             new_im = Image.new('RGB', (real_width, real_height))
             x_offset = 0
-            for index,im in enumerate(img):
+            for index, im in enumerate(img):
                 d = ImageDraw.Draw(im)
                 d.text((150, 2), text[index], fill=(0, 0, 0), font=font)
                 new_im.paste(im, (x_offset, 0))
@@ -346,7 +368,6 @@ class Pirates:
 
         return None
 
-    #todo: Aggiungere un controllo sulla sovrascrittura!
     @staticmethod
     def corr_map(list_icas, ica_template, comp_template, dir_templates, label, threshold=0.85):
         """
@@ -359,7 +380,8 @@ class Pirates:
         :param label: string, label
         """
         for comp in comp_template:
-            corr = corrmap(list_icas, template=(ica_template, comp), plot=True, show=False, threshold=threshold, label=label)
+            corr = corrmap(list_icas, template=(ica_template, comp), plot=True, show=False, threshold=threshold,
+                           label=label)
             path_topos = os.path.join(dir_templates, str(comp) + ".png")
             corr[0].savefig(path_topos)
             topos = Image.open(path_topos)
@@ -411,30 +433,68 @@ class Pirates:
                 plt.close('all')
 
     @staticmethod
-    def load_saved_icas(dir_icas):
+    def load_saved_icas(dir_icas, from_ica, to_ica):
+        """
+        Load saved icas
+        :param dir_icas: str, directory of the icas
+        :param from_ica: int, from ica number
+        :param to_ica: int, to ica number
+        :return: list of icas object
+        """
         icas = []
+        selection = np.arange(from_ica, to_ica + 1)
         for dir, _, file in os.walk(dir_icas):
             for fi in file:
-                ica = read_ica(os.path.join(dir, fi))
-                icas.append(ica)
+                if fi[1] == "0":
+                    subj = int(fi[2:4])
+                else:
+                    subj = int(fi[1:4])
+
+                if subj in selection:
+                    ica = read_ica(os.path.join(dir, fi))
+                    ica.info["S"] = fi[1:4]
+                    icas.append(ica)
         return icas
 
-
     @staticmethod
-    def discrepancy(raws,clean_raws,dir_discrepancy):
-        for raw,c_raw in zip(list(raws),list(clean_raws)):
+    def discrepancy(raws, clean_raws, dir_discrepancy, return_raw=False):
+        """
+        Calculate and plot discrepacy
+        :param raws: list, of raws objects
+        :param clean_raws: list, of raws objects
+        :param dir_discrepancy: str, directory to save the plot of the discrepacy
+        :param return_raw: bool
+        :return: if return_raw return a lst of raw with the discrepacy
+        """
+        lst = list()
+        for raw, c_raw in zip(list(raws), list(clean_raws)):
             dis = np.subtract(raw._data, c_raw._data)
             raw_cop = raw.copy()
             raw_cop._data = dis
-            psd = raw_cop.plot_psd(area_mode=None, show=False, average=False, ax=plt.axes(ylim=(0, 30)), fmin=1.0, fmax=80.0, dB=False, n_fft=160)
+            if raw_cop.info["sfreq"] == 160.0:
+                psd = raw_cop.plot_psd(area_mode=None, show=False, average=False, ax=plt.axes(ylim=(0, 30)), fmin=1.0,
+                                    fmax=80.0, dB=False, n_fft=160)
+            else:
+                psd = raw_cop.plot_psd(area_mode=None, show=False, average=False, ax=plt.axes(ylim=(0, 30)), fmin=1.0,
+                                       fmax=64.0, dB=False, n_fft=160)
             psd_name = os.path.join(dir_discrepancy, raw_cop.__repr__()[10:14] + '.png')
             psd.savefig(psd_name)
             plt.close('all')
-        return None
-
+            if return_raw:
+                lst.append(raw_cop)
+        if return_raw:
+            return lst
 
     @staticmethod
-    def psd_topo_map(icas, raws, label ,dir_topo_psd):
+    def psd_topo_map(icas, raws, label, dir_topo_psd):
+        """
+        Save an image composed by psd and topomap of all the icas component
+        :param icas: list of icas
+        :param raws: list, of raws
+        :param label: str, label to set as excluded
+        :param dir_topo_psd: str, directory to save
+        :return: None
+        """
         n_comp = np.arange(0, 64)
         subjs = list()
         paths_to_delete = []
@@ -445,13 +505,14 @@ class Pirates:
             data = ica.get_sources(inst).get_data()  # prendo l'array delle componenti
             ica_names = ica._ica_names  # mi prendo la lista di nomi di icas da usare al posto dei canali
             info2 = subj.info  # mi copio le info dai dati raw, da questi mi servirà solo ['chs']
-            #chs = info2['chs']
+            # chs = info2['chs']
             info3 = create_info(sfreq=160, ch_names=ica_names, ch_types='eeg')
             comp_epocate = EpochsArray(data, info3)  # creo un EpochsArray con le epoche calcolate prima(data) e
             # la info structure creata prima
             for n in n_comp:
-                psd = comp_epocate.plot_psd(dB=False, area_mode=None, average=False, ax=plt.axes(yticks=([]), title="Sub"),
-                                        fmin=1.0, fmax=80.0, picks=n, spatial_colors=False, show=False)
+                psd = comp_epocate.plot_psd(dB=False, area_mode=None, average=False,
+                                            ax=plt.axes(yticks=([]), title="Sub"),
+                                            fmin=1.0, fmax=80.0, picks=n, spatial_colors=False, show=False)
                 if n in lab:
                     ax1 = ica.plot_components(picks=n, title="Excluded")
                 else:
@@ -508,6 +569,14 @@ class Pirates:
 
     @staticmethod
     def get_ica_psd(raws, icas, dir_icas_psd=None, return_figure=False):
+        """
+        Save the psd of the icas
+        :param raws: list, of raw objects
+        :param icas: list, of icas object
+        :param dir_icas_psd: str, directory to save
+        :param return_figure: bool, if return the figures or to save only
+        :return: if return_figure is True return a list of matplolib figures
+        """
         psdl = list()
         for raw, ica in zip(raws, icas):
             inst = make_fixed_length_epochs(raw.copy(), duration=2., verbose=False, preload=True)
@@ -526,13 +595,19 @@ class Pirates:
             if dir_icas_psd is not None:
                 psd.savefig(os.path.join(dir_icas_psd, "ICA-psd" + raw.__repr__()[10:14] + ".png"))
             plt.close(psd)
-            
+
         if return_figure:
             return psdl
 
-
     @staticmethod
     def select_components(icas, raws, label):
+        """
+        Activate an interactive shell to exclude or remove components
+        :param icas: list, of icas onjects
+        :param raws: list, of raws object
+        :param label: str, name of the label
+        :return: list, of icas labeled with exclusion
+        """
         if type(icas) == list and type(raws) == list:
             pass
         else:
@@ -558,7 +633,7 @@ class Pirates:
                         ica.labels_[label] = [x for x in ica.labels_[label] if x != number_comp_remove]
                     else:
                         print("you didn't exclude this component")
-                if comand =="help":
+                if comand == "help":
                     print("The available commands are: ")
                     print()
                     print("remove: remove a component from the list")
@@ -567,19 +642,63 @@ class Pirates:
         return icas
 
     @staticmethod
-    def save_exclusion(icas, dir_icas):
+    def save_exclusion(icas, file_path, is_there_template_also=False):
+        """
+        Add exclusions to the master file exclusion
+        :param icas:
+        :param file_path:
+        :param is_there_template_also:
+        :return:
+        """
         excluded = []
-        for ica_comp in icas:
-            excluded.append(ica_comp.labels_)
-        np.save(os.path.join(dir_icas, 'components.npy'), excluded)
+        file = np.load(file_path, allow_pickle=True)
+        if is_there_template_also:
+            for ica in icas:
+                excluded.append(ica.labels_)
+            new = np.concatenate((file, excluded))
+            np.save(file_path, new)
+        else:
+            for ica in icas[1:]:
+                excluded.append(ica.labels_)
+            new = np.concatenate((file, excluded))
+            np.save(file_path, new)
 
     @staticmethod
     def load_exclusion(icas, path):
+        """
+        Merge a list of icas with corresponding label of excluded components
+        icas are modified in-place
+        :param icas: list, of icas object
+        :param path: str, the master exclusion file
+        :return: None
+        """
         di = np.load(path, allow_pickle=True)
         for value, ica in zip(di, icas):
             ica.labels_ = value
-        return icas
+        return None
 
+    @staticmethod
+    def check_exclusion(file_path):
+        """
+        Visualize the exclusion for each subject
+        :param file_path: str, file path of the exclusions
+        :return: a dictionary
+        """
+        dic = np.load(file_path)
+        for index, subj in enumerate(dic):
+            subj["Subject: " + str(index + 1)] = subj.pop("artifact")
+        return dic
+
+    @staticmethod
+    def interpolate(raw_data, channels):
+        """
+        Interpolate chanel in-place
+        :param raw_data: raw, a raw object
+        :param channels: str, name of the channel
+        :return: None
+        """
+        raw_data.info['bads'].append(channels)
+        raw_data.interpolate_bads()
 
 if __name__ == "__main__":
     pass
