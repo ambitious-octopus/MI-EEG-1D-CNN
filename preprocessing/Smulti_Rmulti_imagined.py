@@ -10,7 +10,7 @@ dir_imagined = os.path.join(preprocessing, "imagined")
 dir_psd_icas, dir_dis, dir_psd, dir_pre_psd, dir_post_psd, dir_icas, dir_report, dir_templates, dir_psd_topo_map = Pirates.setup_folders(dir_imagined)  # setuppo le cartelle
 
 temp = [1]
-chort = np.arange(2,110).tolist()
+chort = np.arange(2, 110).tolist()
 sub = temp + chort
 
 # Ricordarsi di far passare il template come prima
@@ -22,10 +22,9 @@ raws_clean = Pirates.del_annotations(raws_filtered)  # Elimino annotazioni
 Pirates.plot_pre_psd(raws_clean, dir_pre_psd, overwrite=True)
 #icas = Pirates.ica_function(raws_clean, dir_icas, save=True, overwrite=True)  # Applico una ica
 icas = Pirates.load_saved_icas(dir_icas, 1, 109)
-list_psd = Pirates.get_ica_psd(raws_clean, icas, dir_psd_icas)
-
+#list_psd = Pirates.get_ica_psd(raws_clean, icas, dir_psd_icas)
 path_exclusions = os.path.join(dir_imagined, "_exclusions.npy")
-Pirates.load_exclusion(icas, path_exclusions)
+Pirates.load_exclusion(icas, "new_exclusion.npy")
 
 #Selecting components
 eye = [5, 0]
@@ -33,14 +32,23 @@ mov = [33]
 nb = [21, 40, 44, 48]
 comp_template = eye + mov + nb
 
-corr = Pirates.corr_map(icas, 0, comp_template, dir_templates, "artifact", threshold=0.80)
+Pirates.select_components(icas, raws_clean, "artifact")
+
+#corr = Pirates.corr_map(icas, 0, comp_template, dir_templates, "artifact", threshold=0.80)
 reco_raws = Pirates.reconstruct_raws(icas, raws_clean, "artifact")
+#Interpolation
+Pirates.interpolate(reco_raws[3], "FT8")
+Pirates.interpolate(reco_raws[8], "AF7")
+Pirates.interpolate(reco_raws[8], "AF8")
+Pirates.interpolate(reco_raws[20], "C5")
+Pirates.interpolate(reco_raws[47], "C1")
+Pirates.interpolate(reco_raws[78], "P1")
+Pirates.interpolate(reco_raws[84], "O1")
+
+#reco_raws[84].plot_psd(area_mode=None, show=False, average=False, ax=plt.axes(ylim=(0, 30)),fmin=1.0, fmax=64.0, dB=False, n_fft=160)
+
+
 Pirates.psd_topo_map(icas, raws_clean, "artifact", "models")
 Pirates.plot_post_psd(reco_raws, dir_post_psd, overwrite=True)
 Pirates.discrepancy(raws_clean, reco_raws, dir_dis)
 Pirates.create_report_psd(dir_pre_psd, dir_post_psd, dir_dis, dir_report)
-
-
-
-
-

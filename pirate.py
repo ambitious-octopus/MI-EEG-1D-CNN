@@ -457,7 +457,16 @@ class Pirates:
         return icas
 
     @staticmethod
-    def discrepancy(raws, clean_raws, dir_discrepancy):
+    def discrepancy(raws, clean_raws, dir_discrepancy, return_raw=False):
+        """
+        Calculate and plot discrepacy
+        :param raws: list, of raws objects
+        :param clean_raws: list, of raws objects
+        :param dir_discrepancy: str, directory to save the plot of the discrepacy
+        :param return_raw: bool
+        :return: if return_raw return a lst of raw with the discrepacy
+        """
+        lst = list()
         for raw, c_raw in zip(list(raws), list(clean_raws)):
             dis = np.subtract(raw._data, c_raw._data)
             raw_cop = raw.copy()
@@ -471,10 +480,21 @@ class Pirates:
             psd_name = os.path.join(dir_discrepancy, raw_cop.__repr__()[10:14] + '.png')
             psd.savefig(psd_name)
             plt.close('all')
-        return None
+            if return_raw:
+                lst.append(raw_cop)
+        if return_raw:
+            return lst
 
     @staticmethod
     def psd_topo_map(icas, raws, label, dir_topo_psd):
+        """
+        Save an image composed by psd and topomap of all the icas component
+        :param icas: list of icas
+        :param raws: list, of raws
+        :param label: str, label to set as excluded
+        :param dir_topo_psd: str, directory to save
+        :return: None
+        """
         n_comp = np.arange(0, 64)
         subjs = list()
         paths_to_delete = []
@@ -549,6 +569,14 @@ class Pirates:
 
     @staticmethod
     def get_ica_psd(raws, icas, dir_icas_psd=None, return_figure=False):
+        """
+        Save the psd of the icas
+        :param raws: list, of raw objects
+        :param icas: list, of icas object
+        :param dir_icas_psd: str, directory to save
+        :param return_figure: bool, if return the figures or to save only
+        :return: if return_figure is True return a list of matplolib figures
+        """
         psdl = list()
         for raw, ica in zip(raws, icas):
             inst = make_fixed_length_epochs(raw.copy(), duration=2., verbose=False, preload=True)
@@ -573,6 +601,13 @@ class Pirates:
 
     @staticmethod
     def select_components(icas, raws, label):
+        """
+        Activate an interactive shell to exclude or remove components
+        :param icas: list, of icas onjects
+        :param raws: list, of raws object
+        :param label: str, name of the label
+        :return: list, of icas labeled with exclusion
+        """
         if type(icas) == list and type(raws) == list:
             pass
         else:
@@ -654,6 +689,16 @@ class Pirates:
             subj["Subject: " + str(index + 1)] = subj.pop("artifact")
         return dic
 
+    @staticmethod
+    def interpolate(raw_data, channels):
+        """
+        Interpolate chanel in-place
+        :param raw_data: raw, a raw object
+        :param channels: str, name of the channel
+        :return: None
+        """
+        raw_data.info['bads'].append(channels)
+        raw_data.interpolate_bads()
 
 if __name__ == "__main__":
     pass
