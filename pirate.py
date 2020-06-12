@@ -588,8 +588,7 @@ class Pirates:
             comp_epocate = EpochsArray(data, info3)  # creo un EpochsArray con le epoche calcolate prima(data) e
             # la info structure creata prima
             psd = comp_epocate.plot_psd(dB=False, area_mode=None, average=False, ax=plt.axes(yticks=([]), title="Sub"),
-                                        fmin=1.0, fmax=80.0,
-                                        picks="all", spatial_colors=False, show=False)
+                                        fmin=1.0, fmax=80.0, picks="all", spatial_colors=False, show=False)
             psdl.append(psd)
 
             if dir_icas_psd is not None:
