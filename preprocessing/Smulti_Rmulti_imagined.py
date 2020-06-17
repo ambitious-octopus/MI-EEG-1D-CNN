@@ -74,9 +74,32 @@ Pirates.interpolate(reco_raws[108], "F6")
 
 
 #reco_raws[0].save(os.path.join(cwd, reco_raws[0].__repr__()[10:14] + "_raw_sss.fif"), overwrite=True)
-#raw = mne.io.read_raw_fif(os.path.join(cwd, reco_raws[0].__repr__()[10:14] + "_raw_sss.fif"))
+raw = mne.io.read_raw_fif(os.path.join(cwd, "S001" + "_raw_sss.fif"))
+events, _ = mne.events_from_annotations(raw, event_id=dict(T0=1, T1=2, T2=3))
+picks = mne.pick_channels(raw.info["ch_names"], ["C3", "C4"])
+# epoch data ##################################################################
+tmin, tmax = 0, 3  # define epochs around events (in s)
+event_ids = dict(base=1, left=2, right=3)  # map event IDs to tasks
+epochs = mne.Epochs(raw, events, event_ids, tmin, tmax, picks=picks, baseline=None, preload=True)
 
+import matplotlib.pyplot as plt
+epochs[0].plot_psd(tmin=-3,tmax=0,dB=False, ax=plt.axes(ylim=(0, 250)))
+epochs[0].plot_psd(tmin=0, tmax=3, dB=False, ax=plt.axes(ylim=(0, 250)))
 
+epochs['base'].plot_psd(tmin=0,tmax=3, dB=False, ax=plt.axes(ylim=(0, 250)), spatial_colors=False,color="b")
+epochs['left'].plot_psd(tmin=0,tmax=3, dB=False, ax=plt.axes(ylim=(0, 250)), spatial_colors=False, color="r")
 
+a_base = epochs['base'].average()
+a_right = epochs['right'].average()
+a_left = epochs['left'].average()
 
+psds, freqs = mne.time_frequency.psd_multitaper(a_base)
 
+map = []
+for elem in freqs:
+    if elem < 8 or elem > 13:
+        map.append(False)
+    else:
+        map.append(True)
+
+c3 = psds[0][map]
