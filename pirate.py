@@ -712,6 +712,12 @@ class Pirates:
             file.append(ica.labels_)
         np.save(file_name + ".npy", file)
 
+    @staticmethod
+    def save_fif(raws, dir_to_save):
+        for raw in raws:
+            name = raw.__repr__()[10:14]
+            raw.save(os.path.join(dir_to_save, name + ".fif"), overwrite=True)
+
 
 
 if __name__ == "__main__":
