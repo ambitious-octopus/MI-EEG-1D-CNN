@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d006e634-978a-4734-b83e-f8ac35d0d0f5" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/Smulti_Rmulti_imagined.py" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/Smulti_Rmulti_imagined.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S079.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/report_psd/S079.png" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
+  <component name="JupyterTrust" id="eefe9338-5745-4b06-a51b-de9ff4edddc3" />
+  <component name="ProjectId" id="1ZFX7VkozZKfa7kmpQEoZ2QEtPw" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../PROTON-T" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.project" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\User\OneDrive\Repository\eeGNN\preprocessing" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.pirate">
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="eeGNN" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="motor_imagery" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="eeGNN" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/motor_imagery.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pirate" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="eeGNN" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pirate.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.pirate" />
+        <item itemvalue="Python.motor_imagery" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d006e634-978a-4734-b83e-f8ac35d0d0f5" name="Default Changelist" comment="" />
+      <created>1584435648736</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1584435648736</updated>
+      <workItem from="1584435656984" duration="711000" />
+      <workItem from="1584436378972" duration="486000" />
+      <workItem from="1584436874189" duration="4050000" />
+      <workItem from="1584455601403" duration="2639000" />
+      <workItem from="1584460501652" duration="637000" />
+      <workItem from="1584461202856" duration="2306000" />
+      <workItem from="1584516670716" duration="761000" />
+      <workItem from="1584517441610" duration="541000" />
+      <workItem from="1584517992389" duration="37000" />
+      <workItem from="1584518037895" duration="6797000" />
+      <workItem from="1584528726357" duration="125000" />
+      <workItem from="1584529340367" duration="2059000" />
+      <workItem from="1584538358450" duration="9289000" />
+      <workItem from="1584553796148" duration="599000" />
+      <workItem from="1584605383113" duration="2090000" />
+      <workItem from="1584710294765" duration="2000" />
+      <workItem from="1584800991350" duration="8065000" />
+      <workItem from="1584814918123" duration="319000" />
+      <workItem from="1584815250261" duration="52000" />
+      <workItem from="1584869114844" duration="4732000" />
+      <workItem from="1584890493851" duration="394000" />
+      <workItem from="1584896722486" duration="186000" />
+      <workItem from="1584950927606" duration="23000" />
+      <workItem from="1584978658562" duration="357000" />
+      <workItem from="1584982411187" duration="200000" />
+      <workItem from="1584982620795" duration="2338000" />
+      <workItem from="1585000241164" duration="19000" />
+      <workItem from="1585142004330" duration="7264000" />
+      <workItem from="1585149879598" duration="478000" />
+      <workItem from="1585488909497" duration="6145000" />
+      <workItem from="1585500630189" duration="179000" />
+      <workItem from="1585568972933" duration="1097000" />
+      <workItem from="1585570111976" duration="4276000" />
+      <workItem from="1585636696488" duration="1000" />
+      <workItem from="1585636712662" duration="631000" />
+      <workItem from="1585649467807" duration="852000" />
+      <workItem from="1585661189535" duration="631000" />
+      <workItem from="1585744398156" duration="1438000" />
+      <workItem from="1585745851130" duration="3211000" />
+      <workItem from="1585755399513" duration="13000" />
+      <workItem from="1586349991855" duration="1910000" />
+      <workItem from="1586363094671" duration="7605000" />
+      <workItem from="1586445695065" duration="12000" />
+      <workItem from="1586599909333" duration="103000" />
+      <workItem from="1586787813862" duration="44000" />
+      <workItem from="1586877523538" duration="4750000" />
+      <workItem from="1586932129377" duration="2752000" />
+      <workItem from="1586935455560" duration="4987000" />
+      <workItem from="1586941935729" duration="10000" />
+      <workItem from="1586953828345" duration="9737000" />
+      <workItem from="1586964978864" duration="40000" />
+      <workItem from="1586965067777" duration="7953000" />
+      <workItem from="1587126506129" duration="599000" />
+      <workItem from="1587157228752" duration="15000" />
+      <workItem from="1587306730213" duration="6379000" />
+      <workItem from="1587477125202" duration="9733000" />
+      <workItem from="1587492377779" duration="1801000" />
+      <workItem from="1588856072657" duration="6032000" />
+      <workItem from="1588876700407" duration="859000" />
+      <workItem from="1588877656840" duration="1042000" />
+      <workItem from="1588925203261" duration="88000" />
+      <workItem from="1588925316132" duration="401000" />
+      <workItem from="1589007595743" duration="936000" />
+      <workItem from="1589028568212" duration="4884000" />
+      <workItem from="1589132269014" duration="3516000" />
+      <workItem from="1589136892883" duration="1512000" />
+      <workItem from="1589212964406" duration="27000" />
+      <workItem from="1589283482053" duration="11499000" />
+      <workItem from="1589297189655" duration="599000" />
+      <workItem from="1589307605193" duration="1765000" />
+      <workItem from="1589352792432" duration="1989000" />
+      <workItem from="1589369830111" duration="1672000" />
+      <workItem from="1589379411982" duration="3449000" />
+      <workItem from="1589386506726" duration="4409000" />
+      <workItem from="1589392608953" duration="234000" />
+      <workItem from="1589440447299" duration="10000" />
+      <workItem from="1589537344313" duration="225000" />
+      <workItem from="1589624935898" duration="599000" />
+      <workItem from="1590220024035" duration="6207000" />
+      <workItem from="1590240399897" duration="49000" />
+      <workItem from="1590240481977" duration="2385000" />
+      <workItem from="1590242940237" duration="729000" />
+      <workItem from="1590243680984" duration="2299000" />
+      <workItem from="1590245996090" duration="10691000" />
+      <workItem from="1590257753975" duration="504000" />
+      <workItem from="1590307566933" duration="663000" />
+      <workItem from="1590324463653" duration="10730000" />
+      <workItem from="1590355189030" duration="407000" />
+      <workItem from="1590396943882" duration="9000" />
+      <workItem from="1590424373474" duration="1248000" />
+      <workItem from="1590496306270" duration="37000" />
+      <workItem from="1590496464483" duration="15542000" />
+      <workItem from="1590561783446" duration="26209000" />
+      <workItem from="1590592508077" duration="9116000" />
+      <workItem from="1590654271924" duration="1442000" />
+      <workItem from="1590663316741" duration="3052000" />
+      <workItem from="1590670896741" duration="553000" />
+      <workItem from="1590672481149" duration="7997000" />
+      <workItem from="1590759230481" duration="3363000" />
+      <workItem from="1590827366519" duration="7162000" />
+      <workItem from="1590912447996" duration="5538000" />
+      <workItem from="1590940899687" duration="809000" />
+      <workItem from="1590941756120" duration="11031000" />
+      <workItem from="1590955357097" duration="810000" />
+      <workItem from="1590956337796" duration="1144000" />
+      <workItem from="1590995417521" duration="23254000" />
+      <workItem from="1591022334167" duration="1441000" />
+      <workItem from="1591108342713" duration="66000" />
+      <workItem from="1591109098651" duration="8833000" />
+      <workItem from="1591171091754" duration="4845000" />
+      <workItem from="1591186688608" duration="14931000" />
+      <workItem from="1591259446962" duration="37000" />
+      <workItem from="1591300045140" duration="127000" />
+      <workItem from="1591300182190" duration="3986000" />
+      <workItem from="1591340349154" duration="1298000" />
+      <workItem from="1591350233408" duration="4953000" />
+      <workItem from="1591359713030" duration="4263000" />
+      <workItem from="1591364603094" duration="690000" />
+      <workItem from="1591429087253" duration="6078000" />
+      <workItem from="1591437558456" duration="3000" />
+      <workItem from="1591457086445" duration="225000" />
+      <workItem from="1591457325229" duration="571000" />
+      <workItem from="1591457915354" duration="2783000" />
+      <workItem from="1591486743146" duration="5912000" />
+      <workItem from="1591525923171" duration="3054000" />
+      <workItem from="1591535553713" duration="3012000" />
+      <workItem from="1591547231861" duration="70000" />
+      <workItem from="1591564218901" duration="2983000" />
+      <workItem from="1591567950965" duration="392000" />
+      <workItem from="1591606447290" duration="13421000" />
+      <workItem from="1591624417301" duration="235000" />
+      <workItem from="1591627048417" duration="829000" />
+      <workItem from="1591628056529" duration="3765000" />
+      <workItem from="1591633418979" duration="2204000" />
+      <workItem from="1591637826397" duration="875000" />
+      <workItem from="1591641735561" duration="8000" />
+      <workItem from="1591694960193" duration="2368000" />
+      <workItem from="1591702203013" duration="4599000" />
+      <workItem from="1591713462014" duration="948000" />
+      <workItem from="1591734181477" duration="106000" />
+      <workItem from="1591735644094" duration="853000" />
+      <workItem from="1591789126220" duration="3937000" />
+      <workItem from="1591807289992" duration="2383000" />
+      <workItem from="1591877408843" duration="83000" />
+      <workItem from="1591964208788" duration="197000" />
+      <workItem from="1591968218103" duration="110000" />
+      <workItem from="1591968639442" duration="77000" />
+      <workItem from="1591968953255" duration="271000" />
+      <workItem from="1591969339052" duration="18000" />
+      <workItem from="1591969374910" duration="34000" />
+      <workItem from="1591980747668" duration="109000" />
+      <workItem from="1591980905157" duration="740000" />
+      <workItem from="1591981809952" duration="2242000" />
+    </task>
+    <task id="LOCAL-00001" summary="Added FastICA">
+      <created>1584546011748</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1584546011749</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added FastICA" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added FastICA" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="395" y="95" key="#Inspections" timestamp="1590243561753">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="395" y="95" key="#Inspections/0.0.1536.834@0.0.1536.834" timestamp="1590243561753" />
+    <state x="654" y="61" width="228" height="493" key="#Notifications" timestamp="1591457933989">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="654" y="61" width="228" height="493" key="#Notifications/0.0.1536.834@0.0.1536.834" timestamp="1591457933989" />
+    <state x="871" y="277" key="#xdebugger.XInspectDialog" timestamp="1584518010127">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="871" y="277" key="#xdebugger.XInspectDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1584518010127" />
+    <state x="585" y="111" key="CommitChangelistDialog2" timestamp="1584546010835">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="585" y="111" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1584546010835" />
+    <state x="740" y="279" key="FileChooserDialogImpl" timestamp="1591969388070">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="740" y="279" key="FileChooserDialogImpl/0.0.1920.1050/1920.235.1366.738@0.0.1920.1050" timestamp="1591969388070" />
+    <state x="740" y="279" key="FileChooserDialogImpl/0.0.1920.1050@0.0.1920.1050" timestamp="1585573943640" />
+    <state x="418" y="74" key="SettingsEditor" timestamp="1591968714473">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="334" y="59" key="SettingsEditor/0.0.1536.834@0.0.1536.834" timestamp="1591522951314" />
+    <state x="418" y="74" key="SettingsEditor/0.0.1920.1050/1920.235.1366.738@0.0.1920.1050" timestamp="1591968714473" />
+    <state x="461" y="167" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1584872435620" />
+    <state x="591" y="293" key="cloudConfig.PluginsDialog" timestamp="1591457210696">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="591" y="293" key="cloudConfig.PluginsDialog/0.0.1536.834@0.0.1536.834" timestamp="1591457210696" />
+    <state x="739" y="369" key="cloudConfig.PluginsDialog/0.0.1920.1050/1920.235.1366.738@0.0.1920.1050" timestamp="1591429117279" />
+    <state x="640" y="261" key="cloudConfig.SelfSettingsDialog" timestamp="1591457198129">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="640" y="261" key="cloudConfig.SelfSettingsDialog/0.0.1536.834@0.0.1536.834" timestamp="1591457198129" />
+    <state x="465" y="241" key="com.intellij.ide.util.TipDialog" timestamp="1586599925398">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="465" y="241" key="com.intellij.ide.util.TipDialog/0.0.1536.834@0.0.1536.834" timestamp="1586599925398" />
+    <state x="1920" y="235" width="1382" height="732" maximized="true" key="dock-window-1" timestamp="1590499675442">
+      <screen x="1920" y="235" width="1366" height="738" />
+    </state>
+    <state x="1920" y="235" width="1382" height="732" maximized="true" key="dock-window-1/0.0.1920.1050/1920.235.1366.738@0.0.1920.1050" timestamp="1590499675442" />
+    <state x="431" y="155" width="672" height="678" key="search.everywhere.popup" timestamp="1591458200518">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="431" y="155" width="672" height="678" key="search.everywhere.popup/0.0.1536.834@0.0.1536.834" timestamp="1591458200518" />
+  </component>
+</project>

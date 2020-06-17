@@ -11,7 +11,7 @@ from mne.preprocessing import ICA
 tmin, tmax = -1., 4.
 event_id = dict(hands=2, feet=3)
 subject = 1
-runs = [2]
+runs = [1]
 #Scarico i dati e mi ritorna il path locale
 raw_fnames = eegbci.load_data(subject, runs)
 #Concateno le path e le metto in un unico file

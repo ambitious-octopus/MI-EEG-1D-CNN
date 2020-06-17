@@ -699,5 +699,26 @@ class Pirates:
         raw_data.info['bads'].append(channels)
         raw_data.interpolate_bads()
 
+    @staticmethod
+    def save_exclusion_file(icas, file_name):
+        """
+        Save a file with the exclusion
+        :param icas: list, of icas
+        :param name: str, path
+        :return: None
+        """
+        file = []
+        for ica in icas:
+            file.append(ica.labels_)
+        np.save(file_name + ".npy", file)
+
+    @staticmethod
+    def save_fif(raws, dir_to_save):
+        for raw in raws:
+            name = raw.__repr__()[10:14]
+            raw.save(os.path.join(dir_to_save, name + ".fif"), overwrite=True)
+
+
+
 if __name__ == "__main__":
     pass
