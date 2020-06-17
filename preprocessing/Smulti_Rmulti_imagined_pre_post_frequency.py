@@ -90,9 +90,31 @@ Pirates.interpolate(reco_raws[108], "F6")
 # 5. Same for left events
 # 6. Average of 8-13 Hz values?
 
+from mne import Raw.filter
 
-def freq_analysis():
+def freq_analysis(raws): #put reco_raws here 
+    
+    raw_alpha = []
+    
+    for raw in raws:
+        
+        raw.filter(l_freq = 8, h_freq = 13, picks = 'all')
+        
+        raw_alpha.append(raw)
+        
+    
+    Epochs(raw_alpha,tmin =)
     
     
+    
+    
+    
+    return raw_alpha
+
+
+        
+        
+        
+        
 
 
