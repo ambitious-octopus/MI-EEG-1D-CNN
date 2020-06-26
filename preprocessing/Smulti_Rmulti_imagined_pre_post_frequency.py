@@ -74,49 +74,47 @@ Pirates.interpolate(reco_raws[108], "F6")
 
 
 #reco_raws[0].save(os.path.join(cwd, reco_raws[0].__repr__()[10:14] + "_raw_sss.fif"), overwrite=True)
-raw = mne.io.read_raw_fif(os.path.join(cwd, "S001" + "_raw_sss.fif"))
-events, _ = mne.events_from_annotations(raw, event_id=dict(T0=1, T1=2, T2=3))
-picks = mne.pick_channels(raw.info["ch_names"], ["C3", "C4"])
-tmin, tmax = 0, 3
-event_ids = dict(base=1, left=2, right=3)
-epochs = mne.Epochs(raw, events, event_ids, tmin, tmax, picks=picks, baseline=None, preload=True)
+#raw = mne.io.read_raw_fif(os.path.join(cwd, reco_raws[0].__repr__()[10:14] + "_raw_sss.fif"))
 
-import matplotlib.pyplot as plt
-# epochs[0].plot_psd(tmin=-3,tmax=0,dB=False, ax=plt.axes(ylim=(0, 250)), color="black")
-# epochs[0].plot_psd(tmin=0, tmax=3, dB=False, ax=plt.axes(ylim=(0, 250)), color="r")
 
-epochs['base'].plot_psd(tmin=0,tmax=3, dB=False, ax=plt.axes(ylim=(0, 250)), spatial_colors=False,color="black")
-epochs['left'].plot_psd(tmin=0,tmax=3, dB=False, ax=plt.axes(ylim=(0, 250)), spatial_colors=False, color="r")
+#%% Pre and post peaks in freq domain
 
-epochs['base'].plot_psd(tmin=0,tmax=3, dB=False, ax=plt.axes(ylim=(0, 250)), spatial_colors=False,color="black")
-epochs['right'].plot_psd(tmin=0,tmax=3, dB=False, ax=plt.axes(ylim=(0, 250)), spatial_colors=False, color="r")
+#1. Filter data between 8 and 13 Hz
+#2. Epochs data
+#3. Divide by events
+#4. For right events -> 
+    # - get peaks in baseline
+    # - Average baseline peaks
+    # - get peaks in task
+    # - Average task peaks
+# 5. Same for left events
+# 6. Average of 8-13 Hz values?
 
-a_base = epochs['base'].average()
-a_right = epochs['right'].average()
-a_left = epochs['left'].average()
+from mne import Raw.filter
 
-psds, freqs = mne.time_frequency.psd_multitaper(a_base)
+def freq_analysis(raws): #put reco_raws here 
+    
+    raw_alpha = []
+    
+    for raw in raws:
+        
+        raw.filter(l_freq = 8, h_freq = 13, picks = 'all')
+        
+        raw_alpha.append(raw)
+        
+    
+    Epochs(raw_alpha,tmin =)
+    
+    
+    
+    
+    
+    return raw_alpha
 
-map = []
-for elem in freqs:
-    if elem < 8 or elem > 13:
-        map.append(False)
-    else:
-        map.append(True)
 
-c3 = max(psds[0][map])
-c4 = max(psds[1][map])
+        
+        
+        
+        
 
-#############################################################################
 
-#Grand Avarage
-raw = mne.io.read_raw_fif(os.path.join(cwd, "S001" + "_raw_sss.fif"))
-events, _ = mne.events_from_annotations(raw, event_id=dict( T1=2, T2=3))
-picks = mne.pick_channels(raw.info["ch_names"], ["C3", "C4"])
-tmin, tmax = - 3, 3
-event_ids = dict( left=2, right=3)
-epochs = mne.Epochs(raw, events, event_ids, tmin, tmax, picks=picks, baseline=None, preload=True)
-all_evokeds = [epochs['left'].average(),epochs['right'].average()]
-grand_average = mne.grand_average(all_evokeds)
-freqs = np.arange(1,80)
-mne.time_frequency.tfr_multitaper(grand_average, freqs=freqs, n_cycles=80, return_itc=False)
