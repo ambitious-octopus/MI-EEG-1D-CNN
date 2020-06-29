@@ -20,8 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d006e634-978a-4734-b83e-f8ac35d0d0f5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/preprocessing/imagined/tfr.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/Smulti_Rmulti_imagined.py" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/Smulti_Rmulti_imagined.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -324,6 +324,12 @@
       <workItem from="1592940802180" duration="627000" />
       <workItem from="1593162048377" duration="611000" />
       <workItem from="1593171664771" duration="10000" />
+      <workItem from="1593182255627" duration="4278000" />
+      <workItem from="1593254670049" duration="6041000" />
+      <workItem from="1593332613894" duration="2018000" />
+      <workItem from="1593416162738" duration="2248000" />
+      <workItem from="1593427543083" duration="711000" />
+      <workItem from="1593434290666" duration="1796000" />
     </task>
     <task id="LOCAL-00001" summary="Added FastICA">
       <created>1584546011748</created>
