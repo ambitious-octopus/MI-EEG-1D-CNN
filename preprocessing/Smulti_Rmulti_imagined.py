@@ -70,6 +70,7 @@ Pirates.interpolate(reco_raws[108], "F6")
 #Pirates.discrepancy(raws_clean, reco_raws, dir_dis)
 #Pirates.create_report_psd(dir_pre_psd, dir_post_psd, dir_dis, dir_report)
 
+Pirates.save_fif(reco_raws, os.getcwd())
 
 
 
