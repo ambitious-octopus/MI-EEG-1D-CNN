@@ -20,11 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d006e634-978a-4734-b83e-f8ac35d0d0f5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/models/net.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/S001_raw_sss.fif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/Smulti_Rmulti_imagined.py" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/Smulti_Rmulti_imagined.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/preprocessing/imagined/tfr.py" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/tfr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.jpg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +62,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../PROTON-OC" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.project" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -367,7 +365,21 @@
       <workItem from="1593762102722" duration="68000" />
       <workItem from="1593870940770" duration="8478000" />
       <workItem from="1594301360251" duration="2607000" />
-      <workItem from="1594381621347" duration="3648000" />
+      <workItem from="1594381621347" duration="3844000" />
+      <workItem from="1594391657805" duration="12000" />
+      <workItem from="1594398676089" duration="1861000" />
+      <workItem from="1594402489255" duration="979000" />
+      <workItem from="1594454006386" duration="1003000" />
+      <workItem from="1594456804990" duration="1175000" />
+      <workItem from="1594460275663" duration="698000" />
+      <workItem from="1594461527001" duration="11000" />
+      <workItem from="1594467907965" duration="24000" />
+      <workItem from="1594474197087" duration="1451000" />
+      <workItem from="1594555267629" duration="358000" />
+      <workItem from="1594646461622" duration="74000" />
+      <workItem from="1594646921433" duration="1727000" />
+      <workItem from="1594654194948" duration="5266000" />
+      <workItem from="1594675040905" duration="3000" />
     </task>
     <task id="LOCAL-00001" summary="Added FastICA">
       <created>1584546011748</created>
@@ -411,29 +423,19 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="706" y="326" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1050/1920.235.1366.738@0.0.1920.1050" timestamp="1592042175377" />
-    <state x="871" y="277" key="#xdebugger.XInspectDialog" timestamp="1584518010127">
-      <screen x="0" y="0" width="1920" height="1050" />
-    </state>
-    <state x="871" y="277" key="#xdebugger.XInspectDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1584518010127" />
-    <state x="585" y="111" key="CommitChangelistDialog2" timestamp="1584546010835">
-      <screen x="0" y="0" width="1920" height="1050" />
-    </state>
-    <state x="585" y="111" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1584546010835" />
     <state x="740" y="279" key="FileChooserDialogImpl" timestamp="1592037438586">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="740" y="279" key="FileChooserDialogImpl/0.0.1920.1050/1920.235.1366.738@0.0.1920.1050" timestamp="1592037438586" />
-    <state x="740" y="279" key="FileChooserDialogImpl/0.0.1920.1050@0.0.1920.1050" timestamp="1585573943640" />
     <state x="0" y="0" key="FileDocumentManager.FileCacheConflict" timestamp="1591982252076">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state x="0" y="0" key="FileDocumentManager.FileCacheConflict/0.0.1536.834@0.0.1536.834" timestamp="1591982252076" />
-    <state x="418" y="74" key="SettingsEditor" timestamp="1591968714473">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state x="166" y="79" key="SettingsEditor" timestamp="1594658103071">
+      <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state x="334" y="59" key="SettingsEditor/0.0.1536.834@0.0.1536.834" timestamp="1591522951314" />
+    <state x="166" y="79" key="SettingsEditor/0.0.1536.834@0.0.1536.834" timestamp="1594658103071" />
     <state x="418" y="74" key="SettingsEditor/0.0.1920.1050/1920.235.1366.738@0.0.1920.1050" timestamp="1591968714473" />
-    <state x="461" y="167" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1584872435620" />
     <state x="591" y="293" key="cloudConfig.PluginsDialog" timestamp="1591457210696">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
