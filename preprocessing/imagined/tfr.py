@@ -19,7 +19,7 @@ epochs = mne.Epochs(raw, events, event_ids, tmin=tmin,tmax=tmax, picks=picks, ba
 freqs = np.arange(5,38,1)  # frequencies from 2-35Hz
 n_cycles = freqs # use constant t/f resolution
 #cmap = center_cmap(plt.cm.RdBu, vmin, vmax)  # zero maps to white
-e = epochs[10]
+e = epochs[89]
 # Run TF decomposition overall epochs
 tfr = mne.time_frequency.tfr_multitaper(e, freqs=freqs, n_cycles=n_cycles,
                      use_fft=True, return_itc=False, average=True,
@@ -41,13 +41,13 @@ for im in lst_path_img:
 
 new_imgs = []
 new_imgs_names = list()
-for im, pa in zip(imgs,lst_path_img):
+for im, path in zip(imgs, lst_path_img):
     w, h = im.size
     border = (81, 59, 163, 53)
     new = ImageOps.crop(im, border)
     new_imgs.append(new)
-    new.save(pa[-6:])
-    new_imgs_names.append(pa[-6:-4])
+    new.save(path[-6:])
+    new_imgs_names.append(path[-6:-4])
 
 len_big_image = int(len(new_imgs) / 2)
 width, height = new_imgs[0].size
@@ -59,7 +59,9 @@ a1 = (0,0)
 a2 = (new_imgs[0].size[0], 0)
 a3 = (0, new_imgs[0].size[1])
 a4 = (new_imgs[0].size[0], new_imgs[0].size[1])
-position = [a1,a2,a3,a4]
+position = [a1,a3,a2,a4]
+
+
 for im, pos in zip(new_imgs, position):
     mixed.paste(im, pos)
 

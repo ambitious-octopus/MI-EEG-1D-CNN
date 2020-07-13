@@ -1,8 +1,9 @@
 import numpy as np
 import sys
 import matplotlib.pyplot as plt
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageOps
 from matplotlib import axes, image
+import mne
 from mne.datasets import eegbci
 from mne import Epochs, pick_types, events_from_annotations, make_ad_hoc_cov, compute_raw_covariance
 from mne.simulation import add_noise
@@ -719,6 +720,87 @@ class Pirates:
             raw.save(os.path.join(dir_to_save, name + ".fif"), overwrite=True)
 
 
+    @staticmethod
+
+    def image_generation (list_of_raws, dir_tfr_imagined):
+
+
+
+        ch = ["C1", "C2", "C3", "C4"]
+
+        for raw in list_of_raws:
+            events, _ = mne.events_from_annotations(raw, event_id=dict(T0=1, T1=2, T2=3))
+            picks = mne.pick_channels(raw.info["ch_names"], ch)
+            tmin, tmax = 0, 3
+            event_ids = dict(base=1, left=2, right=3)
+            epochs = mne.Epochs(raw, events, event_ids, tmin=tmin, tmax=tmax, picks=picks, baseline=None, preload=True)
+
+            freqs = np.arange(5, 38, 1)  # frequencies from 2-35Hz
+            n_cycles = freqs  # use constant t/f resolution
+
+            # Run TF decomposition overall epochs
+            for e in epochs:
+
+                tfr = mne.time_frequency.tfr_multitaper(e, freqs=freqs, n_cycles=n_cycles,
+                                                        use_fft=True, return_itc=False, average=True,
+                                                        decim=1)
+                lst_path_img = list()
+
+                for channel in ch:
+                    a = tfr.plot([channel], cmap="jet", vmin=0, vmax=0.000000009, colorbar=True)
+                    a.savefig(dir_tfr_imagined + str(channel) + ".jpg")
+                    lst_path_img.append(os.path.join(dir_tfr_imagined, str(channel) + ".jpg"))
+                    plt.close("all")
+
+                    imgs = []
+                    for im in lst_path_img:
+                        img = Image.open(im)
+                        imgs.append(img)
+
+                    new_imgs = []
+                    new_imgs_names = list()
+                    for im, path in zip(imgs, lst_path_img):
+
+                        border = (81, 59, 163, 53)
+                        new = ImageOps.crop(im, border)
+                        new_imgs.append(new)
+                        new.save(path)
+                        new_imgs_names.append(path)
+
+                len_big_image = int(len(new_imgs) / 2)
+                width, height = new_imgs[0].size
+                real_width = width * len_big_image
+                real_height = height * len_big_image
+                mixed = Image.new('RGB', (real_width, real_height))
+
+
+                c1 = (0, 0)
+                c2 = (new_imgs[0].size[0], 0)
+                c3 = (0, new_imgs[0].size[1])
+                c4 = (new_imgs[0].size[0], new_imgs[0].size[1])
+                position = [c1, c2, c3, c4]
+
+                channel_dict = {c1: "1", c2: "2", c3: "3", c4:"4" }
+                channel_list = []
+
+                for index, pos in enumerate(position):
+                    channel_list.append(channel_dict.pop(position[index]))
+                    channel_str = ''.join(channel_list)
+
+
+                for im, pos in zip(new_imgs, position):
+                    mixed.paste(im, pos)
+
+                img_path = os.path.join(dir_tfr_imagined, raw._filenames[0][-8:-4] + "_i_"+ "e"+ str(e.selection[0]) + "C" + channel_str + "_" + e.event_id.__str__()[2])
+                mixed.save(img_path)
+
+        pass
+
+
+#S49_i_e2_C1234_sx
+
 
 if __name__ == "__main__":
     pass
+
+
