@@ -20,16 +20,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d006e634-978a-4734-b83e-f8ac35d0d0f5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/eeGNN.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/eeGNN.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/C1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/C1.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/C2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/C2.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/C3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/C3.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/C4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/C4.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/C2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/C3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/C4.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pirate.py" beforeDir="false" afterPath="$PROJECT_DIR$/pirate.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/preprocessing/imagined/tfr.py" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/tfr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prova.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/prova.jpg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +67,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -444,20 +442,56 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="706" y="326" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1050/1920.235.1366.738@0.0.1920.1050" timestamp="1592042175377" />
-    <state x="629" y="244" key="FileChooserDialogImpl" timestamp="1594660910985">
+    <state width="517" height="466" key="DebuggerActiveHint" timestamp="1594674842679">
       <screen x="0" y="0" width="1631" height="918" />
     </state>
-    <state x="629" y="244" key="FileChooserDialogImpl/0.0.1631.918@0.0.1631.918" timestamp="1594660910985" />
+    <state width="517" height="466" key="DebuggerActiveHint/0.0.1631.918@0.0.1631.918" timestamp="1594674842679" />
+    <state x="629" y="244" key="FileChooserDialogImpl" timestamp="1594672739739">
+      <screen x="0" y="0" width="1631" height="918" />
+    </state>
+    <state x="629" y="244" key="FileChooserDialogImpl/0.0.1631.918@0.0.1631.918" timestamp="1594672739739" />
     <state x="740" y="279" key="FileChooserDialogImpl/0.0.1920.1050/1920.235.1366.738@0.0.1920.1050" timestamp="1592037438586" />
     <state x="0" y="0" key="FileDocumentManager.FileCacheConflict" timestamp="1591982252076">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state x="0" y="0" key="FileDocumentManager.FileCacheConflict/0.0.1536.834@0.0.1536.834" timestamp="1591982252076" />
-    <state x="355" y="65" key="SettingsEditor" timestamp="1594660753469">
+    <state width="1593" height="247" key="GridCell.Tab.0.bottom" timestamp="1594674694759">
+      <screen x="0" y="0" width="1631" height="918" />
+    </state>
+    <state width="1593" height="247" key="GridCell.Tab.0.bottom/0.0.1631.918@0.0.1631.918" timestamp="1594674694759" />
+    <state width="1593" height="247" key="GridCell.Tab.0.center" timestamp="1594674694759">
+      <screen x="0" y="0" width="1631" height="918" />
+    </state>
+    <state width="1593" height="247" key="GridCell.Tab.0.center/0.0.1631.918@0.0.1631.918" timestamp="1594674694759" />
+    <state width="1593" height="247" key="GridCell.Tab.0.left" timestamp="1594674694758">
+      <screen x="0" y="0" width="1631" height="918" />
+    </state>
+    <state width="1593" height="247" key="GridCell.Tab.0.left/0.0.1631.918@0.0.1631.918" timestamp="1594674694758" />
+    <state width="1593" height="247" key="GridCell.Tab.0.right" timestamp="1594674694759">
+      <screen x="0" y="0" width="1631" height="918" />
+    </state>
+    <state width="1593" height="247" key="GridCell.Tab.0.right/0.0.1631.918@0.0.1631.918" timestamp="1594674694759" />
+    <state width="1593" height="247" key="GridCell.Tab.1.bottom" timestamp="1594674694760">
+      <screen x="0" y="0" width="1631" height="918" />
+    </state>
+    <state width="1593" height="247" key="GridCell.Tab.1.bottom/0.0.1631.918@0.0.1631.918" timestamp="1594674694760" />
+    <state width="1593" height="247" key="GridCell.Tab.1.center" timestamp="1594674694760">
+      <screen x="0" y="0" width="1631" height="918" />
+    </state>
+    <state width="1593" height="247" key="GridCell.Tab.1.center/0.0.1631.918@0.0.1631.918" timestamp="1594674694760" />
+    <state width="1593" height="247" key="GridCell.Tab.1.left" timestamp="1594674694759">
+      <screen x="0" y="0" width="1631" height="918" />
+    </state>
+    <state width="1593" height="247" key="GridCell.Tab.1.left/0.0.1631.918@0.0.1631.918" timestamp="1594674694759" />
+    <state width="1593" height="247" key="GridCell.Tab.1.right" timestamp="1594674694760">
+      <screen x="0" y="0" width="1631" height="918" />
+    </state>
+    <state width="1593" height="247" key="GridCell.Tab.1.right/0.0.1631.918@0.0.1631.918" timestamp="1594674694760" />
+    <state x="355" y="65" key="SettingsEditor" timestamp="1594672498582">
       <screen x="0" y="0" width="1631" height="918" />
     </state>
     <state x="334" y="59" key="SettingsEditor/0.0.1536.834@0.0.1536.834" timestamp="1591522951314" />
-    <state x="355" y="65" key="SettingsEditor/0.0.1631.918@0.0.1631.918" timestamp="1594660753469" />
+    <state x="355" y="65" key="SettingsEditor/0.0.1631.918@0.0.1631.918" timestamp="1594672498582" />
     <state x="418" y="74" key="SettingsEditor/0.0.1920.1050/1920.235.1366.738@0.0.1920.1050" timestamp="1591968714473" />
     <state x="591" y="293" key="cloudConfig.PluginsDialog" timestamp="1591457210696">
       <screen x="0" y="0" width="1536" height="834" />
@@ -482,5 +516,16 @@
     </state>
     <state x="431" y="155" width="672" height="678" key="search.everywhere.popup/0.0.1536.834@0.0.1536.834" timestamp="1591458200518" />
     <state x="458" y="171" width="714" height="747" key="search.everywhere.popup/0.0.1631.918@0.0.1631.918" timestamp="1594665046951" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/pirate.py</url>
+          <line>750</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

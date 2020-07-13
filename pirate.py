@@ -724,6 +724,8 @@ class Pirates:
 
     def image_generation (list_of_raws, dir_tfr_imagined):
 
+      #  if type(list_of_raws) != list:
+          #  list(list_of_raws)
 
 
         ch = ["C1", "C2", "C3", "C4"]
@@ -739,33 +741,34 @@ class Pirates:
             n_cycles = freqs  # use constant t/f resolution
 
             # Run TF decomposition overall epochs
-            for e in epochs:
+            for index,e in enumerate(epochs):
 
-                tfr = mne.time_frequency.tfr_multitaper(e, freqs=freqs, n_cycles=n_cycles,
-                                                        use_fft=True, return_itc=False, average=True,
-                                                        decim=1)
+                tfr = mne.time_frequency.tfr_multitaper(epochs[index], freqs=freqs, n_cycles=n_cycles,use_fft=True, return_itc=False, average=True,decim=1)
                 lst_path_img = list()
 
                 for channel in ch:
                     a = tfr.plot([channel], cmap="jet", vmin=0, vmax=0.000000009, colorbar=True)
+                    plt.close("all")
                     a.savefig(dir_tfr_imagined + str(channel) + ".jpg")
                     lst_path_img.append(os.path.join(dir_tfr_imagined, str(channel) + ".jpg"))
                     plt.close("all")
+                    del a
 
-                    imgs = []
-                    for im in lst_path_img:
-                        img = Image.open(im)
-                        imgs.append(img)
+                imgs = []
+                for im in lst_path_img:
+                    img = Image.open(im)
+                    imgs.append(img)
 
-                    new_imgs = []
-                    new_imgs_names = list()
-                    for im, path in zip(imgs, lst_path_img):
+                new_imgs = []
+                new_imgs_names = list()
 
-                        border = (81, 59, 163, 53)
-                        new = ImageOps.crop(im, border)
-                        new_imgs.append(new)
-                        new.save(path)
-                        new_imgs_names.append(path)
+                for im, path in zip(imgs, lst_path_img):
+
+                    border = (81, 59, 163, 53)
+                    new = ImageOps.crop(im, border)
+                    new_imgs.append(new)
+                    new.save(path)
+                    new_imgs_names.append(path)
 
                 len_big_image = int(len(new_imgs) / 2)
                 width, height = new_imgs[0].size
@@ -791,7 +794,7 @@ class Pirates:
                 for im, pos in zip(new_imgs, position):
                     mixed.paste(im, pos)
 
-                img_path = os.path.join(dir_tfr_imagined, raw._filenames[0][-8:-4] + "_i_"+ "e"+ str(e.selection[0]) + "C" + channel_str + "_" + e.event_id.__str__()[2])
+                img_path = os.path.join(dir_tfr_imagined, raw._filenames[0][-8:-4] + "_i_"+ "e"+ str(epochs[index].selection[0]) + "C" + channel_str + "_" + epochs[index].event_id.__str__()[2]+".jpg")
                 mixed.save(img_path)
 
         pass
