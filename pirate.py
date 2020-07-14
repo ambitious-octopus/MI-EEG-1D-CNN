@@ -768,11 +768,46 @@ class Pirates:
                 for ind, pos in enumerate(position):
                     channel_list.append(channel_dict.pop(position[ind]))
                     channel_str = ''.join(channel_list)
+
+                final_im_list = []
+                img_path_list = []
                 for im, pos in zip(new_imgs, position):
-                    mixed.paste(im, pos)
+                    final_im = mixed.paste(im, pos)
+                    final_im_list.append(final_im)
                 img_path = os.path.join(dir_tfr_imagined, raw._filenames[0][-8:-4] + "_i_"+ "e"+ str(epochs[index].selection[0]) + "C" + channel_str + "_" + epochs[index].event_id.__str__()[2]+".jpg")
+                img_path_list.append(im)
                 mixed.save(img_path)
                 print(str(raw._filenames[0][-8:-4]) + "epoch: " + str(epochs[index].selection[0]))
+
+                return final_im_list,img_path_list
+
+
+    @staticmethod
+
+    def image_resize(img_path_list,image_resized_path):
+
+        """
+              Resize images from list of paths of previous images
+              :param img_path_list: list, of paths of previous images
+              :param imgage_resized_path: path to save resized images
+              :param name: list of path, path
+              :return: None
+              """
+        if img_path_list != list:
+            raise Exception
+
+
+        image_list_resized = []
+
+        for image in img_path_list:
+
+            im= Image.open(image)
+            image_resized = im.resize((32,32))
+            image_list_resized.append(image_resized)
+            image_resized.save(image_resized_path)
+
+        return image_list_resized
+
 
 
 
