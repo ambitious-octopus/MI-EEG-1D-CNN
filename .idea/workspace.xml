@@ -70,6 +70,28 @@
     </key>
   </component>
   <component name="RunManager" selected="Python.tfr">
+    <configuration name="Smulti_Rmulti_imagined" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="eeGNN" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/preprocessing" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/preprocessing/Smulti_Rmulti_imagined.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="eeGNN" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -144,7 +166,7 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/preprocessing/imagined" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
@@ -158,9 +180,16 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Python.motor_imagery" />
+      <item itemvalue="Python.pirate" />
+      <item itemvalue="Python.tfr" />
+      <item itemvalue="Python.Smulti_Rmulti_imagined" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.tfr" />
+        <item itemvalue="Python.Smulti_Rmulti_imagined" />
         <item itemvalue="Python.pirate" />
         <item itemvalue="Python.motor_imagery" />
       </list>
@@ -419,6 +448,10 @@
       <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state x="654" y="61" width="228" height="493" key="#Notifications/0.0.1536.834@0.0.1536.834" timestamp="1591457933989" />
+    <state x="368" y="93" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1594660921350">
+      <screen x="0" y="0" width="1631" height="918" />
+    </state>
+    <state x="368" y="93" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1631.918@0.0.1631.918" timestamp="1594660921350" />
     <state x="706" y="326" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1592042175377">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -445,17 +478,22 @@
       <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state x="640" y="261" key="cloudConfig.SelfSettingsDialog/0.0.1536.834@0.0.1536.834" timestamp="1591457198129" />
-    <state x="465" y="241" key="com.intellij.ide.util.TipDialog" timestamp="1586599925398">
-      <screen x="0" y="0" width="1536" height="834" />
+    <state x="494" y="265" key="com.intellij.ide.util.TipDialog" timestamp="1594468024542">
+      <screen x="0" y="0" width="1631" height="918" />
     </state>
     <state x="465" y="241" key="com.intellij.ide.util.TipDialog/0.0.1536.834@0.0.1536.834" timestamp="1586599925398" />
+    <state x="494" y="265" key="com.intellij.ide.util.TipDialog/0.0.1631.918@0.0.1631.918" timestamp="1594468024542" />
     <state x="1920" y="235" width="1382" height="732" maximized="true" key="dock-window-1" timestamp="1590499675442">
       <screen x="1920" y="235" width="1366" height="738" />
     </state>
     <state x="1920" y="235" width="1382" height="732" maximized="true" key="dock-window-1/0.0.1920.1050/1920.235.1366.738@0.0.1920.1050" timestamp="1590499675442" />
-    <state x="431" y="155" width="672" height="678" key="search.everywhere.popup" timestamp="1591458200518">
-      <screen x="0" y="0" width="1536" height="834" />
+    <state x="458" y="171" width="714" height="747" key="search.everywhere.popup" timestamp="1594665046951">
+      <screen x="0" y="0" width="1631" height="918" />
     </state>
     <state x="431" y="155" width="672" height="678" key="search.everywhere.popup/0.0.1536.834@0.0.1536.834" timestamp="1591458200518" />
+    <state x="458" y="171" width="714" height="747" key="search.everywhere.popup/0.0.1631.918@0.0.1631.918" timestamp="1594665046951" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/eeGNN$tfr.coverage" NAME="tfr Coverage Results" MODIFIED="1594675537406" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
