@@ -20,14 +20,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d006e634-978a-4734-b83e-f8ac35d0d0f5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/eeGNN.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/eeGNN.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/C1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/C1.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/condaenv.4f56oou7.requirements.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/C1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/C2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/C3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/C4.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pirate.py" beforeDir="false" afterPath="$PROJECT_DIR$/pirate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prova.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unknown-0.0-py37_0.tar.bz2" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +65,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -401,6 +399,7 @@
       <workItem from="1594301360251" duration="2607000" />
       <workItem from="1594381621347" duration="3648000" />
       <workItem from="1594675242502" duration="684000" />
+      <workItem from="1594710523690" duration="867000" />
     </task>
     <task id="LOCAL-00001" summary="Added FastICA">
       <created>1584546011748</created>
@@ -501,10 +500,10 @@
     </state>
     <state width="1493" height="265" key="GridCell.Tab.1.right/0.0.1536.834@0.0.1536.834" timestamp="1594675687086" />
     <state width="1593" height="247" key="GridCell.Tab.1.right/0.0.1631.918@0.0.1631.918" timestamp="1594674694760" />
-    <state x="355" y="65" key="SettingsEditor" timestamp="1594672498582">
-      <screen x="0" y="0" width="1631" height="918" />
+    <state x="334" y="59" key="SettingsEditor" timestamp="1594710583264">
+      <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state x="334" y="59" key="SettingsEditor/0.0.1536.834@0.0.1536.834" timestamp="1591522951314" />
+    <state x="334" y="59" key="SettingsEditor/0.0.1536.834@0.0.1536.834" timestamp="1594710583264" />
     <state x="355" y="65" key="SettingsEditor/0.0.1631.918@0.0.1631.918" timestamp="1594672498582" />
     <state x="418" y="74" key="SettingsEditor/0.0.1920.1050/1920.235.1366.738@0.0.1920.1050" timestamp="1591968714473" />
     <state x="591" y="293" key="cloudConfig.PluginsDialog" timestamp="1591457210696">
@@ -530,22 +529,6 @@
     </state>
     <state x="431" y="155" width="672" height="678" key="search.everywhere.popup/0.0.1536.834@0.0.1536.834" timestamp="1591458200518" />
     <state x="458" y="171" width="714" height="747" key="search.everywhere.popup/0.0.1631.918@0.0.1631.918" timestamp="1594665046951" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/pirate.py</url>
-          <line>751</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/pirate.py</url>
-          <line>753</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/eeGNN$tfr.coverage" NAME="tfr Coverage Results" MODIFIED="1594675537406" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
