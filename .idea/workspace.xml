@@ -20,14 +20,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d006e634-978a-4734-b83e-f8ac35d0d0f5" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/eeGNN.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/eeGNN.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/C1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/C1.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/C2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/C3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/C4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/condaenv.4f56oou7.requirements.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pirate.py" beforeDir="false" afterPath="$PROJECT_DIR$/pirate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/tfr.py" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/tfr.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prova.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unknown-0.0-py37_0.tar.bz2" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,6 +79,9 @@
       <module name="eeGNN" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/preprocessing" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -164,6 +167,9 @@
       <module name="eeGNN" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -394,6 +400,7 @@
       <workItem from="1593870940770" duration="8478000" />
       <workItem from="1594301360251" duration="2607000" />
       <workItem from="1594381621347" duration="3648000" />
+      <workItem from="1594675242502" duration="684000" />
     </task>
     <task id="LOCAL-00001" summary="Added FastICA">
       <created>1584546011748</created>
@@ -413,13 +420,12 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added FastICA" />
@@ -455,37 +461,45 @@
       <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state x="0" y="0" key="FileDocumentManager.FileCacheConflict/0.0.1536.834@0.0.1536.834" timestamp="1591982252076" />
-    <state width="1593" height="247" key="GridCell.Tab.0.bottom" timestamp="1594674694759">
-      <screen x="0" y="0" width="1631" height="918" />
+    <state width="1493" height="265" key="GridCell.Tab.0.bottom" timestamp="1594675687085">
+      <screen x="0" y="0" width="1536" height="834" />
     </state>
+    <state width="1493" height="265" key="GridCell.Tab.0.bottom/0.0.1536.834@0.0.1536.834" timestamp="1594675687085" />
     <state width="1593" height="247" key="GridCell.Tab.0.bottom/0.0.1631.918@0.0.1631.918" timestamp="1594674694759" />
-    <state width="1593" height="247" key="GridCell.Tab.0.center" timestamp="1594674694759">
-      <screen x="0" y="0" width="1631" height="918" />
+    <state width="1493" height="265" key="GridCell.Tab.0.center" timestamp="1594675687085">
+      <screen x="0" y="0" width="1536" height="834" />
     </state>
+    <state width="1493" height="265" key="GridCell.Tab.0.center/0.0.1536.834@0.0.1536.834" timestamp="1594675687085" />
     <state width="1593" height="247" key="GridCell.Tab.0.center/0.0.1631.918@0.0.1631.918" timestamp="1594674694759" />
-    <state width="1593" height="247" key="GridCell.Tab.0.left" timestamp="1594674694758">
-      <screen x="0" y="0" width="1631" height="918" />
+    <state width="1493" height="265" key="GridCell.Tab.0.left" timestamp="1594675687084">
+      <screen x="0" y="0" width="1536" height="834" />
     </state>
+    <state width="1493" height="265" key="GridCell.Tab.0.left/0.0.1536.834@0.0.1536.834" timestamp="1594675687084" />
     <state width="1593" height="247" key="GridCell.Tab.0.left/0.0.1631.918@0.0.1631.918" timestamp="1594674694758" />
-    <state width="1593" height="247" key="GridCell.Tab.0.right" timestamp="1594674694759">
-      <screen x="0" y="0" width="1631" height="918" />
+    <state width="1493" height="265" key="GridCell.Tab.0.right" timestamp="1594675687085">
+      <screen x="0" y="0" width="1536" height="834" />
     </state>
+    <state width="1493" height="265" key="GridCell.Tab.0.right/0.0.1536.834@0.0.1536.834" timestamp="1594675687085" />
     <state width="1593" height="247" key="GridCell.Tab.0.right/0.0.1631.918@0.0.1631.918" timestamp="1594674694759" />
-    <state width="1593" height="247" key="GridCell.Tab.1.bottom" timestamp="1594674694760">
-      <screen x="0" y="0" width="1631" height="918" />
+    <state width="1493" height="265" key="GridCell.Tab.1.bottom" timestamp="1594675687087">
+      <screen x="0" y="0" width="1536" height="834" />
     </state>
+    <state width="1493" height="265" key="GridCell.Tab.1.bottom/0.0.1536.834@0.0.1536.834" timestamp="1594675687087" />
     <state width="1593" height="247" key="GridCell.Tab.1.bottom/0.0.1631.918@0.0.1631.918" timestamp="1594674694760" />
-    <state width="1593" height="247" key="GridCell.Tab.1.center" timestamp="1594674694760">
-      <screen x="0" y="0" width="1631" height="918" />
+    <state width="1493" height="265" key="GridCell.Tab.1.center" timestamp="1594675687085">
+      <screen x="0" y="0" width="1536" height="834" />
     </state>
+    <state width="1493" height="265" key="GridCell.Tab.1.center/0.0.1536.834@0.0.1536.834" timestamp="1594675687085" />
     <state width="1593" height="247" key="GridCell.Tab.1.center/0.0.1631.918@0.0.1631.918" timestamp="1594674694760" />
-    <state width="1593" height="247" key="GridCell.Tab.1.left" timestamp="1594674694759">
-      <screen x="0" y="0" width="1631" height="918" />
+    <state width="1493" height="265" key="GridCell.Tab.1.left" timestamp="1594675687085">
+      <screen x="0" y="0" width="1536" height="834" />
     </state>
+    <state width="1493" height="265" key="GridCell.Tab.1.left/0.0.1536.834@0.0.1536.834" timestamp="1594675687085" />
     <state width="1593" height="247" key="GridCell.Tab.1.left/0.0.1631.918@0.0.1631.918" timestamp="1594674694759" />
-    <state width="1593" height="247" key="GridCell.Tab.1.right" timestamp="1594674694760">
-      <screen x="0" y="0" width="1631" height="918" />
+    <state width="1493" height="265" key="GridCell.Tab.1.right" timestamp="1594675687086">
+      <screen x="0" y="0" width="1536" height="834" />
     </state>
+    <state width="1493" height="265" key="GridCell.Tab.1.right/0.0.1536.834@0.0.1536.834" timestamp="1594675687086" />
     <state width="1593" height="247" key="GridCell.Tab.1.right/0.0.1631.918@0.0.1631.918" timestamp="1594674694760" />
     <state x="355" y="65" key="SettingsEditor" timestamp="1594672498582">
       <screen x="0" y="0" width="1631" height="918" />
@@ -522,10 +536,18 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/pirate.py</url>
-          <line>750</line>
-          <option name="timeStamp" value="3" />
+          <line>751</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/pirate.py</url>
+          <line>753</line>
+          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/eeGNN$tfr.coverage" NAME="tfr Coverage Results" MODIFIED="1594675537406" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

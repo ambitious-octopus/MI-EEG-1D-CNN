@@ -742,17 +742,14 @@ class Pirates:
 
             # Run TF decomposition overall epochs
             for index,e in enumerate(epochs):
-
                 tfr = mne.time_frequency.tfr_multitaper(epochs[index], freqs=freqs, n_cycles=n_cycles,use_fft=True, return_itc=False, average=True,decim=1)
                 lst_path_img = list()
 
                 for channel in ch:
                     a = tfr.plot([channel], cmap="jet", vmin=0, vmax=0.000000009, colorbar=True)
-                    plt.close("all")
-                    a.savefig(dir_tfr_imagined + str(channel) + ".jpg")
+                    a.savefig(os.path.join(dir_tfr_imagined, str(channel) + ".jpg"))
                     lst_path_img.append(os.path.join(dir_tfr_imagined, str(channel) + ".jpg"))
-                    plt.close("all")
-                    del a
+                plt.close("all")
 
                 imgs = []
                 for im in lst_path_img:
