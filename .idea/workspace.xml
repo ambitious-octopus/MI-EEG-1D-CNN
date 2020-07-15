@@ -22,7 +22,6 @@
     <list default="true" id="d006e634-978a-4734-b83e-f8ac35d0d0f5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/net.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/net.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/tfr.py" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/tfr.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -412,6 +411,7 @@
       <workItem from="1594711543065" duration="883000" />
       <workItem from="1594743084657" duration="3567000" />
       <workItem from="1594796938897" duration="4000" />
+      <workItem from="1594823932834" duration="1327000" />
     </task>
     <task id="LOCAL-00001" summary="Added FastICA">
       <created>1584546011748</created>
