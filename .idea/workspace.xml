@@ -61,7 +61,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../PROTON-OC" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -139,9 +139,6 @@
       <module name="eeGNN" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -161,9 +158,6 @@
       <module name="eeGNN" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -188,8 +182,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.tfr" />
-        <item itemvalue="Python.Smulti_Rmulti_imagined" />
         <item itemvalue="Python.pirate" />
+        <item itemvalue="Python.Smulti_Rmulti_imagined" />
         <item itemvalue="Python.motor_imagery" />
       </list>
     </recent_temporary>
@@ -467,10 +461,11 @@
       <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state x="0" y="0" key="FileDocumentManager.FileCacheConflict/0.0.1536.834@0.0.1536.834" timestamp="1591982252076" />
-    <state x="166" y="79" key="SettingsEditor" timestamp="1594658103071">
-      <screen x="0" y="0" width="1536" height="834" />
+    <state x="176" y="87" key="SettingsEditor" timestamp="1594762951813">
+      <screen x="0" y="0" width="1631" height="918" />
     </state>
     <state x="166" y="79" key="SettingsEditor/0.0.1536.834@0.0.1536.834" timestamp="1594658103071" />
+    <state x="176" y="87" key="SettingsEditor/0.0.1631.918@0.0.1631.918" timestamp="1594762951813" />
     <state x="418" y="74" key="SettingsEditor/0.0.1920.1050/1920.235.1366.738@0.0.1920.1050" timestamp="1591968714473" />
     <state x="591" y="293" key="cloudConfig.PluginsDialog" timestamp="1591457210696">
       <screen x="0" y="0" width="1536" height="834" />
