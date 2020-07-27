@@ -35,8 +35,7 @@ im_save = out.save(path)
 
 img_path = os.path.join(cwd, "prova.jpg")
 mixed.save(img_path)
-# #todo: creare funzione che genera tutte le immagini le concatena e le salva con i nomi appropriati (S49_i_e2_C1C2C3C4_label)
-#
+
 # new = mixed.resize((int(np.floor(mixed.size[0]/2)), int(np.floor(mixed.size[1]/2))))
 # mixed_arr = np.array(new)
 #
