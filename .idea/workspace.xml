@@ -20,11 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d006e634-978a-4734-b83e-f8ac35d0d0f5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/preprocessing/grand_avarage.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/eeGNN.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/eeGNN.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/imagined/tfr.py" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/imagined/tfr.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/grand_avarage.py" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/grand_avarage.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -419,6 +416,10 @@
       <workItem from="1595432762330" duration="3928000" />
       <workItem from="1595487732297" duration="13000" />
       <workItem from="1595693539058" duration="149000" />
+      <workItem from="1595864747405" duration="1146000" />
+      <workItem from="1595921593709" duration="195000" />
+      <workItem from="1595923354539" duration="6219000" />
+      <workItem from="1596006667369" duration="1437000" />
     </task>
     <task id="LOCAL-00001" summary="Added FastICA">
       <created>1584546011748</created>
