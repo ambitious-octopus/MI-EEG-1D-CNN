@@ -5,11 +5,14 @@ import mne
 import matplotlib.pyplot as plt
 from PIL import Image
 import pandas as pd
+import csv
+
 
 
 cwd = os.getcwd()
-p_path = 'C:\\Users\\admin\\REPOSITORY E DATASETS\\' +'reco_raws'
+p_path = "C:\\Users\\User\\OneDrive\\Documenti\\reco_raws"
 #raw = mne.io.read_raw_fif(p_path + "S001.fif")
+save_fig_path = "C:\\Users\\User\\OneDrive\\Documenti\\deltas\\"
 
 #Caricare tutti i reco_raw
 #Epocare tutto
@@ -18,178 +21,200 @@ p_path = 'C:\\Users\\admin\\REPOSITORY E DATASETS\\' +'reco_raws'
 result = list()
 raws = list()
 
-
-
 for subdir, dirs, files in os.walk(p_path):
     for file in files:
         filepath = subdir + os.sep + file
         raw = mne.io.read_raw_fif(filepath,preload=True)
         raws.append(raw)
 
-raws_copy = raws[:1]
-list_di = []
-di_psd = dict()
+#%%
 
-for index,raw in enumerate(raws_copy):
-    di = dict()
-    di["S"] = index+1
-    ch = ["C3", "C4"]
-
-    d_ch = dict()
-    for channel in ch:
-        events, _ = mne.events_from_annotations(raw, event_id=dict(T0=1, T1=2, T2=3))
+ch = ["C3", "C4"]
+dic_3 = []
+dic_4 = []
+for channel in ch:
+    for raw in raws:
+        events, _ = mne.events_from_annotations(raw, event_id=dict(T1=2, T2=3))
         picks = mne.pick_channels(raw.info["ch_names"], [channel])
-        tmin, tmax = 0, 3
-        event_ids = dict(base=1, left=2, right=3)
+        tmin, tmax = -3, 3
+        event_ids = dict(left=2, right=3)
         epochs = mne.Epochs(raw, events, event_ids, tmin=tmin, tmax=tmax, picks=picks, baseline=None, preload=True)
-        # base_data = epochs["base"].average().data
-        # right_data = epochs["right"].average().data
-        # left_data = epochs["left"].average().data
+        for i in range(len(epochs)):
 
-        base_psd_dic = {'pxx_base': [], 'freqs_base': []}
+            base = epochs[i].plot_psd(dB=False, tmin=-3, tmax=0)
+            task = epochs[i].plot_psd(dB=False, tmin=0, tmax=3)
+            plt.close("all")
 
-        for e_b in epochs['base']:
+            freq_base = base.gca().lines[2].get_xdata()
+            amp_base = base.gca().lines[2].get_ydata()
+            freq_task = task.gca().lines[2].get_xdata()
+            amp_task = task.gca().lines[2].get_ydata()
 
-            e_b_1D = e_b[0]
-            pxx_base, freqs_base = plt.psd(e_b_1D, Fs=160)
-            base_psd_dic['pxx_base'].append(pxx_base)
-            base_psd_dic['freqs_base'].append(freqs_base)
+            # Trovo il picco alhpa nella baseline
+            base_freq_range = list()
+            base_amp_range = list()
+            result_base_freq = list()
+            result_base_amp = list()
+            result_task_amp = list()
 
-        right_psd_dic = {'pxx_right': [], 'freqs_right': []}
+            for f, a in zip(freq_base, amp_base):
+                if f >= 8 and f <= 13:
+                    base_freq_range.append(f)
+                    base_amp_range.append(a)
 
-        for e_r in epochs['right']:
-            e_r_1D = e_r[0]
-            pxx_right, freqs_right = plt.psd(e_r_1D, Fs=160)
-            right_psd_dic['pxx_right'].append(pxx_right)
-            right_psd_dic['freqs_right'].append(freqs_right)
+            for f, a in zip(base_freq_range, base_amp_range):
+                if a == max(base_amp_range):
+                    freq_pick = f
+                    amp_pick = a
 
-        left_psd_dic = {'pxx_left': [], 'freqs_left': []}
+            for f, a in zip(base_freq_range, base_amp_range):
+                if f >= freq_pick - 1.5 and f <= freq_pick + 1.5:
+                    result_base_freq.append(f)
+                    result_base_amp.append(a)
 
-        for e_l in epochs['left']:
+            for f, a in zip(freq_task, amp_task):
+                if f >= min(result_base_freq) and f <= max(result_base_freq):
+                    result_task_amp.append(a)
 
-            e_l_1D = e_l[0]
-            pxx_left, freqs_left = plt.psd(e_l_1D, Fs=160)
-            left_psd_dic['pxx_left'].append(pxx_left)
-            left_psd_dic['freqs_left'].append(freqs_left)
+            delta = np.mean(result_base_amp) - np.mean(result_task_amp)
 
-    # average dei psd
-
-        base_average_pxx = np.mean(base_psd_dic['pxx_base'], axis=0)
-        base_average_freqs = np.mean(base_psd_dic['freqs_base'], axis=0)
-        base_av_dic = {'pxx_base_av': base_average_pxx,'freqs_base_av':base_average_freqs}
-
-        right_average_pxx = np.mean(right_psd_dic['pxx_right'], axis=0)
-        right_average_freqs = np.mean(right_psd_dic['freqs_right'], axis=0)
-        right_av_dic = {'pxx_right_av':right_average_pxx,'freqs_right_av': right_average_freqs}
-
-        left_average_pxx= np.mean(left_psd_dic['pxx_left'], axis=0)
-        left_average_freqs= np.mean(left_psd_dic['freqs_left'], axis=0)
-        left_av_dic = {'pxx_left_av': left_average_pxx, 'freqs_left_av': left_average_freqs}
-
-
-
-        n_base_pxx = []
-        n_base_freqs= []
-
-        n_left_pxx = []
-        n_left_freqs = []
-
-        n_right_pxx = []
-        n_right_freqs = []
-
-        for p, f in zip(base_average_pxx, base_average_freqs):
-            if f >= 8 and f <= 13:
-                n_base_pxx.append(p)
-                n_base_freqs.append(f)
-        for p2, f2 in zip(left_average_pxx, left_average_freqs):
-            if f2 >= 8 and f2 <= 13:
-                n_left_pxx.append(p2)
-                n_left_freqs.append(f2)
-        for p3, f3 in zip(right_average_pxx, right_average_freqs):
-            if f3 >= 8 and f3 <= 13:
-                n_right_pxx.append(p3)
-                n_right_freqs.append(f3)
-
-#Tobecontinued
+            plt.plot(freq_base, amp_base, label="base")
+            plt.plot(freq_task, amp_task, label="task")
+            plt.title(raw.__repr__()[7:11] + " Channel: " + channel + " epoch: " + str(epochs[i]._name) + " \n Delta: " + str(delta))
+            plt.legend()
+            plt.xlabel("Frequency (Hz)")
+            plt.ylabel("Aplitude(µV/sqrt (Hz)")
+            plt.grid(True)
+            plt.axvspan(freq_pick - 1.5, freq_pick + 1.5, color='red', alpha=0.2)
+            #plt.annotate('pick', xy=(freq_pick, amp_pick), xytext=(20, max(amp_base - 50)), arrowprops=dict(arrowstyle="->"), )
+            plt.savefig(save_fig_path + raw.__repr__()[7:11] + "ch_" + channel + "epoch_" + str(i) + "_" + epochs[i]._name + ".png")
+            plt.close("all")
+            dic = {"S":raw.__repr__()[7:11], "n_epoch": i, "t_epoch": epochs[i]._name, "delta" : delta}
+            if channel == "C3":
+                dic_3.append(dic)
+            else:
+                dic_4.append(dic)
 
 
-        d_ch[channel] = {'n_base_pxx': list(n_base_pxx) ,'n_base_freqs': list(n_base_freqs),'n_left_pxx': list(n_left_pxx),'n_left_freqs':list(n_left_freqs),'n_right_pxx': list(n_right_pxx),'n_right_freqs': list(n_right_freqs)}
-        #di_inlist = {'Soggetto': raw.__repr__()[7:11], 'Canale': channel,'n_base_pxx': list(n_base_pxx) ,'n_base_freqs': list(n_base_freqs),'n_left_pxx': list(n_left_pxx),'n_left_freqs':list(n_left_freqs),'n_right_pxx': list(n_right_pxx),'n_right_freqs': list(n_right_freqs)}
-        #list_di.append(di_inlist)
-
-    di_psd[raw.__repr__()[7:11]] = d_ch
-
-    #     di[channel+"base-" + channel+"left"] = n_base_pxx[0]-n_left_pxx[0]
-    #     di[channel + "base-" + channel + "right"] = n_base_pxx[0]- n_right_pxx[0]
-    # result.append(di)
-
-df = pd.DataFrame(list_di)
-df.to_csv('Df_psd_all_subj.csv')
-
-import csv
-csv_columns = ['S', 'C3base-C3left', 'C3base-C3right','C4base-C4left','C4base-C4right']
-csv_file = "deltas.csv"
+csv_columns = ["S","n_epoch","t_epoch","delta"]
+csv_file = "C3_deltas.csv"
 try:
     with open(csv_file, 'w') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
         writer.writeheader()
-        for data in result:
+        for data in dic_3:
             writer.writerow(data)
 except IOError:
     print("I/O error")
 
-epochs["base"].plot_psd(dB=False)
-epochs["left"].plot_psd(dB=False)
-
-# psds,freqs = mne.time_frequency.psd_array_multitaper(base.data[0],160)
-# plt.plot(freqs,psds)
-# psds,freqs = mne.time_frequency.psd_array_multitaper(left.data[0],160)
-# plt.plot(freqs,psds)
-# plt.show()
+csv_file = "C4_deltas.csv"
+try:
+    with open(csv_file, 'w') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
+        writer.writeheader()
+        for data in dic_4:
+            writer.writerow(data)
+except IOError:
+    print("I/O error")
 
 #%%
-from pirate import Pirates
-import os
+import pandas as pd
+import numpy as np
+import csv
+
+c4 = pd.read_csv("C4_deltas.csv")
+c3 = pd.read_csv("C3_deltas.csv")
+
+c4_delta = list()
+c3_delta = list()
+for a in np.unique(c4.S):
+    subj = c4[c4.S == a]
+    subj_right = np.mean(subj[c4.t_epoch == "right"].delta)
+    subj_left = np.mean(subj[c4.t_epoch == "left"].delta)
+    di = {"S":a, "right": subj_right, "left": subj_left}
+    c4_delta.append(di)
+
+for a in np.unique(c3.S):
+    subj = c3[c3.S == a]
+    subj_right = np.mean(subj[c3.t_epoch == "right"].delta)
+    subj_left = np.mean(subj[c3.t_epoch == "left"].delta)
+    di = {"S":a, "right": subj_right, "left": subj_left}
+    c3_delta.append(di)
+
+csv_columns = ["S","right","left"]
+
+csv_file = "C4_deltas_mean_sub.csv"
+try:
+    with open(csv_file, 'w') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
+        writer.writeheader()
+        for data in c4_delta:
+            writer.writerow(data)
+except IOError:
+    print("I/O error")
+
+csv_file = "C3_deltas_mean_sub.csv"
+try:
+    with open(csv_file, 'w') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
+        writer.writeheader()
+        for data in c3_delta:
+            writer.writerow(data)
+except IOError:
+    print("I/O error")
+
+#%%
+import pandas as pd
+import matplotlib.pyplot as plt
 import numpy as np
 import mne
+
+c4 = pd.read_csv("C4_deltas_mean_sub.csv")
+c3 = pd.read_csv("C3_deltas_mean_sub.csv")
+
+c4_right_mean = np.mean(c4.right)
+c4_left_mean = np.mean(c4.left)
+c3_right_mean = np.mean(c3.right)
+c3_left_mean = np.mean(c3.right)
+means = [c4_right_mean, c4_left_mean, c3_right_mean, c3_left_mean]
+
+c4_right_std = np.std(c4.right)
+c4_left_std = np.std(c4.left)
+c3_right_std = np.std(c3.right)
+c3_left_std = np.std(c3.right)
+stds = [c4_right_std, c4_left_std, c3_right_std, c3_left_std]
+
+labels = ["C4_right", "C4_left", "C3_right", "C3_left"]
+x = np.arange(len(labels))  # the label locations
+
+# Build the plot
+fig, ax = plt.subplots()
+ax.bar(x, means, yerr=stds, align='center', alpha=0.5, ecolor='black', capsize=10)
+ax.set_ylabel('(base-task)')
+ax.set_xticks(x)
+ax.set_xticklabels(labels)
+ax.set_title('')
+ax.yaxis.grid(True)
+
+# Save the figure and show
+plt.tight_layout()
+plt.savefig('bar_plot.png')
+plt.show()
+
+
+#%%
+#single df
+import pandas as pd
 import matplotlib.pyplot as plt
-from PIL import Image
+import numpy as np
+import mne
 
-cwd = os.getcwd()
-p_path = "C:\\Users\\User\\OneDrive\\Documenti\\reco_raws"
+c4 = pd.read_csv("C4_deltas_mean_sub.csv")
+c4.columns = ["S","c4_right","c4_left"]
+c3 = pd.read_csv("C3_deltas_mean_sub.csv")
+c3.columns = ["S","c3_right","c3_left"]
 
-raws= list()
-for subdir, dirs, files in os.walk(p_path):
-    for file in files:
-        filepath = subdir + os.sep + file
-        raw = mne.io.read_raw_fif(filepath,preload=True)
-        raws.append(raw)
+c4["c3_right"] = c3.c3_right
+c4["c3_left"] = c3.c3_left
 
-base_list3 = list()
-left_list3 = list()
-right_list3 = list()
-base_list4 = list()
-left_list4 = list()
-right_list4 = list()
-ch = ["C3", "C4"]
-for index,raw in enumerate(raws):
-    for index,channel in enumerate(ch):
-        events, _ = mne.events_from_annotations(raw, event_id=dict(T0=1, T1=2, T2=3))
-        picks = mne.pick_channels(raw.info["ch_names"], [channel])
-        tmin, tmax = 0, 3
-        event_ids = dict(base=1, left=2, right=3)
-        epochs = mne.Epochs(raw, events, event_ids, tmin=tmin, tmax=tmax, picks=picks, baseline=None, preload=True)
-        if index == 0:
-            base_list3.append(epochs["base"].average())
-            right_list3.append(epochs["right"].average())
-            left_list3.append(epochs["left"].average())
-        else:
-            base_list4.append(epochs["base"].average())
-            right_list4.append(epochs["right"].average())
-            left_list4.append(epochs["left"].average())
-
-grand = mne.grand_average()
-
-
-
-
+df = c4
