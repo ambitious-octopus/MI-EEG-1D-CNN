@@ -194,6 +194,7 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="project-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -432,7 +433,7 @@
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="2" />
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -467,6 +468,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="706" y="326" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1050/1920.235.1366.738@0.0.1920.1050" timestamp="1592042175377" />
+    <state x="449" y="153" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1596094436071">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="449" y="153" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1536.834@0.0.1536.834" timestamp="1596094436071" />
     <state x="592" y="222" key="FileChooserDialogImpl" timestamp="1595427374924">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
