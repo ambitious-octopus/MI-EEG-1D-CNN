@@ -21,15 +21,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d006e634-978a-4734-b83e-f8ac35d0d0f5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/C1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/C1_resize.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/C2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/C3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/C4.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/S001.fif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/S001_i_e0C1234_b.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/S002.fif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/deltas.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/preprocessing/psd_all_subj.py" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/psd_all_subj.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,7 +44,7 @@
     <other-services-enabled>true</other-services-enabled>
     <auto-save>true</auto-save>
   </component>
-  <component name="JupyterTrust" id="0e0b2fb5-0f77-43d6-bec8-5f502b30e142" />
+  <component name="JupyterTrust" id="eefe9338-5745-4b06-a51b-de9ff4edddc3" />
   <component name="ProjectId" id="1ZFX7VkozZKfa7kmpQEoZ2QEtPw" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -430,6 +421,10 @@
       <workItem from="1596092151361" duration="2392000" />
       <workItem from="1596094627559" duration="12168000" />
       <workItem from="1596117681010" duration="5173000" />
+      <workItem from="1596124453257" duration="5000" />
+      <workItem from="1598279055810" duration="797000" />
+      <workItem from="1599064835402" duration="2856000" />
+      <workItem from="1599118360414" duration="45000" />
     </task>
     <task id="LOCAL-00001" summary="Added FastICA">
       <created>1584546011748</created>

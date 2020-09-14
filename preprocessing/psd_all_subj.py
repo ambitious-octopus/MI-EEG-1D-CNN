@@ -218,3 +218,22 @@ c4["c3_right"] = c3.c3_right
 c4["c3_left"] = c3.c3_left
 
 df = c4
+
+
+c3 = pd.read_csv("C3_deltas_mean_sub.csv")
+c4 = pd.read_csv("C4_deltas_mean_sub.csv")
+
+print("c3_right")
+c3_mean_right = np.mean(c3.right)
+print(c3_mean_right)
+print("c3_left")
+c3_mean_left = np.mean(c3.left)
+print(c3_mean_left)
+
+print("c4_right")
+c4_mean_right = np.mean(c4.right)
+print(c4_mean_right)
+print("c4_left")
+c4_mean_left = np.mean(c4.left)
+print(c4_mean_left)
+
