@@ -7,7 +7,7 @@ from PIL import Image
 
 cwd = os.getcwd()
 p_path = "C:\\Users\\User\\OneDrive\\Documenti\\reco_raws"
-#raw = mne.io.read_raw_fif(p_path + "S001.fif")
+#raw = mne.io.read_raw_fif(real_reco_raws + "S001.fif")
 
 #Caricare tutti i reco_raw
 #Epocare tutto

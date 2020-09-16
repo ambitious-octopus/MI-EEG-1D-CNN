@@ -7,33 +7,43 @@ from PIL import Image
 import pandas as pd
 import csv
 
-
-
 cwd = os.getcwd()
-p_path = "C:\\Users\\User\\OneDrive\\Documenti\\reco_raws"
-#raw = mne.io.read_raw_fif(p_path + "S001.fif")
-save_fig_path = "C:\\Users\\User\\OneDrive\\Documenti\\deltas\\"
+real_reco_raws_path = "C:\\Users\\franc_pyl533c\\OneDrive\\Documenti\\real_reco_raws"
+imagined_reco_raws_path = "C:\\Users\\franc_pyl533c\\OneDrive\\Documenti\\imagined_reco_raws"
+
+
+deltas_real = "C:\\Users\\franc_pyl533c\\OneDrive\\Documenti\\deltas_real"
+deltas_imagined = "C:\\Users\\franc_pyl533c\\OneDrive\\Documenti\\deltas_imagined"
 
 #Caricare tutti i reco_raw
 #Epocare tutto
 #Calcolare la differenza
 #Mettere tutto in un file
 result = list()
-raws = list()
+raws_real = list()
+raws_imagined = list()
 
-for subdir, dirs, files in os.walk(p_path):
+#Load real data
+for subdir, dirs, files in os.walk(real_reco_raws_path):
+    for file in files:
+        filepath = subdir + os.sep + file
+        raw = mne.io.read_raw_fif(filepath, preload=True)
+        raws_real.append(raw)
+
+#Load imagined data
+for subdir, dirs, files in os.walk(imagined_reco_raws_path):
     for file in files:
         filepath = subdir + os.sep + file
         raw = mne.io.read_raw_fif(filepath,preload=True)
-        raws.append(raw)
+        raws_imagined.append(raw)
 
 #%%
-
+#Generate data and graph for real
 ch = ["C3", "C4"]
 dic_3 = []
 dic_4 = []
 for channel in ch:
-    for raw in raws:
+    for raw in raws_real:
         events, _ = mne.events_from_annotations(raw, event_id=dict(T1=2, T2=3))
         picks = mne.pick_channels(raw.info["ch_names"], [channel])
         tmin, tmax = -3, 3
@@ -87,7 +97,7 @@ for channel in ch:
             plt.grid(True)
             plt.axvspan(freq_pick - 1.5, freq_pick + 1.5, color='red', alpha=0.2)
             #plt.annotate('pick', xy=(freq_pick, amp_pick), xytext=(20, max(amp_base - 50)), arrowprops=dict(arrowstyle="->"), )
-            plt.savefig(save_fig_path + raw.__repr__()[7:11] + "ch_" + channel + "epoch_" + str(i) + "_" + epochs[i]._name + ".png")
+            plt.savefig(deltas_real + raw.__repr__()[7:11] + "ch_" + channel + "epoch_" + str(i) + "_" + epochs[i]._name + ".png")
             plt.close("all")
             dic = {"S":raw.__repr__()[7:11], "n_epoch": i, "t_epoch": epochs[i]._name, "delta" : delta}
             if channel == "C3":
@@ -97,7 +107,8 @@ for channel in ch:
 
 
 csv_columns = ["S","n_epoch","t_epoch","delta"]
-csv_file = "C3_deltas.csv"
+csv_file = "real_C3_deltas.csv"
+
 try:
     with open(csv_file, 'w') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
@@ -107,7 +118,7 @@ try:
 except IOError:
     print("I/O error")
 
-csv_file = "C4_deltas.csv"
+csv_file = "real_C4_deltas.csv"
 try:
     with open(csv_file, 'w') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
@@ -122,8 +133,8 @@ import pandas as pd
 import numpy as np
 import csv
 
-c4 = pd.read_csv("C4_deltas.csv")
-c3 = pd.read_csv("C3_deltas.csv")
+c4 = pd.read_csv("real_C4_deltas.csv")
+c3 = pd.read_csv("real_C3_deltas.csv")
 
 c4_delta = list()
 c3_delta = list()
@@ -143,7 +154,7 @@ for a in np.unique(c3.S):
 
 csv_columns = ["S","right","left"]
 
-csv_file = "C4_deltas_mean_sub.csv"
+csv_file = "real_C4_deltas_mean_sub.csv"
 try:
     with open(csv_file, 'w') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
@@ -153,7 +164,7 @@ try:
 except IOError:
     print("I/O error")
 
-csv_file = "C3_deltas_mean_sub.csv"
+csv_file = "real_C3_deltas_mean_sub.csv"
 try:
     with open(csv_file, 'w') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
@@ -169,8 +180,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import mne
 
-c4 = pd.read_csv("C4_deltas_mean_sub.csv")
-c3 = pd.read_csv("C3_deltas_mean_sub.csv")
+c4 = pd.read_csv("real_C4_deltas_mean_sub.csv")
+c3 = pd.read_csv("real_C3_deltas_mean_sub.csv")
 
 c4_right_mean = np.mean(c4.right)
 c4_left_mean = np.mean(c4.left)
@@ -209,31 +220,86 @@ import matplotlib.pyplot as plt
 import numpy as np
 import mne
 
-c4 = pd.read_csv("C4_deltas_mean_sub.csv")
-c4.columns = ["S","c4_right","c4_left"]
-c3 = pd.read_csv("C3_deltas_mean_sub.csv")
-c3.columns = ["S","c3_right","c3_left"]
+c4_imagined = pd.read_csv("C4_deltas_mean_sub.csv")
+c4_imagined.columns = ["S","c4_right","c4_left"]
+c3_imagined = pd.read_csv("C3_deltas_mean_sub.csv")
+c3_imagined.columns = ["S","c3_right","c3_left"]
 
-c4["c3_right"] = c3.c3_right
-c4["c3_left"] = c3.c3_left
+c4_real = pd.read_csv("real_C4_deltas_mean_sub.csv")
+c4_real.columns = ["S","c4_right","c4_left"]
+c3_real = pd.read_csv("real_C3_deltas_mean_sub.csv")
+c3_real.columns = ["S","c3_right","c3_left"]
 
-df = c4
+c4_imagined_right_mean = np.mean(c4_imagined.c4_right)
+c4_imagined_right_std = np.std(c4_imagined.c4_right)
+c4_imagined_left_mean = np.mean(c4_imagined.c4_left)
+c4_imagined_left_std = np.std(c4_imagined.c4_left)
+c3_imagined_right_mean = np.mean(c3_imagined.c3_right)
+c3_imagined_right_std = np.std(c3_imagined.c3_right)
+c3_imagined_left_mean = np.mean(c3_imagined.c3_left)
+c3_imagined_left_std = np.std(c3_imagined.c3_left)
+
+c4_real_right_mean = np.mean(c4_real.c4_right)
+c4_real_right_std = np.std(c4_real.c4_right)
+c4_real_left_mean = np.mean(c4_real.c4_left)
+c4_real_left_std = np.std(c4_real.c4_left)
+c3_real_right_mean = np.mean(c3_real.c3_right)
+c3_real_right_std = np.std(c3_real.c3_right)
+c3_real_left_mean = np.mean(c3_real.c3_left)
+c3_real_left_std = np.std(c3_real.c3_left)
+
+x = np.arange(4)
+#Plot c4 results
+fig, ax = plt.subplots()
+plt.bar(x, [c4_imagined_right_mean, c4_imagined_left_mean, c4_real_right_mean, c4_real_left_mean], yerr=[c4_imagined_right_std, c4_imagined_left_std, c4_real_right_std, c4_real_left_std], align='center', alpha=0.5, ecolor='black', capsize=10)
+plt.xticks(x, ("c4_imagined_mov_right_mean = " + str(np.round(c4_imagined_right_mean, 2)),
+               "c4_imagined_mov_left_mean = " + str(np.round(c4_imagined_left_mean, 2)),
+               "c4_real_mov_right_mean = " + str(np.round(c4_real_right_mean, 2)),
+               "c4_real_mov_left_mean = " + str(np.round(c4_real_left_mean, 2))))
+# ax.set_xticklabels("c4_imagined_right_mean", "c4_imagined_left_mean", "c4_real_right_mean", "c4_real_left_mean")
+plt.title('C4')
+
+# Save the figure and show
+plt.tight_layout()
+plt.show()
+
+#Plot c3 results
+fig, ax = plt.subplots()
+plt.bar(x, [c3_imagined_right_mean, c3_imagined_left_mean, c3_real_right_mean, c3_real_left_mean], yerr=[c3_imagined_right_std, c3_imagined_left_std, c3_real_right_std, c3_real_left_std], align='center', alpha=0.5, ecolor='black', capsize=10)
+plt.xticks(x, ("c3_imagined_mov_right_mean" + str(np.round(c3_imagined_right_mean, 2)),
+               "c3_imagined_mov_left_mean" + str(np.round(c3_imagined_left_mean, 2)),
+               "c3_real_mov_right_mean" + str(np.round(c3_real_right_mean, 2)),
+               "c3_real_mov_left_mean" + str(np.round(c3_real_left_mean, 2))))
+# ax.set_xticklabels("c4_imagined_right_mean", "c4_imagined_left_mean", "c4_real_right_mean", "c4_real_left_mean")
+plt.title('c3')
+
+# Save the figure and show
+plt.tight_layout()
+plt.show()
 
 
-c3 = pd.read_csv("C3_deltas_mean_sub.csv")
-c4 = pd.read_csv("C4_deltas_mean_sub.csv")
+best_c4_imagine = len([x for x in c4_imagined.c4_left.tolist() if x > c4_imagined_left_mean])
+best_c4_imagine_mean = np.mean([x for x in c4_imagined.c4_left.tolist() if x > c4_imagined_left_mean])
+best_c4_real = len([x for x in c4_real.c4_left.tolist() if x > c4_real_left_mean])
+best_c4_real_mean = np.mean([x for x in c4_real.c4_left.tolist() if x > c4_real_left_mean])
 
-print("c3_right")
-c3_mean_right = np.mean(c3.right)
-print(c3_mean_right)
-print("c3_left")
-c3_mean_left = np.mean(c3.left)
-print(c3_mean_left)
+best_c3_imagine = len([x for x in c3_imagined.c3_left.tolist() if x > c3_imagined_left_mean])
+best_c3_imagine_mean = np.mean([x for x in c3_imagined.c3_left.tolist() if x > c3_imagined_left_mean])
+best_c3_real = len([x for x in c3_real.c3_left.tolist() if x > c3_real_left_mean])
+best_c3_real_mean = np.mean([x for x in c3_real.c3_left.tolist() if x > c3_real_left_mean])
 
-print("c4_right")
-c4_mean_right = np.mean(c4.right)
-print(c4_mean_right)
-print("c4_left")
-c4_mean_left = np.mean(c4.left)
-print(c4_mean_left)
+x = np.arange(4)
+#Plot best subject results
+fig, ax = plt.subplots()
+plt.bar(x, [best_c4_imagine_mean, best_c4_real_mean, best_c3_imagine_mean, best_c3_real_mean], align='center', alpha=0.5, ecolor='black', capsize=10)
+plt.xticks(x, ("best_c4_imagine_mean = " + str(np.round(best_c4_imagine_mean, 2)) + "n= " + str(best_c4_imagine),
+               "best_c4_real_mean = " + str(np.round(best_c4_real_mean, 2))+ "n= " + str(best_c4_real),
+               "best_c3_imagine_mean = " + str(np.round(best_c3_imagine_mean, 2))+ "n= " + str(best_c4_imagine),
+               "best_c3_real_mean = " + str(np.round(best_c3_real_mean, 2)) + "n= " + str(best_c3_real)))
+# ax.set_xticklabels("c4_imagined_right_mean", "c4_imagined_left_mean", "c4_real_right_mean", "c4_real_left_mean")
+plt.title('best subject means')
+
+# Save the figure and show
+plt.tight_layout()
+plt.show()
 
