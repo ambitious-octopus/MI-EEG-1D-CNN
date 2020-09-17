@@ -220,14 +220,16 @@ import matplotlib.pyplot as plt
 import numpy as np
 import mne
 
-c4_imagined = pd.read_csv("C4_deltas_mean_sub.csv")
+data_path = "C:\\Users\\franc_pyl533c\\OneDrive\\Repository\\eeGNN\\data\\"
+
+c4_imagined = pd.read_csv(data_path + "C4_deltas_mean_sub.csv")
 c4_imagined.columns = ["S","c4_right","c4_left"]
-c3_imagined = pd.read_csv("C3_deltas_mean_sub.csv")
+c3_imagined = pd.read_csv(data_path +"C3_deltas_mean_sub.csv")
 c3_imagined.columns = ["S","c3_right","c3_left"]
 
-c4_real = pd.read_csv("real_C4_deltas_mean_sub.csv")
+c4_real = pd.read_csv(data_path +"real_C4_deltas_mean_sub.csv")
 c4_real.columns = ["S","c4_right","c4_left"]
-c3_real = pd.read_csv("real_C3_deltas_mean_sub.csv")
+c3_real = pd.read_csv(data_path +"real_C3_deltas_mean_sub.csv")
 c3_real.columns = ["S","c3_right","c3_left"]
 
 c4_imagined_right_mean = np.mean(c4_imagined.c4_right)
@@ -302,4 +304,45 @@ plt.title('best subject means')
 # Save the figure and show
 plt.tight_layout()
 plt.show()
+
+#%%
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+import mne
+
+data_path = "C:\\Users\\franc_pyl533c\\OneDrive\\Repository\\eeGNN\\data\\"
+
+c4_imagined = pd.read_csv(data_path + "C4_deltas_mean_sub.csv")
+c4_imagined.columns = ["S","c4_right","c4_left"]
+c3_imagined = pd.read_csv(data_path +"C3_deltas_mean_sub.csv")
+c3_imagined.columns = ["S","c3_right","c3_left"]
+
+c4_real = pd.read_csv(data_path +"real_C4_deltas_mean_sub.csv")
+c4_real.columns = ["S","c4_right","c4_left"]
+c3_real = pd.read_csv(data_path +"real_C3_deltas_mean_sub.csv")
+c3_real.columns = ["S","c3_right","c3_left"]
+
+#Take the "good" task for each channel
+c4_img_good_task = c4_imagined[["S","c4_left"]]
+c3_img_good_task = c3_imagined[["S","c3_right"]]
+
+best_c4 = c4_img_good_task[c4_img_good_task["c4_left"] >= c4_img_good_task.c4_left.quantile(0.85)]
+best_c3 = c3_img_good_task[c3_img_good_task["c3_right"] >= c3_img_good_task.c3_right.quantile(0.85)]
+
+best_guy_c4= best_c4.S.to_list()
+best_guy_c3= best_c4.S.to_list()
+
+best_guys = list()
+for guy in best_guy_c4:
+    if guy in best_guy_c3:
+        best_guys.append(guy)
+
+
+
+
+
+
+
 
