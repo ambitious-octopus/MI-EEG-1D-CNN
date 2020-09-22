@@ -13,7 +13,7 @@ from mne.viz.utils import center_cmap
 #%% CARICO IL DATABASE
 subject = 1
 runs = [4]
-#Scarico i dati e mi ritorna il path locale
+#Scarico n_epoch dati e mi ritorna il path locale
 raw_fnames = eegbci.load_data(subject, runs)
 #Concateno le path e le metto in un unico oggetto
 raw = concatenate_raws([read_raw_edf(f, preload=True) for f in raw_fnames])
@@ -66,7 +66,7 @@ events, _ = events_from_annotations(reconst_raw, event_id=dict(T1=2, T2=3))
 picks = pick_channels(reconst_raw.info["ch_names"], ["C3", "Cz", "C2"])
 # Definisco onset e offset delle epoche (secondi)
 tmin, tmax = -1, 4
-#Mappo i nomi degli eventi
+#Mappo n_epoch nomi degli eventi
 event_ids = dict(left=2, right=3)
 #Divido il tracciato in epoche
 epochs = Epochs(reconst_raw, events, event_ids, tmin - 0.5, tmax + 0.5, picks=picks, baseline=None, preload=True)
@@ -78,7 +78,7 @@ n_cycles = freqs
 vmin, vmax = -1, 1.5
 #Lunghezza della baseline
 baseline = [-1, 0]
-#Mappo i colori con una scala
+#Mappo n_epoch colori con una scala
 cmap = center_cmap(plt.cm.RdBu, vmin, vmax)
 
 kwargs = dict(n_permutations=100, step_down_p=0.05, seed=10, buffer_size=None)
@@ -91,7 +91,7 @@ tfr.apply_baseline(baseline, mode="percent")
 for event in event_ids:
     #Per ogni evento
     tfr_ev = tfr[event]
-    #Faccio i subplot
+    #Faccio n_epoch subplot
     fig, axes = plt.subplots(1, 4, figsize=(12, 4), gridspec_kw={"width_ratios": [10, 10, 10, 1]})
     for ch, ax in enumerate(axes[:-1]):  #Per ogni canale, indice
         # positive clusters

@@ -62,7 +62,7 @@ for subj in subjects:
             raw_run.crop(tmax=124.4) #Taglio la parte finale
         ls_run.append(raw_run) #Aggiungo la run alla lista delle run
     raw = concatenate_raws(ls_run)
-    eegbci.standardize(raw) #Cambio i nomi dei canali
+    eegbci.standardize(raw) #Cambio n_epoch nomi dei canali
     montage = make_standard_montage('standard_1005') #Caricare il montaggio
     raw.set_montage(montage) #Setto il montaggio
     raw.filter(1.0, 79.0, fir_design='firwin', skip_by_annotation='edge') #Filtro

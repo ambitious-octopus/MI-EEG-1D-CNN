@@ -17,7 +17,7 @@ sub = [0]
 
 
 # Ricordarsi di far passare il template come prima
-runs = Pirates.load_data(sub, [3, 7, 11])  # carico i dati e croppo
+runs = Pirates.load_data(sub, [3, 7, 11])  # carico n_epoch dati e croppo
 # todo: whitening
 raws = Pirates.concatenate_runs(runs)  # Concateno le runs
 raws_set = Pirates.eeg_settings(raws)  # Standardizzo nomi ecc
@@ -70,7 +70,7 @@ info2 = raws_clean[0].info #mi copio le info dai dati raw, da questi mi servirà
 '''
 
 # per accedere a chs però non si accede tramite info.chs
-#bisogna fare i procedimenti di cui sotto
+#bisogna fare n_epoch procedimenti di cui sotto
 
 chs = info2['chs'] #ho esportato la lista chs nella variabile chs
 # acq_pars = info2['acq_pars']
@@ -85,7 +85,7 @@ chs = info2['chs'] #ho esportato la lista chs nella variabile chs
 
 info3 = create_info(sfreq = 160, ch_names = ica_names, ch_types ='eeg')
 
-#info3['chs'] = chs #aggiungo alla nuova info structure questo parametro con i canali, ci vuole altrimenti da errore
+#info3['chs'] = chs #aggiungo alla nuova info structure questo parametro con n_epoch canali, ci vuole altrimenti da errore
 
 #altri parametri che si potrebbero aggiungere volendo
 #info3['acq_pars']=acq_pars

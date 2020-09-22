@@ -164,7 +164,7 @@ class Pirates:
         """
         raw_setted = []
         for subj in raws:
-            eegbci.standardize(subj)  # Cambio i nomi dei canali
+            eegbci.standardize(subj)  # Cambio n_epoch nomi dei canali
             montage = make_standard_montage('standard_1005')  # Caricare il montaggio
             subj.set_montage(montage)  # Setto il montaggio
             raw_setted.append(subj)
@@ -407,8 +407,8 @@ class Pirates:
                     new_im.paste(scalp, (x_offset, 0))
                     x_offset += scalp.size[0]
                 new_im.save(os.path.join(dir_templates, "component" + str(comp) + ".png"))
-                # for i in lst:
-                # i.close()
+                # for n_epoch in lst:
+                # n_epoch.close()
                 for p in paths:
                     os.remove(p)
                 plt.close('all')

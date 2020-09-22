@@ -9,7 +9,7 @@ cwd = os.getcwd()
 p_path = "C:\\Users\\User\\OneDrive\\Documenti\\reco_raws"
 #raw = mne.io.read_raw_fif(real_reco_raws + "S001.fif")
 
-#Caricare tutti i reco_raw
+#Caricare tutti n_epoch reco_raw
 #Epocare tutto
 #Calcolare la differenza
 #Mettere tutto in un file

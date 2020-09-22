@@ -173,7 +173,7 @@ def whitening ():
             
             stand =  stats.zscore(raw_data) #standardizzo l'array dei dati raw
             
-            list[run]._data = stand  #sostituisco i dati del raw originale con i dati standardizzati
+            list[run]._data = stand  #sostituisco n_epoch dati del raw originale con n_epoch dati standardizzati
            
             
             ls_z.append(list[run])           
@@ -227,7 +227,7 @@ def eeg_settings ():
     for subj in range (len(subjects)):
         
         print(raw_conc_list[subj])  #control data
-        eegbci.standardize(raw_conc_list[subj]) #Cambio i nomi dei canali
+        eegbci.standardize(raw_conc_list[subj]) #Cambio n_epoch nomi dei canali
         montage = make_standard_montage('standard_1005') #Caricare il montaggio
         raw_conc_list[subj].set_montage(montage) #Setto il montaggio
         raw_setted.append(raw_conc_list[subj])
