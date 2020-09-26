@@ -342,11 +342,14 @@ for guy in best_guy_c4:
     if guy in best_guy_c3:
         best_guys.append(guy)
 
-path_img_reco_data = "D:\\repo_data\\eegNN\\imagined_reco_raws"
+# Here i have the best subj
+# Now i slice all the subj
+
+path_real_reco_data = "D:\\repo_data\\eegNN\\real_reco_raws"
 
 #Load data
 reco_data = list()
-for subdir, dirs, files in os.walk(path_img_reco_data):
+for subdir, dirs, files in os.walk(path_real_reco_data):
     for file in files:
         filepath = subdir + os.sep + file
         raw = mne.io.read_raw_fif(filepath, preload=True)
@@ -362,7 +365,7 @@ best_reco_data = [raw for raw in reco_data if raw.info["S"] in best_guys]
 
 
 ch_plot_list = ["C4", "C3", "C1", "C2"]
-save_dir = "D:\\repo_data\\eegNN\\deltas_mean_trial\\"
+save_dir = "D:\\repo_data\\eegNN\\deltas_mean_trial\\real\\"
 #Estraggo tutti n_epoch delta
 band_list = {"alpha": [[8,13],[1.5, 1.5]], "beta": [[14, 31],[6,6]], "alpha+beta":[8,31]}
 
@@ -501,7 +504,7 @@ def save_obj(obj, name):
     with open(save_subj_dir + name + '.pkl', 'wb') as f:
         pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
 
-save_subj_dir = "D:\\repo_data\\eegNN\\deltas_mean_trial\\best_subj\\"
+save_subj_dir = "D:\\repo_data\\eegNN\\deltas_mean_trial\\best_subj_real\\"
 for subj in best_reco_data:
     save_obj(subj, subj.info["S"])
     #subj.save(os.path.join(save_subj_dir, subj.__repr__()[7:11] + "raw.fif"), overwrite=True, picks=["eeg"])
@@ -518,7 +521,7 @@ import mne
 import os
 import pickle
 
-save_subj_dir = "D:\\repo_data\\eegNN\\deltas_mean_trial\\best_subj\\"
+save_subj_dir = "D:\\repo_data\\eegNN\\deltas_mean_trial\\best_subj_real\\"
 
 def load_obj(name ):
     with open(name, 'rb') as f:
@@ -532,7 +535,7 @@ for subdir, dirs, files in os.walk(save_subj_dir):
         raw = load_obj(filepath)
         post_data.append(raw)
 
-topo_map_dir = "D:\\repo_data\\eegNN\\deltas_mean_trial\\topo\\"
+topo_map_dir = "D:\\repo_data\\eegNN\\deltas_mean_trial\\real\\topo\\"
 tasks = ["right","left"]
 for subj in post_data:
     subj.info["alpha_deltas"]["right"] = np.array(list(subj.info["alpha_deltas"]["right"].values())).reshape(64,1)
