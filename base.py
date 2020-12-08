@@ -16,18 +16,23 @@ class_name = ["t-shirt/top", "trouser", "pullover", "dress", "coat", "sandal", "
 # Creo un modello
 # Inizializzo un ogetto sequential
 model = keras.models.Sequential()
+
 # Primo layer di input
 model.add(keras.layers.Flatten(input_shape=[28,28]))
+
 # Creo tre layers
 model.add(keras.layers.Dense(300, activation="relu"))
 model.add(keras.layers.Dense(100, activation="relu"))
 model.add(keras.layers.Dense(10, activation="softmax"))
+
 # Guardo il modello
 model.summary()
+
 # Compilo il modello
 model.compile(loss="sparse_categorical_crossentropy",
               optimizer=keras.optimizers.SGD(lr=0.01),
               metrics=["accuracy"])
+
 
 # Faccio partire il training
 history = model.fit(x_train, y_train, epochs=30, validation_data=(x_valid, y_valid))
