@@ -12,7 +12,6 @@ from sklearn.preprocessing import StandardScaler
 #Check dll library
 tf.test.gpu_device_name()
 
-#%%
 """
 Load only and split
 """
@@ -31,24 +30,25 @@ y_categorical = keras.utils.to_categorical(y_resh, 5)
 x_train, x_test, y_train, y_test = train_test_split(x_data_scale, y, test_size=0.20, random_state=42)
 
 
-#%%
-#Test simple model
+
+# REMEMBER = (Height, Width, Channels)
+#https://www.frontiersin.org/articles/10.3389/fnhum.2020.00338/full
+#todo: Model here https://www.frontiersin.org/files/Articles/559321/fnhum-14-00338-HTML/image_m/fnhum-14-00338-t001.jpg
+
 model = keras.models.Sequential()
-model.add(keras.layers.Flatten(input_shape=[x_train.shape[1], x_train.shape[2]]))
-model.add(keras.layers.Dropout(rate=0.3))
-model.add(keras.layers.Dense(300, activation="relu"))
-model.add(keras.layers.Dropout(rate=0.3))
-model.add(keras.layers.Dense(100, activation="relu"))
-model.add(keras.layers.Dense(50, activation="relu"))
-model.add(keras.layers.Dense(5, activation="relu"))
-model.summary()
-model.compile(loss="sparse_categorical_crossentropy", optimizer="sgd", metrics=["accuracy"])
-history = model.fit(x_train, y_train, epochs=100, validation_data=(x_test,y_test))
-model.predict(x_test[:4])
+model.add(keras.layers.Conv2D(630, (2,25), activation="relu", padding="same", input_shape=(2,641,1)))
+
+model.add(keras.layers.Conv2D())
+model.add(keras.layers.MaxPooling2D())
+model.add(keras.layers.Conv2D())
+model.add(keras.layers.MaxPooling2D())
+model.add(keras.layers.Conv2D())
+model.add(keras.layers.MaxPooling2D())
+model.add(keras.layers.Conv2D())
+model.add(keras.layers.MaxPooling2D())
+model.add(keras.layers.Flatten())
+
+# TEST
 
 
-
-
-
-
-
+#########

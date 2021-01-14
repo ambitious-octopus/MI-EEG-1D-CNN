@@ -12,7 +12,6 @@ from sklearn.preprocessing import StandardScaler
 #Check dll library
 tf.test.gpu_device_name()
 
-#%%
 """
 Load only and split
 """
@@ -29,26 +28,29 @@ x_data_scale = scaler.fit_transform(x_data.reshape(-1, x_data.shape[-1])).reshap
 y_resh = y.reshape(y.shape[0], 1)
 y_categorical = keras.utils.to_categorical(y_resh, 5)
 x_train, x_test, y_train, y_test = train_test_split(x_data_scale, y, test_size=0.20, random_state=42)
-
-
 #%%
-#Test simple model
+#Convolution Neural Network
+# (n_samples, height, width, channels)
+
+# x_train = x_train.reshape(-1, 2, 640, 1)
+
 model = keras.models.Sequential()
-model.add(keras.layers.Flatten(input_shape=[x_train.shape[1], x_train.shape[2]]))
-model.add(keras.layers.Dropout(rate=0.3))
-model.add(keras.layers.Dense(300, activation="relu"))
-model.add(keras.layers.Dropout(rate=0.3))
-model.add(keras.layers.Dense(100, activation="relu"))
-model.add(keras.layers.Dense(50, activation="relu"))
+model.add(keras.layers.Conv1D(64,2, activation="relu", padding="same", input_shape=[640, 2]))
+model.add(keras.layers.MaxPooling1D(1))
+model.add(keras.layers.Conv1D(128, 2, activation="relu", padding="same"))
+model.add(keras.layers.Conv1D(128, 2, activation="relu", padding="same"))
+model.add(keras.layers.MaxPooling1D(1))
+model.add(keras.layers.Conv2D(256, (2, 2), activation="relu", padding="same"))
+model.add(keras.layers.Conv2D(256, (2, 2), activation="relu", padding="same"))
+model.add(keras.layers.MaxPooling1D(1))
+model.add(keras.layers.Flatten())
+model.add(keras.layers.Dense(128, activation="relu"))
+model.add(keras.layers.Dropout(0.5))
+model.add(keras.layers.Dense(64, activation="relu"))
+model.add(keras.layers.Dropout(0.5))
 model.add(keras.layers.Dense(5, activation="relu"))
 model.summary()
 model.compile(loss="sparse_categorical_crossentropy", optimizer="sgd", metrics=["accuracy"])
-history = model.fit(x_train, y_train, epochs=100, validation_data=(x_test,y_test))
+
+history = model.fit(x_train, y_train, epochs=10, validation_data=(x_test,y_test))
 model.predict(x_test[:4])
-
-
-
-
-
-
-
