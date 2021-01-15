@@ -12,7 +12,7 @@ from sklearn.preprocessing import StandardScaler
 #Check dll library
 tf.test.gpu_device_name()
 
-#%%
+
 """
 Load only and split
 """
@@ -29,8 +29,6 @@ x_data_scale = scaler.fit_transform(x_data.reshape(-1, x_data.shape[-1])).reshap
 y_resh = y.reshape(y.shape[0], 1)
 y_categorical = keras.utils.to_categorical(y_resh, 5)
 x_train, x_test, y_train, y_test = train_test_split(x_data_scale, y, test_size=0.20, random_state=42)
-
-
 #%%
 #Test simple model
 model = keras.models.Sequential()

@@ -8,6 +8,7 @@ import matplotlib
 matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
+os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
 
 #Check dll library
 tf.test.gpu_device_name()
@@ -27,28 +28,26 @@ x_data_scale = scaler.fit_transform(x_data.reshape(-1, x_data.shape[-1])).reshap
 
 y_resh = y.reshape(y.shape[0], 1)
 y_categorical = keras.utils.to_categorical(y_resh, 5)
-x_train, x_test, y_train, y_test = train_test_split(x_data_scale, y, test_size=0.20, random_state=42)
-
-
-
-# REMEMBER = (Height, Width, Channels)
-#https://www.frontiersin.org/articles/10.3389/fnhum.2020.00338/full
-#todo: Model here https://www.frontiersin.org/files/Articles/559321/fnhum-14-00338-HTML/image_m/fnhum-14-00338-t001.jpg
+x_train, x_test, y_train, y_test = train_test_split(x_data_scale, y_categorical, test_size=0.20, random_state=42)
+#%%
+#Convolution Neural Network
+# [samples, time steps, features].
+real_x_train = x_train.reshape(14808, 640, 2)
+real_x_test = x_test.reshape(3703, 640, 2)
 
 model = keras.models.Sequential()
-model.add(keras.layers.Conv2D(630, (2,25), activation="relu", padding="same", input_shape=(2,641,1)))
-
-model.add(keras.layers.Conv2D())
-model.add(keras.layers.MaxPooling2D())
-model.add(keras.layers.Conv2D())
-model.add(keras.layers.MaxPooling2D())
-model.add(keras.layers.Conv2D())
-model.add(keras.layers.MaxPooling2D())
-model.add(keras.layers.Conv2D())
-model.add(keras.layers.MaxPooling2D())
+model.add(keras.layers.Conv1D(filters=32, kernel_size=2, activation='relu', input_shape=(640, 2)))
+model.add(keras.layers.Conv1D(filters=32, kernel_size=2, activation='relu'))
+model.add(keras.layers.Dropout(0.5))
+model.add(keras.layers.MaxPooling1D(pool_size=2))
 model.add(keras.layers.Flatten())
+model.add(keras.layers.Dense(100, activation='relu'))
+model.add(keras.layers.Dense(5, activation='softmax'))
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+history = model.fit(real_x_train, y_train, epochs=30, shuffle=True, validation_data=(real_x_test,y_test))
 
-# TEST
+#todo: shuffle data?
+#todo: Perchè sul validation va malissimo, overfitta?
+#todo: Che tipo di regolarizzazione devo fare?
 
-
-#########
+# prediction = model.predict(real_x_test[:4])
