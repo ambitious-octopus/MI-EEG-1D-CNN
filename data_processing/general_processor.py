@@ -5,7 +5,6 @@ from mne.channels import make_standard_montage
 from mne.datasets import eegbci
 from mne.epochs import Epochs
 import mne
-import tensorflow as tf
 from typing import List, TYPE_CHECKING
 import wget
 import sys

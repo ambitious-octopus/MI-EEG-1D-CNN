@@ -6,7 +6,6 @@ from data_processing.general_processor import Utils
 from sklearn.model_selection import train_test_split
 import matplotlib
 matplotlib.use("TkAgg")
-import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
 

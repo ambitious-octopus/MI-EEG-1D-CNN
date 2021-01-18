@@ -1,21 +1,24 @@
 import numpy as np
 import os
-import tensorflow as tf
-from tensorflow import keras
 from data_processing.general_processor import Utils
 from sklearn.model_selection import train_test_split
 import matplotlib
 matplotlib.use("TkAgg")
-import matplotlib.pyplot as plt
-from sklearn.preprocessing import StandardScaler
-os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
+from sklearn.preprocessing import StandardScaler # Usare MIn MAx scaler
+from sklearn.preprocessing import MinMaxScaler
+import tensorflow as tf
+
+physical_devices = tf.config.experimental.list_physical_devices('GPU')
+assert len(physical_devices) > 0, "Not enough GPU hardware devices available"
+config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 #Check dll library
-tf.test.gpu_device_name()
+# tf.test.gpu_device_name()
 
 """
 Load only and split
 """
+
 base_path = "D:"
 dir_path = os.path.join(base_path, "eeg_data")
 #Load data
@@ -23,34 +26,39 @@ x_data = np.load(os.path.join(dir_path, "x_C3_C4.npy"))
 y = np.load(os.path.join(dir_path, "y_C3_C4.npy"))
 x_data = Utils.cut_width(x_data)
 #Scale
-scaler = StandardScaler()
-x_data_scale = scaler.fit_transform(x_data.reshape(-1, x_data.shape[-1])).reshape(x_data.shape)
+
+scaler = MinMaxScaler().fit(x_data.reshape(-1, x_data.shape[-1])) #Fare MinMax Scare, portare tra 0 e 1
+
+x_data_scale = scaler.transform(x_data.reshape(-1, x_data.shape[-1])).reshape(x_data.shape)
 
 y_resh = y.reshape(y.shape[0], 1)
-y_categorical = keras.utils.to_categorical(y_resh, 5)
+y_categorical = tf.keras.utils.to_categorical(y_resh, 5)
 x_train, x_test, y_train, y_test = train_test_split(x_data_scale, y_categorical, test_size=0.20, random_state=42)
 #%%
 #Convolution Neural Network
 # [samples, time steps, features].
 real_x_train = x_train.reshape(14808, 640, 2)
 real_x_test = x_test.reshape(3703, 640, 2)
+learning_rate = 1e-4 # default 1e-3
 
-learning_rate = 1e-3 # default 1e-3
-
-model = keras.models.Sequential()
-model.add(keras.layers.Conv1D(filters=64, kernel_size=3, activation='relu', input_shape=(640, 2)))
-model.add(keras.layers.Conv1D(filters=64, kernel_size=3, activation='relu'))
-model.add(keras.layers.Dropout(0.5))
-model.add(keras.layers.MaxPooling1D(pool_size=2))
-model.add(keras.layers.Flatten())
-model.add(keras.layers.Dense(100, activation='relu'))
-model.add(keras.layers.Dense(5, activation='softmax'))
-model.compile(loss='categorical_crossentropy', optimizer=keras.optimizers.Adam(lr=learning_rate), metrics=['accuracy'])
-history = model.fit(real_x_train, y_train, epochs=30, shuffle=True, validation_data=(real_x_test,y_test))
+model = tf.keras.Sequential()
+model.add(tf.keras.layers.Conv1D(filters=6, kernel_size=5, activation='relu', padding= "valid", input_shape=(640, 2)))
+model.add(tf.keras.layers.MaxPooling1D(pool_size=2))
+model.add(tf.keras.layers.Conv1D(filters=5, kernel_size=5, activation='relu', padding= "valid"))
+model.add(tf.keras.layers.MaxPooling1D(pool_size=2))
+model.add(tf.keras.layers.Flatten())
+model.add(tf.keras.layers.Dense(128, activation='relu'))
+model.add(tf.keras.layers.Dropout(0.1))
+model.add(tf.keras.layers.Dense(64, activation='relu'))
+model.add(tf.keras.layers.Dense(5, activation='softmax'))
+model.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.Adam(lr=learning_rate), metrics=['accuracy'])
+model.summary()
+history = model.fit(real_x_train, y_train, epochs=100, batch_size=10, shuffle=True, validation_data=(real_x_test,y_test))
 
 #todo: shuffle data?
 #todo: Perchè sul validation va malissimo, overfitta?
 #todo: Che tipo di regolarizzazione devo fare?
 #todo: Devo cambiare il batch size?
 
-# prediction = model.predict(real_x_test[:4])
+prediction = model.predict(real_x_train[:4])
+
