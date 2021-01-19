@@ -227,28 +227,12 @@ class Utils:
 
 
 
-
-
-
-
-
-
 if __name__ == "__main__":
     exclude = [38, 88, 89, 92, 100, 104]
     subjects = [n for n in np.arange(1, 110) if n not in exclude]
     runs = [4, 6, 8, 10, 12, 14]
     channels = ["C3", "C4"]
     data_path = "D:\\datasets\\eegbci"
-
     Utils.download_data()
     Utils.load_data(subjects=subjects, runs=runs, data_path=data_path)
-
-    ################
-    exclude = [38, 88, 89, 92, 100, 104]
-    subjects = [n for n in np.arange(1, 110) if n not in exclude]
-    runs = [4, 6, 8, 10, 12, 14]
-    channels = ["C3", "C4"]
-
-    x, y = epoch(select_channels(
-        filtering(eeg_settings(del_annotations(concatenate_runs(load_data(subjects=subjects, runs=runs))))), channels))
 

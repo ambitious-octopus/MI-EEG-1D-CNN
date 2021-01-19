@@ -151,6 +151,7 @@ def epoch(raws, exclude_base=False):
     return np.concatenate(tuple(xs), axis=0), [item for sublist in ys for item in sublist]
 
 
+
 """
 Generates datas for task with baseline
 Task 2 (imagine opening and closing left or right fist)
@@ -168,14 +169,18 @@ subjects = [n for n in np.arange(1,110) if n not in exclude]
 runs = [4,6,8,10,12,14]
 channels = ["C3", "C4"]
 
-x, y = epoch(select_channels(filtering(eeg_settings(del_annotations(concatenate_runs(load_data(subjects=subjects, runs=runs))))), channels))
+x, y = epoch(select_channels(filtering(eeg_settings(del_annotations(concatenate_runs(load_data(subjects=subjects, runs=runs))))), channels), exclude_base=True)
+
+real_x = x.copy()
+
+for index, label in enumerate(y):
+    pass
 
 
-base_path = "D:"
-dir_path = os.path.join(base_path, "eeg_data")
+dir_path = "D:\\datasets\\eeg_dataset"
 
-#Save data
-np.save(os.path.join(dir_path, "x_C3_C4"), x, allow_pickle=True)
+# Save data
+np.save(os.path.join(dir_path, "x_C3_C4_no_base"), x, allow_pickle=True)
 """
 OneHot encoding
 """
@@ -186,4 +191,4 @@ for x in range(len(total_labels)):
 for x in range(len(y)):
   y[x] = mapping[y[x]]
 one_hot_encode = tf.keras.utils.to_categorical(y)
-np.save(os.path.join(dir_path, "y_C3_C4"), y, allow_pickle=True)
+np.save(os.path.join(dir_path, "y_C3_C4_no_base"), y, allow_pickle=True)

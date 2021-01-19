@@ -20,35 +20,32 @@ config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 Load only and split
 """
 
-base_path = "D:"
-dir_path = os.path.join(base_path, "eeg_data")
+base_path = "D:\\datasets\\eeg_dataset"
 #Load data
-x_data = np.load(os.path.join(dir_path, "x_C3_C4.npy"))
-y = np.load(os.path.join(dir_path, "y_C3_C4.npy"))
+x_data = np.load(os.path.join(base_path, "x_C3_C4_no_base.npy"))
+y = np.load(os.path.join(base_path, "y_C3_C4_no_base.npy"))
 x_data = Utils.cut_width(x_data)
 #Scale
 #reshape (18511,1280)
 x_data_resh = x_data.reshape(x_data.shape[0], x_data.shape[2]*x_data.shape[1])
-
-
 # x_data_scale = MinMaxScaler().fit_transform(x_data_mono) #Fare MinMax Scare, portare tra 0 e 1
 x_data_scale = minmax_scale(x_data_resh, axis=1)
 
 
-# import matplotlib
-# matplotlib.use("TkAgg")
-# import matplotlib.pyplot as plt
-# plt.subplot(1,2,1)
-# plt.plot(x_data[0][0])
-# plt.show()
-# plt.subplot(1,2,2)
-# plt.plot(x_data_scale[0][:640])
-# plt.show()
+import matplotlib
+matplotlib.use("TkAgg")
+import matplotlib.pyplot as plt
+plt.subplot(1,2,1)
+plt.plot(x_data[0][0])
+plt.show()
+plt.subplot(1,2,2)
+plt.plot(x_data_scale[0][:640])
+plt.show()
 
 x_resh = x_data_scale.reshape(x_data_scale.shape[0], x_data_scale.shape[1], 1)
 
 y_resh = y.reshape(y.shape[0], 1)
-y_categorical = tf.keras.utils.to_categorical(y_resh, 5)
+y_categorical = tf.keras.utils.to_categorical(y_resh, 4)
 x_train, x_test, y_train, y_test = train_test_split(x_resh, y_categorical, test_size=0.10, random_state=56)
 #%%
 #Convolution Neural Network
@@ -72,7 +69,7 @@ model.add(tf.keras.layers.Dense(1024, activation='relu'))
 model.add(tf.keras.layers.Dropout(drop_rate))
 model.add(tf.keras.layers.Dense(512, activation='relu'))
 model.add(tf.keras.layers.Dropout(drop_rate))
-model.add(tf.keras.layers.Dense(5, activation='softmax'))
+model.add(tf.keras.layers.Dense(4, activation='softmax'))
 model.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.Adam(lr=learning_rate), metrics=['accuracy'])
 model.summary()
 history = model.fit(x_train, y_train, epochs=100, batch_size=batch_size, steps_per_epoch=x_train.shape[0]/batch_size,
