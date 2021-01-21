@@ -79,7 +79,7 @@ class Utils:
                 F indicates motor imagination of opening and closing both feet.
                 """
 
-                if run in task2:
+                if int(run) in task2:
                     for index, an in enumerate(raw_run.annotations.description):
                         if an == "T0":
                             raw_run.annotations.description[index] = "B"
@@ -87,7 +87,7 @@ class Utils:
                             raw_run.annotations.description[index] = "L"
                         if an == "T2":
                             raw_run.annotations.description[index] = "R"
-                if run in task4:
+                if int(run) in task4:
                     for index, an in enumerate(raw_run.annotations.description):
                         if an == "T0":
                             raw_run.annotations.description[index] = "B"
@@ -177,17 +177,18 @@ class Utils:
     def epoch(raws, exclude_base=False):
         tmin = 0
         tmax = 4
-
         xs = list()
         ys = list()
         for raw in raws:
-            event_id = dict(B=1, F=2, L=3, LR=4, R=5)
+            if exclude_base:
+                event_id = dict(F=2, L=3, LR=4, R=5)
+            else:
+                event_id = dict(B=1, F=2, L=3, LR=4, R=5)
             tmin, tmax = tmin, tmax
-            events, _ = mne.events_from_annotations(raw, event_id=dict(B=1, F=2, L=3, LR=4, R=5))
+            events, _ = mne.events_from_annotations(raw, event_id=event_id)
 
             picks = mne.pick_types(raw.info, meg=False, eeg=True, stim=False, eog=False,
                                    exclude='bads')
-
             epochs = Epochs(raw, events, event_id, tmin, tmax, proj=True, picks=picks,
                             baseline=None, preload=True)
 
@@ -199,6 +200,7 @@ class Utils:
             ys.append(y)
 
         return np.concatenate(tuple(xs), axis=0), [item for sublist in ys for item in sublist]
+
 
     @staticmethod
     def save_data(save_loc, x, y):
@@ -217,6 +219,7 @@ class Utils:
           y[x] = mapping[y[x]]
         np.save(os.path.join(dir_path, "y_C3_C4"), y, allow_pickle=True)
 
+
     @staticmethod
     def cut_width(data):
         new_data = np.zeros((data.shape[0], data.shape[1], data.shape[2] - 1))
@@ -224,6 +227,20 @@ class Utils:
             new_data[index] = line[:, :-1]
 
         return new_data
+
+    @staticmethod
+    def save_sub_by_sub(subjects, data_path, channels, exclude_base, save_path):
+
+        for sub in subjects:
+            x, y = Utils.epoch(Utils.select_channels(
+                Utils.filtering(
+                    Utils.eeg_settings(
+                        Utils.del_annotations(
+                            Utils.concatenate_runs(
+                                Utils.load_data(subjects=[sub], runs=runs, data_path=data_path))))), channels),
+                exclude_base=exclude_base)
+            np.save(os.path.join(save_path, "x_C3_C4_sub_" + str(sub)), x, allow_pickle=True)
+            np.save(os.path.join(save_path, "y_C3_C4_sub_" + str(sub)), y, allow_pickle=True)
 
 
 
@@ -233,6 +250,9 @@ if __name__ == "__main__":
     runs = [4, 6, 8, 10, 12, 14]
     channels = ["C3", "C4"]
     data_path = "D:\\datasets\\eegbci"
-    Utils.download_data()
-    Utils.load_data(subjects=subjects, runs=runs, data_path=data_path)
+    save_path = "D:\\datasets\\eeg_dataset\\C3_C4_sub_no_base"
+
+    Utils.save_sub_by_sub(subjects, data_path, channels, True, save_path)
+
+    # x, y = Utils.epoch(Utils.select_channels(Utils.filtering(Utils.eeg_settings(Utils.del_annotations(Utils.concatenate_runs(Utils.load_data(subjects=subjects, runs=runs, data_path=source_path))))), channels), exclude_base=True)
 

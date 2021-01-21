@@ -35,7 +35,7 @@ x_train, x_test, y_train, y_test = train_test_split(x_data_scale, y, test_size=0
 #todo: Model here https://www.frontiersin.org/files/Articles/559321/fnhum-14-00338-HTML/image_m/fnhum-14-00338-t001.jpg
 
 model = keras.models.Sequential()
-model.add(keras.layers.Conv2D(630, (2,25), activation="relu", padding="same", input_shape=(2,641,1)))
+model.add(keras.layers.Conv2D(630, (2,25), activation="relu", padding="same", input_shape=(2,640,1)))
 
 model.add(keras.layers.Conv2D())
 model.add(keras.layers.MaxPooling2D())

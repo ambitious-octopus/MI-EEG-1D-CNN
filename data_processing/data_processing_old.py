@@ -125,19 +125,18 @@ def select_channels(raws, ch_list):
 def epoch(raws, exclude_base=False):
     tmin = 0
     tmax = 4
-
     xs = list()
     ys = list()
     for raw in raws:
-        event_id = dict(B=1, F=2, L=3, LR=4, R=5)
+        if exclude_base:
+            event_id = dict(F=2, L=3, LR=4, R=5)
+        else:
+            event_id = dict(B=1, F=2, L=3, LR=4, R=5)
         tmin, tmax = tmin, tmax
-        events, _ = mne.events_from_annotations(raw, event_id=dict(B=1, F=2, L=3, LR=4, R=5))
+        events, _ = mne.events_from_annotations(raw, event_id=event_id)
 
         picks = mne.pick_types(raw.info, meg=False, eeg=True, stim=False, eog=False,
                                exclude='bads')
-
-        # Read epochs (train will be done only between 1 and 2s)
-        # Testing will be done with a running classifier
         epochs = Epochs(raw, events, event_id, tmin, tmax, proj=True, picks=picks,
                         baseline=None, preload=True)
 
@@ -169,18 +168,23 @@ subjects = [n for n in np.arange(1,110) if n not in exclude]
 runs = [4,6,8,10,12,14]
 channels = ["C3", "C4"]
 
+for sub in subjects:
+    x, y = epoch(select_channels(
+        filtering(eeg_settings(del_annotations(concatenate_runs(load_data(subjects=[sub], runs=runs))))), channels), exclude_base=False)
+    dir_path = "D:\\datasets\\eeg_dataset\\C3_C4_sub"
+    np.save(os.path.join(dir_path, "x_C3_C4_sub_" + str(sub)), x, allow_pickle=True)
+    np.save(os.path.join(dir_path, "y_C3_C4_sub_" + str(sub)), y, allow_pickle=True)
+
+#%%
 x, y = epoch(select_channels(filtering(eeg_settings(del_annotations(concatenate_runs(load_data(subjects=subjects, runs=runs))))), channels), exclude_base=True)
-
-real_x = x.copy()
-
-for index, label in enumerate(y):
-    pass
 
 
 dir_path = "D:\\datasets\\eeg_dataset"
-
 # Save data
 np.save(os.path.join(dir_path, "x_C3_C4_no_base"), x, allow_pickle=True)
+
+np.save(os.path.join(dir_path, "y_C3_C4_no_base"), y, allow_pickle=True)
+
 """
 OneHot encoding
 """
@@ -191,4 +195,3 @@ for x in range(len(total_labels)):
 for x in range(len(y)):
   y[x] = mapping[y[x]]
 one_hot_encode = tf.keras.utils.to_categorical(y)
-np.save(os.path.join(dir_path, "y_C3_C4_no_base"), y, allow_pickle=True)
