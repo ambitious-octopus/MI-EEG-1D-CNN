@@ -43,7 +43,6 @@ x_data_resh = x_data.reshape(x_data.shape[0], x_data.shape[2]*x_data.shape[1])
 # x_data_scale = MinMaxScaler().fit_transform(x_data_mono) #Fare MinMax Scare, portare tra 0 e 1
 x_data_scale = minmax_scale(x_data_resh, axis=1)
 
-
 # import matplotlib
 # matplotlib.use("TkAgg")
 # import matplotlib.pyplot as plt
@@ -71,7 +70,7 @@ def get_distribution(y_train, y_test, n):
 # [samples, time steps, features].
 # real_x_train = x_train.reshape(14808, 640, 2)
 # real_x_test = x_test.reshape(3703, 640, 2)
-learning_rate = 1e-4 # default 1e-3
+learning_rate = 1e-6 # default 1e-3
 kernel_size = 36
 drop_rate = 0.5
 batch_size = 5
@@ -87,8 +86,8 @@ model.add(tf.keras.layers.Conv1D(filters=32, kernel_size=kernel_size, activation
 model.add(tf.keras.layers.AvgPool1D(pool_size=2))
 model.add(tf.keras.layers.Conv1D(filters=32, kernel_size=kernel_size, activation='relu', padding= "same"))
 model.add(tf.keras.layers.AvgPool1D(pool_size=2))
-# model.add(tf.keras.layers.Conv1D(filters=32, kernel_size=kernel_size, activation='relu', padding= "same"))
-# model.add(tf.keras.layers.AvgPool1D(pool_size=2))
+model.add(tf.keras.layers.Conv1D(filters=32, kernel_size=kernel_size, activation='relu', padding= "same"))
+model.add(tf.keras.layers.AvgPool1D(pool_size=2))
 model.add(tf.keras.layers.Flatten())
 model.add(tf.keras.layers.Dense(1024, activation='relu'))
 model.add(tf.keras.layers.Dropout(drop_rate))

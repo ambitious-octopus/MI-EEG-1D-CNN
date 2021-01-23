@@ -8,6 +8,7 @@ import mne
 from typing import List, TYPE_CHECKING
 import wget
 import sys
+from sklearn.preprocessing import minmax_scale
 
 class Utils:
 
@@ -174,9 +175,7 @@ class Utils:
         return s_list
 
     @staticmethod
-    def epoch(raws, exclude_base=False):
-        tmin = 0
-        tmax = 4
+    def epoch(raws, exclude_base=False, tmin=0, tmax=4):
         xs = list()
         ys = list()
         for raw in raws:
@@ -205,7 +204,6 @@ class Utils:
     @staticmethod
     def save_data(save_loc, x, y):
         dir_path = os.path.join(save_loc, "eeg_data")
-
         #Save data
         np.save(os.path.join(dir_path, "x_C3_C4"), x, allow_pickle=True)
         """
@@ -242,17 +240,80 @@ class Utils:
             np.save(os.path.join(save_path, "x_C3_C4_sub_" + str(sub)), x, allow_pickle=True)
             np.save(os.path.join(save_path, "y_C3_C4_sub_" + str(sub)), y, allow_pickle=True)
 
+    @staticmethod
+    def load_sub_by_sub(subjects, data_path):
+        xs = list()
+        ys = list()
+        for sub in subjects:
+            xs.append(Utils.cut_width(np.load(os.path.join(data_path, "x_C3_C4_sub_" + str(sub) + ".npy"))))
+            ys.append(np.load(os.path.join(data_path, "y_C3_C4_sub_" + str(sub) + ".npy")))
+        return xs, ys
+
+
+    @staticmethod
+    def scale_sub_by_sub(xs, ys):
+        for sub_x, sub_y, sub_index in zip(xs, ys, range(len(xs))):
+            for sample_index, x_data in zip(range(sub_x.shape[0]), sub_x):
+                xs[sub_index][sample_index] = minmax_scale(x_data, axis=1)
+
+        return xs, ys
+
+
+    @staticmethod
+    def to_numerical(y, by_sub=False):
+        if by_sub:
+            new_array = np.array(["nan" for nan in range(len(y))])
+            for index, label in enumerate(y):
+                new_array[index] = ''.join([i for i in label if not i.isdigit()])
+        else:
+            new_array = y.copy()
+        total_labels = np.unique(new_array)
+        mapping = {}
+        for x in range(len(total_labels)):
+            mapping[total_labels[x]] = x
+        for x in range(len(new_array)):
+            new_array[x] = mapping[new_array[x]]
+
+        return new_array
+
+
+    @staticmethod
+    def train_test_split(x, y, perc):
+        from numpy.random import default_rng
+        rng = default_rng()
+        test_x = list()
+        train_x = list()
+        train_y = list()
+        test_y = list()
+        for sub_x, sub_y in zip(x, y):
+            how_many = int(len(sub_x) * perc)
+            indexes = np.arange(0, len(sub_x))
+            choices = rng.choice(indexes, how_many, replace=False)
+            for sample_x, sample_y, index in zip(sub_x, sub_y, range(len(sub_x))):
+                if index in choices:
+                    test_x.append(sub_x[index])
+                    test_y.append(sub_y[index])
+                else:
+                    train_x.append(sub_x[index])
+                    train_y.append(sub_y[index])
+        return np.dstack(tuple(train_x)), np.dstack(tuple(test_x)), np.array(train_y), np.array(test_y)
 
 
 if __name__ == "__main__":
-    exclude = [38, 88, 89, 92, 100, 104]
+    exclude = [] #[38, 88, 89, 92, 100, 104]
     subjects = [n for n in np.arange(1, 110) if n not in exclude]
     runs = [4, 6, 8, 10, 12, 14]
     channels = ["C3", "C4"]
     data_path = "D:\\datasets\\eegbci"
-    save_path = "D:\\datasets\\eeg_dataset\\C3_C4_sub_no_base"
+    save_path = "D:\\datasets\\eeg_dataset\\C3_C4_sub_no_base_min1_max3"
 
-    Utils.save_sub_by_sub(subjects, data_path, channels, True, save_path)
+    for sub in subjects:
+        x, y = Utils.epoch(Utils.select_channels(
+            Utils.filtering(Utils.eeg_settings(Utils.del_annotations(Utils.concatenate_runs(Utils.load_data(subjects=[sub], runs=runs, data_path=data_path))))), channels), tmin=1, tmax=3,
+            exclude_base=True)
+        np.save(os.path.join(save_path, "x_C3_C4_sub_" + str(sub)), x, allow_pickle=True)
+        np.save(os.path.join(save_path, "y_C3_C4_sub_" + str(sub)), y, allow_pickle=True)
 
-    # x, y = Utils.epoch(Utils.select_channels(Utils.filtering(Utils.eeg_settings(Utils.del_annotations(Utils.concatenate_runs(Utils.load_data(subjects=subjects, runs=runs, data_path=source_path))))), channels), exclude_base=True)
+
+
 
