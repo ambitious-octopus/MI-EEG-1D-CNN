@@ -241,12 +241,12 @@ class Utils:
             np.save(os.path.join(save_path, "y_C3_C4_sub_" + str(sub)), y, allow_pickle=True)
 
     @staticmethod
-    def load_sub_by_sub(subjects, data_path):
+    def load_sub_by_sub(subjects, data_path, name_single_sub):
         xs = list()
         ys = list()
         for sub in subjects:
-            xs.append(Utils.cut_width(np.load(os.path.join(data_path, "x_C3_C4_sub_" + str(sub) + ".npy"))))
-            ys.append(np.load(os.path.join(data_path, "y_C3_C4_sub_" + str(sub) + ".npy")))
+            xs.append(Utils.cut_width(np.load(os.path.join(data_path, "x" + name_single_sub + str(sub) + ".npy"))))
+            ys.append(np.load(os.path.join(data_path, "y" + name_single_sub + str(sub) + ".npy")))
         return xs, ys
 
 
@@ -303,16 +303,16 @@ if __name__ == "__main__":
     exclude = [] #[38, 88, 89, 92, 100, 104]
     subjects = [n for n in np.arange(1, 110) if n not in exclude]
     runs = [4, 6, 8, 10, 12, 14]
-    channels = ["C3", "C4"]
+    channels = ["FC3", "FC4"]
     data_path = "D:\\datasets\\eegbci"
-    save_path = "D:\\datasets\\eeg_dataset\\C3_C4_sub_no_base_min1_max3"
+    save_path = "D:\\datasets\\eeg_dataset\\FC3_FC4_sub_no_base_no_filter"
 
     for sub in subjects:
-        x, y = Utils.epoch(Utils.select_channels(
-            Utils.filtering(Utils.eeg_settings(Utils.del_annotations(Utils.concatenate_runs(Utils.load_data(subjects=[sub], runs=runs, data_path=data_path))))), channels), tmin=1, tmax=3,
+        x, y = Utils.epoch(Utils.select_channels
+                           (Utils.eeg_settings(Utils.del_annotations(Utils.concatenate_runs(Utils.load_data(subjects=[sub], runs=runs, data_path=data_path)))), channels),
             exclude_base=True)
-        np.save(os.path.join(save_path, "x_C3_C4_sub_" + str(sub)), x, allow_pickle=True)
-        np.save(os.path.join(save_path, "y_C3_C4_sub_" + str(sub)), y, allow_pickle=True)
+        np.save(os.path.join(save_path, "x_FC3_FC4_sub_" + str(sub)), x, allow_pickle=True)
+        np.save(os.path.join(save_path, "y_FC3_FC4_sub_" + str(sub)), y, allow_pickle=True)
 
 
 

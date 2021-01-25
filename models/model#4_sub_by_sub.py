@@ -4,6 +4,7 @@ from data_processing.general_processor import Utils
 from sklearn.model_selection import train_test_split
 import matplotlib
 matplotlib.use("TkAgg")
+import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler # Usare MIn MAx scaler
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import minmax_scale
@@ -16,8 +17,8 @@ config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 exclude =  [38, 88, 89, 92, 100, 104]
 subjects = [n for n in np.arange(1,109) if n not in exclude]
-data_path = "D:\\datasets\\eeg_dataset\\C3_C4_sub_no_base" #save_path = "D:\\datasets\\eeg_dataset\\C3_C4_sub_no_base_min1_max3" "D:\\datasets\\eeg_dataset\\C3_C4_sub_no_base"
-xs, ys = Utils.load_sub_by_sub(subjects, data_path)
+data_path = "D:\\datasets\\eeg_dataset\\FC3_FC4_sub_no_base_no_filter" #save_path = "D:\\datasets\\eeg_dataset\\C3_C4_sub_no_base_min1_max3" "D:\\datasets\\eeg_dataset\\C3_C4_sub_no_base" "D:\datasets\eeg_dataset\FC3_FC4_sub_no_base_no_filter"
+xs, ys = Utils.load_sub_by_sub(subjects, data_path,"_FC3_FC4_sub_")
 xs, ys = Utils.scale_sub_by_sub(xs, ys)
 #todo: Inserire nel test set la giusta proporzione di ogni soggetto
 
@@ -51,9 +52,9 @@ y_test = tf.keras.utils.to_categorical(y_test)
 # [samples, time steps, features].
 # real_x_train = x_train.reshape(14808, 640, 2)
 # real_x_test = x_test.reshape(3703, 640, 2)
-learning_rate = 1e-4 # default 1e-3
-kernel_size = 2
-drop_rate = 0.3
+learning_rate = 1e-5 # default 1e-3
+kernel_size = 11
+drop_rate = 0.4 #0.2 good #0.4 local minimum
 
 
 
@@ -61,21 +62,44 @@ loss = tf.keras.losses.categorical_crossentropy  #tf.keras.losses.categorical_cr
 optimizer = tf.keras.optimizers.Adam(lr=learning_rate) #tf.keras.optimizers.Adam(lr=learning_rate) tf.keras.optimizers.SGD(learning_rate=learning_rate)
 
 model = tf.keras.Sequential()
-model.add(tf.keras.layers.Conv1D(filters=25, kernel_size=kernel_size, activation='relu', padding= "valid", input_shape=(640, 2)))
-model.add(tf.keras.layers.AvgPool1D(pool_size=2))
-model.add(tf.keras.layers.Conv1D(filters=25, kernel_size=kernel_size, activation='relu', padding= "valid"))
-model.add(tf.keras.layers.AvgPool1D(pool_size=2))
-model.add(tf.keras.layers.Conv1D(filters=15, kernel_size=kernel_size, activation='relu', padding= "valid"))
-model.add(tf.keras.layers.AvgPool1D(pool_size=2))
+model.add(tf.keras.layers.Conv1D(filters=25, kernel_size=kernel_size, strides=1, activation='relu', padding= "valid", input_shape=(640, 2)))
+model.add(tf.keras.layers.SpatialDropout1D(drop_rate))
+model.add(tf.keras.layers.Conv1D(filters=25, kernel_size=2, activation='relu', strides=1, padding= "valid"))
+model.add(tf.keras.layers.BatchNormalization())
+model.add(tf.keras.layers.SpatialDropout1D(drop_rate))
+model.add(tf.keras.layers.MaxPool1D(pool_size=3, strides=3))
+model.add(tf.keras.layers.Conv1D(filters=50, kernel_size=kernel_size, activation='relu', strides=1, padding= "valid"))
+model.add(tf.keras.layers.SpatialDropout1D(drop_rate))
+model.add(tf.keras.layers.MaxPool1D(pool_size=3, strides=3))
+model.add(tf.keras.layers.Conv1D(filters=100, kernel_size=kernel_size, activation='relu', strides=1, padding= "valid"))
+model.add(tf.keras.layers.BatchNormalization())
+model.add(tf.keras.layers.SpatialDropout1D(drop_rate))
+model.add(tf.keras.layers.MaxPool1D(pool_size=3))
+model.add(tf.keras.layers.Conv1D(filters=200, kernel_size=kernel_size, activation='relu', strides=1, padding= "valid"))
+model.add(tf.keras.layers.BatchNormalization())
+model.add(tf.keras.layers.MaxPool1D(pool_size=2))
 model.add(tf.keras.layers.Flatten())
-model.add(tf.keras.layers.Dense(128, activation='relu'))
-model.add(tf.keras.layers.Dropout(drop_rate))
-model.add(tf.keras.layers.Dense(64, activation='relu'))
-model.add(tf.keras.layers.Dropout(drop_rate))
+# model.add(tf.keras.layers.Conv1D(filters=100, kernel_size=kernel_size, activation='relu', strides=1, padding= "valid"))
+# model.add(tf.keras.layers.BatchNormalization())
 model.add(tf.keras.layers.Dense(4, activation='softmax'))
+# model.add(tf.keras.layers.Dense(64, activation='relu'))
+# model.add(tf.keras.layers.Dropout(drop_rate))
+# model.add(tf.keras.layers.Dense(32, activation='relu'))
+# model.add(tf.keras.layers.Dropout(drop_rate))
+# model.add(tf.keras.layers.Dense(4, activation='softmax'))
 model.compile(loss=loss, optimizer=optimizer, metrics=['accuracy'])
 model.summary()
-history = model.fit(x_train_resh, y_train, epochs=100, batch_size=10, validation_data=(x_test_resh, y_test))
+hist = model.fit(x_train_resh, y_train, epochs=160, batch_size=6, shuffle=True, validation_data=(x_test_resh, y_test))
+
+plt.subplot(1,2,1, title="accuracy")
+plt.plot(hist.history["accuracy"], color="red", label="Train")
+plt.plot(hist.history["val_accuracy"], color="blue", label="Test")
+plt.legend(loc='lower right')
+plt.subplot(1,2,2, title="loss")
+plt.plot(hist.history["val_loss"], color="blue", label="Test")
+plt.plot(hist.history["loss"], color="red", label="Train")
+plt.legend(loc='lower right')
+plt.show()
 
 print(model.predict(x_test_resh[:4]))
 print(y_test[:4])

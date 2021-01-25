@@ -1,0 +1,5 @@
+Changelog:
+
+model#4_sub_by_sub
+1. Changed learnig_rate from 1e-6 to 1e-4 = accuracy: 0.403 val_accuracy = 0.467
+2. All kernel size = 8 first = 11
