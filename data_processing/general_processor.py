@@ -11,8 +11,6 @@ import sys
 from sklearn.preprocessing import minmax_scale
 
 class Utils:
-
-
     @staticmethod
     def download_data(save_path: str = os.getcwd()) -> str:
         #todo: test this
@@ -40,7 +38,6 @@ class Utils:
     def load_data(subjects: List, runs: List, data_path: str) -> List:
         #todo: Add dosctrings
         """
-
         :param subjects:
         :param runs:
         :param data_path:
@@ -65,7 +62,6 @@ class Utils:
                     path_run = os.path.join(sub_folder, sub_name+"R"+"0"+run+".edf")
                 else:
                     path_run = os.path.join(sub_folder, sub_name+"R"+ run +".edf")
-
                 raw_run = read_raw_edf(path_run, preload=True)  # Le carico
                 len_run = np.sum(raw_run._annotations.duration)  # Controllo la durata
                 if len_run > 124:
@@ -228,7 +224,6 @@ class Utils:
 
     @staticmethod
     def save_sub_by_sub(subjects, data_path, channels, exclude_base, save_path):
-
         for sub in subjects:
             x, y = Utils.epoch(Utils.select_channels(
                 Utils.filtering(
@@ -300,19 +295,7 @@ class Utils:
 
 
 if __name__ == "__main__":
-    exclude = [] #[38, 88, 89, 92, 100, 104]
-    subjects = [n for n in np.arange(1, 110) if n not in exclude]
-    runs = [4, 6, 8, 10, 12, 14]
-    channels = ["FC3", "FC4"]
-    data_path = "D:\\datasets\\eegbci"
-    save_path = "D:\\datasets\\eeg_dataset\\FC3_FC4_no_filter"
-
-    for sub in subjects:
-        x, y = Utils.epoch(Utils.select_channels
-                           (Utils.eeg_settings(Utils.del_annotations(Utils.concatenate_runs(Utils.load_data(subjects=[sub], runs=runs, data_path=data_path)))), channels),
-            exclude_base=False)
-        np.save(os.path.join(save_path, "x_FC3_FC4_sub_" + str(sub)), x, allow_pickle=True)
-        np.save(os.path.join(save_path, "y_FC3_FC4_sub_" + str(sub)), y, allow_pickle=True)
+    pass
 
 
 
