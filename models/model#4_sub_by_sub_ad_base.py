@@ -16,7 +16,7 @@ physical_devices = tf.config.experimental.list_physical_devices('GPU')
 print(physical_devices)
 tf.autograph.set_verbosity(0)
 # assert len(physical_devices) > 0, "Not enough GPU hardware devices available"
-# config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
+config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 #############################################################################
 exclude =  [38, 88, 89, 92, 100, 104]
 subjects = [n for n in np.arange(1,109) if n not in exclude]
@@ -87,23 +87,24 @@ optimizer = tf.keras.optimizers.Adam(lr=learning_rate)
 model = tf.keras.Sequential()
 model.add(tf.keras.layers.Conv1D(filters=32, kernel_size=kernel_size_0,
                                  activation='relu', padding= "same", input_shape=(640, 2)))
-model.add(tf.keras.layers.SpatialDropout1D(drop_rate))
+# model.add(tf.keras.layers.SpatialDropout1D(drop_rate))
 # model.add(tf.keras.layers.BatchNormalization())
 # model.add(tf.keras.layers.MaxPool1D(pool_size=2))
-model.add(tf.keras.layers.Conv1D(filters=64, kernel_size=kernel_size_1, activation='relu',
+model.add(tf.keras.layers.Conv1D(filters=32, kernel_size=kernel_size_1, activation='relu',
                                  padding= "valid"))
 # model.add(tf.keras.layers.BatchNormalization())
 model.add(tf.keras.layers.SpatialDropout1D(drop_rate))
-model.add(tf.keras.layers.MaxPool1D(pool_size=2))
-model.add(tf.keras.layers.Conv1D(filters=64, kernel_size=kernel_size_1, activation='relu',
+# model.add(tf.keras.layers.MaxPool1D(pool_size=2))
+model.add(tf.keras.layers.Conv1D(filters=32, kernel_size=kernel_size_1, activation='relu',
                                  padding= "valid"))
 model.add(tf.keras.layers.SpatialDropout1D(drop_rate))
-model.add(tf.keras.layers.MaxPool1D(pool_size=2))
+# model.add(tf.keras.layers.MaxPool1D(pool_size=2))
 
 
-# model.add(tf.keras.layers.Conv1D(filters=8, kernel_size=kernel_size_1, activation='relu',
-                                 # padding= "valid"))
+model.add(tf.keras.layers.Conv1D(filters=32, kernel_size=kernel_size_0, activation='relu',
+                                 padding= "valid"))
 # model.add(tf.keras.layers.BatchNormalization())
+model.add(tf.keras.layers.SpatialDropout1D(drop_rate))
 # model.add(tf.keras.layers.Dropout(drop_rate))
 # model.add(tf.keras.layers.Conv1D(filters=15, kernel_size=kernel_size, activation='relu',
 #                                  strides=1, padding="valid"))
@@ -141,7 +142,7 @@ earlystopping = EarlyStopping(
     )
 callbacksList = [checkpoint, earlystopping] # build callbacks list
 
-hist = model.fit(x_train_resh, y_train, epochs=60, batch_size=10,
+hist = model.fit(x_train_resh, y_train, epochs=400, batch_size=2,
                  validation_data=(x_valid_resh, y_valid), callbacks=callbacksList) #32
 
 
