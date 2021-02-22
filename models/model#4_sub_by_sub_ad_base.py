@@ -76,7 +76,7 @@ x_valid_resh = x_valid.reshape(x_valid.shape[0], int(x_valid.shape[1]/2),2).asty
 # real_x_train = x_train.reshape(14808, 640, 2)
 # real_x_test = x_test.reshape(3703, 640, 2)
 learning_rate = 1e-4 # default 1e-3
-kernel_size_0 = 12 #5 e 6 good learning_rate = 1e-4 good
+kernel_size_0 = 20 #5 e 6 good learning_rate = 1e-4 good
 kernel_size_1 = 6
 drop_rate = 0.5 #0.2 good #0.4 local minimum
 
@@ -92,7 +92,7 @@ model.add(tf.keras.layers.Conv1D(filters=32, kernel_size=kernel_size_0,
 # model.add(tf.keras.layers.MaxPool1D(pool_size=2))
 model.add(tf.keras.layers.Conv1D(filters=32, kernel_size=kernel_size_1, activation='relu',
                                  padding= "valid"))
-# model.add(tf.keras.layers.BatchNormalization())
+model.add(tf.keras.layers.BatchNormalization())
 model.add(tf.keras.layers.SpatialDropout1D(drop_rate))
 # model.add(tf.keras.layers.MaxPool1D(pool_size=2))
 model.add(tf.keras.layers.Conv1D(filters=32, kernel_size=kernel_size_1, activation='relu',
