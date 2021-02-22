@@ -1,59 +1,62 @@
-#https://www.frontiersin.org/articles/10.3389/fnhum.2020.00338/full
-#todo: Model here https://www.frontiersin.org/files/Articles/559321/fnhum-14-00338-HTML/image_m/fnhum-14-00338-t001.jpg
-
 import numpy as np
+import tensorflow as tf
+import matplotlib
+matplotlib.use("TkAgg")
 import os
 from data_processing.general_processor import Utils
 from sklearn.model_selection import train_test_split
 import matplotlib
 matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
-import datetime
-from sklearn.preprocessing import StandardScaler # Usare MIn MAx scaler
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.preprocessing import minmax_scale
-
-import tensorflow as tf
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 physical_devices = tf.config.experimental.list_physical_devices('GPU')
 print(physical_devices)
 tf.autograph.set_verbosity(0)
 # assert len(physical_devices) > 0, "Not enough GPU hardware devices available"
 config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
-#############################################################################
+
+#Load big dataset
+channels = [["C3", "C4"],
+            ["FC3", "FC4"],
+            ["C1", "C2"],
+            ["C5", "C6"],
+            ["FC1", "FC2"],
+            ["FC5", "FC6"]]
 exclude =  [38, 88, 89, 92, 100, 104]
 subjects = [n for n in np.arange(1,109) if n not in exclude]
-# data_path = "D:\\datasets\\eeg_dataset\\C3_C4_sub"
-data_path = "D:\datasets\eeg_dataset\C3_C4_sub"
-sub_name = "_C3_C4_sub_"
+# subjects = [109]
+data_x = list()
+data_y = list()
+base_path = "D:\\datasets\\eeg_dataset\\n_ch_base"
 
-xs, ys = Utils.load_sub_by_sub(subjects, data_path, sub_name)
-xs, ys = Utils.scale_sub_by_sub(xs, ys)
+for couple in channels:
+    data_path = os.path.join(base_path, couple[0]+ couple[1])
+    sub_name = "_sub_"
+    xs, ys = Utils.load_sub_by_sub(subjects, data_path, sub_name)
+    data_x.append(np.concatenate(xs))
+    data_y.append(np.concatenate(ys))
 
+not_scaled_x = np.concatenate(data_x)
+y = np.concatenate(data_y)
 
-# Questo fa una modifica alle label aggiungendo il nome del sogetto in modo da stratificare
-new_y = list()
-for x, y, index_sub in zip(xs, ys, range(len(xs))):
-    subj_array = list()
-    for index_label, label in enumerate(y):
-        subj_array.append(label + str(index_sub))
-    new_y.append(np.array(subj_array))
-y = np.concatenate(new_y)
-x = np.concatenate(xs)
-
-x_resh = x.reshape(x.shape[0], x.shape[2]*x.shape[1])
-y_cat = Utils.to_numerical(y, by_sub=True)
-y_real = tf.keras.utils.to_categorical(y_cat)
-
+reshaped_x = not_scaled_x.reshape(not_scaled_x.shape[0], not_scaled_x.shape[1] * not_scaled_x.shape[2])
+#Scaling
+from sklearn.preprocessing import minmax_scale
+#Axis used to scale along. If 0, independently scale each feature, otherwise (if 1) scale each sample.
+scaled_x = minmax_scale(reshaped_x, axis=1)
+#one hot encoding
+y_numerical = Utils.to_numerical(y, by_sub=False)
+y_one_hot = tf.keras.utils.to_categorical(y_numerical)
 print('classes count')
-print ('before oversampling = {}'.format(y_real.sum(axis=0)))
-
+print ('before oversampling = {}'.format(y_one_hot.sum(axis=0)))
+# smote
 from imblearn.over_sampling import SMOTE
 sm = SMOTE(random_state=42)
-XRes, desYRes = sm.fit_sample(x_resh, y_real)
+XRes, desYRes = sm.fit_sample(scaled_x, y_one_hot)
 print('classes count')
-print ('before oversampling = {}'.format(y_real.sum(axis=0)))
+print ('before oversampling = {}'.format(y_one_hot.sum(axis=0)))
 print ('after oversampling = {}'.format(desYRes.sum(axis=0)))
+
 x_train, x_test, y_train, y_test = train_test_split(XRes, desYRes, stratify=desYRes,
                                                     test_size=0.20,
                                                     random_state=42)
@@ -61,26 +64,14 @@ x_valid, x_test, y_valid, y_test = train_test_split(x_test, y_test, stratify=y_t
                                                     test_size=0.50,
                                                     random_state=42)
 
-#Processing y
-# y_train = Utils.to_numerical(y_train, by_sub=True)
-# y_test = Utils.to_numerical(y_test, by_sub=True)
-
-#Reshape x -> (sample, width, 1)
 x_train_resh = x_train.reshape(x_train.shape[0], int(x_train.shape[1]/2), 2).astype(np.float64)
 x_test_resh = x_test.reshape(x_test.shape[0], int(x_test.shape[1]/2),2).astype(np.float64)
 x_valid_resh = x_valid.reshape(x_valid.shape[0], int(x_valid.shape[1]/2),2).astype(np.float64)
 
-# y_train = tf.keras.utils.to_categorical(y_train)
-# y_test = tf.keras.utils.to_categorical(y_test)
 
-#%%
-#Convolution Neural Network
-# [samples, time steps, features].
-# real_x_train = x_train.reshape(14808, 640, 2)
-# real_x_test = x_test.reshape(3703, 640, 2)
 learning_rate = 1e-4 # default 1e-3
 kernel_size_0 = 20 #5 e 6 good learning_rate = 1e-4 good
-kernel_size_1 = 8
+kernel_size_1 = 6
 drop_rate = 0.5
 
 
@@ -145,7 +136,9 @@ earlystopping = EarlyStopping(
     )
 callbacksList = [checkpoint, earlystopping] # build callbacks list
 
-hist = model.fit(x_train_resh, y_train, epochs=400, batch_size=2,
+#%%
+
+hist = model.fit(x_train_resh, y_train, epochs=400, batch_size=15,
                  validation_data=(x_valid_resh, y_valid), callbacks=callbacksList) #32
 
 
@@ -168,8 +161,12 @@ print(y_test[:4])
 """
 Test model
 """
-model.load_weights(os.path.join(os.getcwd(),
-                                "bestModel.h5"))
+path = "C:\\Users\\franc_pyl533c\\OneDrive\\Repository\\eeGNN\\models\\bestModel.h5"
+model.load_weights(path)
+
+# model.load_weights(os.path.join(os.getcwd(),
+#                                 "bestModel.h5"))
+
 testLoss, testAcc = model.evaluate(x_test_resh,y_test)
 print('\nAccuracy:', testAcc)
 print('\nLoss: ', testLoss)
@@ -182,16 +179,56 @@ yPred = model.predict(x_test_resh)
 yTestClass = np.argmax(y_test, axis=1)
 yPredClass = np.argmax(yPred,axis=1)
 
-# print('\n Classification report \n\n',
-#   classification_report(
-#       yTestClass,
-#       yPredClass,
-#        target_names=["B", "A1", "A2", "A3", "A4"]
-#       )
-#   )
-# print('\n Confusion matrix \n\n',
-#   confusion_matrix(
-#       yTestClass,
-#       yPredClass,
-#       )
-#   )
+print('\n Classification report \n\n',
+  classification_report(
+      yTestClass,
+      yPredClass,
+       target_names=["B", "A1", "A2", "A3", "A4"]
+      )
+  )
+print('\n Confusion matrix \n\n',
+  confusion_matrix(
+      yTestClass,
+      yPredClass,
+      )
+  )
+
+#%%
+#Generate graph
+
+y = np.load("C:\\Users\\franc_pyl533c\\OneDrive\\Repository\\eeGNN\\labels.npy")
+x = np.load("C:\\Users\\franc_pyl533c\\OneDrive\\Repository\\eeGNN\\window.npy")
+x_scaled = minmax_scale(x.reshape(x.shape[0], x.shape[1]*x.shape[2]), axis=1)
+x_final = x_scaled.reshape(x_scaled.shape[0], int(x_scaled.shape[1]/2), 2).astype(np.float64)
+
+y_numerical = Utils.to_numerical(y, by_sub=False)
+y_one_hot = tf.keras.utils.to_categorical(y_numerical)
+
+acc = model.predict(x_final)
+
+import plotly.express as px
+import plotly.graph_objs as go
+import pandas as pd
+
+time = pd.read_pickle("time.pickle")
+res = list()
+all_x = 19840
+for sa in acc:
+    for s in range(160):
+        res.append(s)
+
+
+fig = go.Figure()
+for a in range(5):
+    fig.add_trace(go.Scatter(y = np.round(acc[:, a], 1), x= np.arange(0,122)))
+
+fig.add_trace(go.Bar(
+    name="base",
+    x=[0, 640], y=[1],
+    xperiod="M1",
+    xperiodalignment="middle"
+))
+
+
+fig.update_xaxes(rangeslider_visible=True)
+fig.write_html("sa.html")
