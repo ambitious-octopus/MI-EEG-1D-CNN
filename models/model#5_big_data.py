@@ -183,7 +183,7 @@ print('\n Classification report \n\n',
   classification_report(
       yTestClass,
       yPredClass,
-       target_names=["B", "A1", "A2", "A3", "A4"]
+       target_names=["B", "R", "RL", "L", "F"]
       )
   )
 print('\n Confusion matrix \n\n',
@@ -206,29 +206,49 @@ y_one_hot = tf.keras.utils.to_categorical(y_numerical)
 
 acc = model.predict(x_final)
 
+
+
 import plotly.express as px
 import plotly.graph_objs as go
 import pandas as pd
-
+from plotly.subplots import make_subplots
 time = pd.read_pickle("time.pickle")
-res = list()
-all_x = 19840
-for sa in acc:
-    for s in range(160):
-        res.append(s)
+time.drop(time.tail(1).index, inplace=True)
+fig = make_subplots(rows=5, cols=1)
+classes = ["B", "F", "L", "LR", "R"]
+for index, cla in enumerate(classes):
+    fig.add_trace(go.Scatter(y=np.round(acc[:, index]),  name=cla), row=index+1, col=1)
 
 
-fig = go.Figure()
-for a in range(5):
-    fig.add_trace(go.Scatter(y = np.round(acc[:, a], 1), x= np.arange(0,122)))
-
-fig.add_trace(go.Bar(
-    name="base",
-    x=[0, 640], y=[1],
-    xperiod="M1",
-    xperiodalignment="middle"
-))
-
-
-fig.update_xaxes(rangeslider_visible=True)
+for index, r in enumerate(time.iterrows()):
+    if r[1].task == "nan" or r[1].task == "B":
+        fig.add_vrect(
+            x0=index, x1=index+1,
+            fillcolor="LightSalmon", opacity=0.2,
+            layer="below", line_width=1, row=1, col=1
+        )
+    elif r[1].task == "F":
+        fig.add_vrect(
+            x0=index, x1=index+1,
+            fillcolor="LightSalmon", opacity=0.2,
+            layer="below", line_width=1, row=2, col=1
+        )
+    elif r[1].task == "L":
+        fig.add_vrect(
+            x0=index, x1=index+1,
+            fillcolor="LightSalmon", opacity=0.2,
+            layer="below", line_width=1, row=3, col=1
+        )
+    elif r[1].task == "LR":
+        fig.add_vrect(
+            x0=index, x1=index+1,
+            fillcolor="LightSalmon", opacity=0.2,
+            layer="below", line_width=1, row=4, col=1
+        )
+    elif r[1].task == "R":
+        fig.add_vrect(
+            x0=index, x1=index+1,
+            fillcolor="LightSalmon", opacity=0.2,
+            layer="below", line_width=1, row=5, col=1
+        )
 fig.write_html("sa.html")
