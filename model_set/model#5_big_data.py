@@ -22,6 +22,7 @@ channels = [["C3", "C4"],
             ["C5", "C6"],
             ["FC1", "FC2"],
             ["FC5", "FC6"]]
+
 exclude =  [38, 88, 89, 92, 100, 104]
 subjects = [n for n in np.arange(1,109) if n not in exclude]
 # subjects = [109]
@@ -52,7 +53,7 @@ print ('before oversampling = {}'.format(y_one_hot.sum(axis=0)))
 # smote
 from imblearn.over_sampling import SMOTE
 sm = SMOTE(random_state=42)
-XRes, desYRes = sm.fit_sample(scaled_x, y_one_hot)
+XRes, desYRes = sm.fit_resample(scaled_x, y_one_hot)
 print('classes count')
 print ('before oversampling = {}'.format(y_one_hot.sum(axis=0)))
 print ('after oversampling = {}'.format(desYRes.sum(axis=0)))

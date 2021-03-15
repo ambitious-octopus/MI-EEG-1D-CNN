@@ -1,6 +1,3 @@
-
-
-#%%
 from data_processing.general_processor import Utils
 import numpy as np
 import os
@@ -22,12 +19,17 @@ for sub in subjects:
 from data_processing.general_processor import Utils
 import numpy as np
 import os
-channels = [["C3", "C4"],
+
+channels = [["FC1", "FC2"],
             ["FC3", "FC4"],
-            ["C1", "C2"],
+            ["FC5", "FC8"],
             ["C5", "C6"],
-            ["FC1", "FC2"],
-            ["FC5", "FC6"]]
+            ["C3", "C4"],
+            ["C1", "C2"],
+            ["CP1", "CP2"],
+            ["CP3", "CP4"],
+            ["CP5", "CP6"]]
+
 exclude = [38, 88, 89, 92, 100, 104]
 subjects = [n for n in np.arange(1, 110) if n not in exclude]
 runs = [4, 6, 8, 10, 12, 14]
