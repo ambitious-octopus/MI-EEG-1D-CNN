@@ -9,6 +9,7 @@ from typing import List, TYPE_CHECKING
 import wget
 import sys
 from sklearn.preprocessing import minmax_scale
+import tensorflow as tf
 
 class Utils:
     @staticmethod
@@ -255,7 +256,7 @@ class Utils:
 
 
     @staticmethod
-    def to_numerical(y, by_sub=False):
+    def to_one_hot(y, by_sub=False):
         if by_sub:
             new_array = np.array(["nan" for nan in range(len(y))])
             for index, label in enumerate(y):
@@ -269,7 +270,7 @@ class Utils:
         for x in range(len(new_array)):
             new_array[x] = mapping[new_array[x]]
 
-        return new_array
+        return tf.keras.utils.to_categorical(new_array)
 
 
     @staticmethod
@@ -292,6 +293,21 @@ class Utils:
                     train_x.append(sub_x[index])
                     train_y.append(sub_y[index])
         return np.dstack(tuple(train_x)), np.dstack(tuple(test_x)), np.array(train_y), np.array(test_y)
+
+    @staticmethod
+    def load(channels, subjects):
+        data_x = list()
+        data_y = list()
+        base_path = "D:\\datasets\\eeg_dataset\\n_ch_base"
+
+        for couple in channels:
+            data_path = os.path.join(base_path, couple[0] + couple[1])
+            sub_name = "_sub_"
+            xs, ys = Utils.load_sub_by_sub(subjects, data_path, sub_name)
+            data_x.append(np.concatenate(xs))
+            data_y.append(np.concatenate(ys))
+
+        return np.concatenate(data_x), np.concatenate(data_y)
 
 
 if __name__ == "__main__":

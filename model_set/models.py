@@ -1,7 +1,8 @@
 import tensorflow as tf
-class HopefullModel(tf.keras.Model):
+
+class HopefullNet(tf.keras.Model):
     def __init__(self):
-        super(HopefullModel, self).__init__()
+        super(HopefullNet, self).__init__()
          #Define layers
         self.kernel_size_0 = 20
         self.kernel_size_1 = 6
@@ -13,12 +14,14 @@ class HopefullModel(tf.keras.Model):
                                             padding= "same",
                                             input_shape=(640, 2))
 
+        self.batch_n_1 = tf.keras.layers.BatchNormalization()
+
         self.conv2 = tf.keras.layers.Conv1D(filters=32,
                                             kernel_size=self.kernel_size_1,
                                             activation='relu',
                                             padding= "valid")
 
-        self.batch_n_1 = tf.keras.layers.BatchNormalization()
+        self.batch_n_2 = tf.keras.layers.BatchNormalization()
 
         self.spatial_drop_1 = tf.keras.layers.SpatialDropout1D(self.drop_rate)
 
@@ -50,9 +53,10 @@ class HopefullModel(tf.keras.Model):
 
     def call(self, input_tensor):
         conv1 = self.conv1(input_tensor)
-        conv2 = self.conv2(conv1)
-        batch_n_1 = self.batch_n_1(conv2)
-        spatial_drop_1 = self.spatial_drop_1(batch_n_1)
+        batch_n_1 = self.batch_n_1(conv1)
+        conv2 = self.conv2(batch_n_1)
+        batch_n_2 = self.batch_n_1(conv2)
+        spatial_drop_1 = self.spatial_drop_1(batch_n_2)
         conv3 = self.conv3(spatial_drop_1)
         spatial_drop_2 = self.spatial_drop_2(conv3)
         conv4 = self.conv4(spatial_drop_2)

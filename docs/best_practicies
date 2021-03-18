@@ -1,0 +1,5 @@
+# Option 1: Load with the custom_object argument.
+model = tf.keras.models.load_model(
+    "hopefull", custom_objects={"CustomModel": HopefullNet})
+
+model.evaluate(x_test, y_test)
