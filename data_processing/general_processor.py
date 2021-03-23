@@ -10,6 +10,7 @@ import wget
 import sys
 from sklearn.preprocessing import minmax_scale
 import tensorflow as tf
+from mne.io import BaseRaw
 
 class Utils:
     @staticmethod
@@ -36,13 +37,15 @@ class Utils:
         return data_path
 
     @staticmethod
-    def load_data(subjects: List, runs: List, data_path: str) -> List:
-        #todo: Add dosctrings
+    def load_data(subjects: List, runs: List, data_path: str) -> List[List[BaseRaw]]:
         """
-        :param subjects:
-        :param runs:
-        :param data_path:
-        :return:
+        Data una lista di soggeti, una lista di runs e il path del database.
+        Questa funzione itera su ogni soggetto, e successivamente su ogni run, carica le run in
+        memoria, modifica le labels e ritorna una lista di run per ogni soggetto.
+        :param subjects: List
+        :param runs: List
+        :param data_path: str
+        :return: List
         """
         all_subject_list = []
         subjects = [str(s) for s in subjects]
@@ -98,8 +101,9 @@ class Utils:
         return all_subject_list
 
     @staticmethod
-    def concatenate_runs(list_runs):
-        """ Concatenate a list of runs
+    def concatenate_runs(list_runs: List[List[BaseRaw]]) -> List[BaseRaw]:
+        """
+        Concatenate a list of runs
         :param list_runs: list of raw
         :return: list of concatenate raw
         """
@@ -110,7 +114,7 @@ class Utils:
         return raw_conc_list
 
     @staticmethod
-    def del_annotations(list_of_subraw):
+    def del_annotations(list_of_subraw:List[BaseRaw]) -> List[BaseRaw]:
         """
         Delete "BAD boundary" and "EDGE boundary" from raws
         :param list_of_subraw: list of raw

@@ -16,35 +16,32 @@ tf.autograph.set_verbosity(0)
 config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 # Load data
-channels = [["C3", "C4"],
-            ["FC3", "FC4"],
-            ["C1", "C2"],
-            ["C5", "C6"],
-            ["FC1", "FC2"],
-            ["FC5", "FC6"]]
-
-# channels = [["FC1", "FC2"],
+# channels = [["C3", "C4"],
 #             ["FC3", "FC4"],
-#             ["FC5", "FC6"],
-#             ["C5", "C6"],
-#             ["C3", "C4"],
 #             ["C1", "C2"],
-#             ["CP1", "CP2"],
-#             ["CP3", "CP4"],
-#             ["CP5", "CP6"]]
+#             ["C5", "C6"],
+#             ["FC1", "FC2"],
+#             ["FC5", "FC6"]]
+
+channels = [["FC1", "FC2"],
+            ["FC3", "FC4"],
+            ["FC5", "FC6"],
+            ["C5", "C6"],
+            ["C3", "C4"],
+            ["C1", "C2"],
+            ["CP1", "CP2"],
+            ["CP3", "CP4"],
+            ["CP5", "CP6"]]
 
 
 exclude =  [38, 88, 89, 92, 100, 104]
 subjects = [n for n in np.arange(1,109) if n not in exclude]
 #Load data
 x, y = Utils.load(channels, subjects)
-
 #Transform y to one-hot-encoding
 y_one_hot  = Utils.to_one_hot(y, by_sub=False)
-
 #Reshape for scaling
 reshaped_x = x.reshape(x.shape[0], x.shape[1] * x.shape[2])
-
 #Grab a test set before SMOTE
 x_train_raw, x_valid_test_raw, y_train_raw, y_valid_test_raw = train_test_split(reshaped_x,
                                                                             y_one_hot,
@@ -81,18 +78,15 @@ print ('after oversampling = {}'.format(y_train.sum(axis=0)))
 x_train = x_train_smote_raw.reshape(x_train_smote_raw.shape[0], int(x_train_smote_raw.shape[1]/2), 2).astype(np.float64)
 
 
-
 #%%
 learning_rate = 1e-4 # default 1e-3
-kernel_size_0 = 20 #5 e 6 good learning_rate = 1e-4 good
-kernel_size_1 = 6
-drop_rate = 0.5
-
 
 loss = tf.keras.losses.categorical_crossentropy  #tf.keras.losses.categorical_crossentropy
 optimizer = tf.keras.optimizers.Adam(lr=learning_rate)
 model = HopefullNet()
 modelPath = os.path.join(os.getcwd(),'bestModel.h5')
+
+model.compile(loss=loss, optimizer=optimizer, metrics=['accuracy'])
 
 checkpoint = ModelCheckpoint( # set model saving checkpoints
     modelPath, # set path to save model weights
@@ -111,11 +105,9 @@ earlystopping = EarlyStopping(
     restore_best_weights=True, # set if use best weights or last weights
     )
 callbacksList = [checkpoint, earlystopping] # build callbacks list
-
-model.compile(loss=loss, optimizer=optimizer, metrics=['accuracy'])
 #%%
 
-hist = model.fit(x_train, y_train, epochs=45, batch_size=10,
+hist = model.fit(x_train, y_train, epochs=45, batch_size=100,
                  validation_data=(x_valid, y_valid), callbacks=callbacksList) #32
 #Save_model
 
@@ -135,7 +127,7 @@ plt.show()
 """
 Test model
 """
-path = "C:\\Users\\franc_pyl533c\\OneDrive\\Repository\\eeGNN\\bestModel.h5"
+path = "C:\\Users\\franc_pyl533c\\OneDrive\\Repository\\eeGNN\\models\\bestModel.h5"
 model.load_weights(path)
 
 # model.load_weights(os.path.join(os.getcwd(),
@@ -166,3 +158,6 @@ print('\n Confusion matrix \n\n',
       yPredClass,
       )
   )
+
+
+model.save("D:\\hopefull")
