@@ -86,6 +86,7 @@ optimizer = tf.keras.optimizers.Adam(lr=learning_rate)
 model = HopefullNet()
 modelPath = os.path.join(os.getcwd(),'bestModel.h5')
 
+
 model.compile(loss=loss, optimizer=optimizer, metrics=['accuracy'])
 
 checkpoint = ModelCheckpoint( # set model saving checkpoints
@@ -107,7 +108,7 @@ earlystopping = EarlyStopping(
 callbacksList = [checkpoint, earlystopping] # build callbacks list
 #%%
 
-hist = model.fit(x_train, y_train, epochs=45, batch_size=100,
+hist = model.fit(x_train, y_train, epochs=1, batch_size=100,
                  validation_data=(x_valid, y_valid), callbacks=callbacksList) #32
 #Save_model
 

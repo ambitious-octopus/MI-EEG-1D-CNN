@@ -102,7 +102,7 @@ model.add(tf.keras.layers.Conv1D(filters=32,
 model.add(tf.keras.layers.BatchNormalization())
 # model.add(tf.keras.layers.MaxPool1D(pool_size=2))
 model.add(tf.keras.layers.Conv1D(filters=32,
-                                 kernel_size=kernel_size_1,
+                                 kernel_size=kernel_size_0,
                                  activation='relu',
                                  padding= "valid"))
 model.add(tf.keras.layers.BatchNormalization())

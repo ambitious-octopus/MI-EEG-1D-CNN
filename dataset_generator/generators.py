@@ -1,7 +1,7 @@
 from data_processing.general_processor import Utils
 import numpy as np
 import os
-exclude = [] #[38, 88, 89, 92, 100, 104]
+exclude = [38, 88, 89, 92, 100, 104]
 subjects = [n for n in np.arange(1, 110) if n not in exclude]
 runs = [4, 6, 8, 10, 12, 14]
 channels = ["FC3", "FC4"]
@@ -45,3 +45,4 @@ for couple in channels:
             exclude_base=False)
         np.save(os.path.join(save_path, "x_sub_" + str(sub)), x, allow_pickle=True)
         np.save(os.path.join(save_path, "y_sub_" + str(sub)), y, allow_pickle=True)
+

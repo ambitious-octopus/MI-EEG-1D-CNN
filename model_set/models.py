@@ -69,3 +69,10 @@ class HopefullNet(tf.keras.Model):
         dense2 = self.dense2(dropout1)
         dropout2 = self.dropout2(dense2)
         return self.out(dropout2)
+
+if __name__ == '__main__':
+    path = "C:\\Users\\franc_pyl533c\\OneDrive\\Repository\\eeGNN\\hopefull"
+    model = tf.keras.models.load_model(
+        path, custom_objects={"CustomModel": HopefullNet})
+    input_shape = (None, 640, 2)
+    model.build(input_shape)
