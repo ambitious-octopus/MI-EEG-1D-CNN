@@ -88,7 +88,6 @@ kernel_size_0 = 20 #5 e 6 good learning_rate = 1e-4 good
 kernel_size_1 = 6
 drop_rate = 0.5
 
-
 loss = tf.keras.losses.categorical_crossentropy  #tf.keras.losses.categorical_crossentropy
 optimizer = tf.keras.optimizers.Adam(lr=learning_rate)
 # optimizer = tf.keras.optimizers.SGD(learning_rate=learning_rate)
@@ -98,43 +97,31 @@ model.add(tf.keras.layers.Conv1D(filters=32,
                                  activation='relu',
                                  padding= "same",
                                  input_shape=(640, 2)))
-# model.add(tf.keras.layers.SpatialDropout1D(drop_rate))
 model.add(tf.keras.layers.BatchNormalization())
-# model.add(tf.keras.layers.MaxPool1D(pool_size=2))
 model.add(tf.keras.layers.Conv1D(filters=32,
                                  kernel_size=kernel_size_0,
                                  activation='relu',
                                  padding= "valid"))
 model.add(tf.keras.layers.BatchNormalization())
 model.add(tf.keras.layers.SpatialDropout1D(drop_rate))
-# model.add(tf.keras.layers.MaxPool1D(pool_size=2))
-model.add(tf.keras.layers.Conv1D(filters=32, kernel_size=kernel_size_1, activation='relu',
+model.add(tf.keras.layers.Conv1D(filters=32,
+                                 kernel_size=kernel_size_1,
+                                 activation='relu',
                                  padding= "valid"))
-# model.add(tf.keras.layers.SpatialDropout1D(drop_rate))
+#
 model.add(tf.keras.layers.AvgPool1D(pool_size=2))
-
-
 model.add(tf.keras.layers.Conv1D(filters=32, kernel_size=kernel_size_1, activation='relu',
-                                 padding= "valid"))
-# model.add(tf.keras.layers.BatchNormalization())
+                                 padding= "valid", name="this"))
+
 model.add(tf.keras.layers.SpatialDropout1D(drop_rate))
+# model.add(tf.keras.layers.Flatten())
+# model.add(tf.keras.layers.Dense(296, activation='relu'))
 # model.add(tf.keras.layers.Dropout(drop_rate))
-# model.add(tf.keras.layers.Conv1D(filters=15, kernel_size=kernel_size, activation='relu',
-#                                  strides=1, padding="valid"))
-# model.add(tf.keras.layers.BatchNormalization())
-# model.add(tf.keras.layers.MaxPool1D(pool_size=2))
-# model.add(tf.keras.layers.SpatialDropout1D(drop_rate))
-# model.add(tf.keras.layers.Dense(300))
-# model.add(tf.keras.layers.Conv1D(filters=100, kernel_size=kernel_size, activation='relu', strides=1, padding= "valid"))
-# model.add(tf.keras.layers.BatchNormalization())
-model.add(tf.keras.layers.Flatten())
-model.add(tf.keras.layers.Dense(296, activation='relu'))
-model.add(tf.keras.layers.Dropout(drop_rate))
-model.add(tf.keras.layers.Dense(148, activation='relu'))
-model.add(tf.keras.layers.Dropout(drop_rate))
-model.add(tf.keras.layers.Dense(74, activation='relu'))
-model.add(tf.keras.layers.Dropout(drop_rate))
-model.add(tf.keras.layers.Dense(5, activation='softmax'))
+# model.add(tf.keras.layers.Dense(148, activation='relu'))
+# model.add(tf.keras.layers.Dropout(drop_rate))
+# model.add(tf.keras.layers.Dense(74, activation='relu'))
+# model.add(tf.keras.layers.Dropout(drop_rate))
+# model.add(tf.keras.layers.Dense(5, activation='softmax'))
 model.compile(loss=loss, optimizer=optimizer, metrics=['accuracy'])
 model.summary()
 
@@ -156,6 +143,25 @@ earlystopping = EarlyStopping(
     restore_best_weights=True, # set if use best weights or last weights
     )
 callbacksList = [checkpoint, earlystopping] # build callbacks list
+
+#%%
+
+#operation = https://www.youtube.com/watch?v=D_VJoaSew7Q&t=1s #DepthwiseConv2D
+
+input = x_train[:1]
+
+#tf.keras.utils.plot_model(model, "my_first_model_with_shape_info.png", show_shapes=True)
+
+out = model.predict(input)
+
+fig, axs = plt.subplots(2, 1)
+axs[0].plot(input[:,:,0][0])
+axs[0].plot(input[:,:,1][0])
+
+for x in range(32):
+    axs[1].plot(out[:,:,x][0])
+
+
 
 #%%
 
