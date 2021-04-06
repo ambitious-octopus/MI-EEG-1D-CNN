@@ -10,6 +10,7 @@ data_path = "D:\\datasets\\eegbci"
 
 #par
 data = Utils.load_data(subj, runs=runs, data_path=data_path)
+
 stride = 1.2
 window_size = 4.2
 channels = ["C3..", "C4.."]
@@ -17,6 +18,36 @@ channels = ["C3..", "C4.."]
 #const
 REAL_WIN_SIZE = window_size*160
 REAL_STRIDE = stride*160
+
+def win_slice(data, window_size, stride):
+    """
+
+    :param data: una singola run
+    :param window_size:
+    :param stride:
+    :return:
+    """
+    result = list()
+    real_data = data.get_data()
+    P1, P2 = 0, window_size
+    # P = ((S - 1) * W - S + F) / 2,
+    # with F = filter size, S = stride
+    while P2 < real_data.shape[1]:
+        result.append(real_data[:, P1:P2])
+        P1 += stride
+        P2 += stride
+        
+    return result
+
+x = win_slice(data[0][0], window_size=160, stride=10)
+
+
+import matplotlib.pyplot as plt
+plt.plot(x[-40])
+plt.show()
+
+
+
 
 #func
 result = dict()
