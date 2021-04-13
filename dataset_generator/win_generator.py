@@ -11,6 +11,9 @@ data_path = "D:\\datasets\\eegbci"
 #par
 data = Utils.load_data(subj, runs=runs, data_path=data_path)
 
+
+
+
 stride = 1.2
 window_size = 4.2
 channels = ["C3..", "C4.."]
@@ -19,32 +22,48 @@ channels = ["C3..", "C4.."]
 REAL_WIN_SIZE = window_size*160
 REAL_STRIDE = stride*160
 
-def win_slice(data, window_size, stride):
+def win_slice(data, window_size, stride, threshold):
     """
+    Questo assume, che la lunghezza massima della finestra è 4 secondi * 160
 
     :param data: una singola run
     :param window_size:
     :param stride:
     :return:
     """
-    result = list()
+    labels = list()
+    for duration, label in zip(data.annotations.duration, data.annotations.description):
+        labels += np.full((int(duration * 160)), label, dtype=str).tolist()
+    labels = np.array(labels)
+    result_data = list()
+    result_label = list()
     real_data = data.get_data()
     P1, P2 = 0, window_size
-    # P = ((S - 1) * W - S + F) / 2,
-    # with F = filter size, S = stride
     while P2 < real_data.shape[1]:
-        result.append(real_data[:, P1:P2])
+        result_data.append(real_data[:, P1:P2])
+        win_label = labels[P1:P2]
+        if len(np.unique(win_label)) == 1:
+            result_label.append(np.unique(win_label)[0])
+        else:
+            count_label = sorted([[np.unique(win_label)[0], (win_label == np.unique(win_label)[0]).sum()],
+                            [np.unique(win_label)[1], (win_label == np.unique(win_label)[1]).sum(
+                            )]], key=lambda x: x[1], reverse=True)
+            rapp = count_label[1][1]/count_label[0][1]
+            if rapp == 1:
+                result_label.append(win_label[-1])
+            elif rapp >= threshold:
+                result_label.append(count_label[0][0])
+            else:
+                result_label.append(count_label[1][0])
+            # se è più di una, mi devi fare il rapporto tra quelle che ci sono
+            # Quella che ha il rapporto maggiore alla threshold sarà la label
         P1 += stride
         P2 += stride
-        
-    return result
+    return result_data, result_label
 
-x = win_slice(data[0][0], window_size=160, stride=10)
+data, label = win_slice(data[0][0], window_size=3*160, stride=160, threshold=0.5)
 
 
-import matplotlib.pyplot as plt
-plt.plot(x[-40])
-plt.show()
 
 
 
