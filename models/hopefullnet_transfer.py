@@ -16,15 +16,17 @@ tf.autograph.set_verbosity(0)
 config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 # Load data
-channels = [["C3", "C4"],
+channels = [["FC1", "FC2"],
             ["FC3", "FC4"],
-            ["C1", "C2"],
+            ["FC5", "FC6"],
             ["C5", "C6"],
-            ["FC1", "FC2"],
-            ["FC5", "FC6"]]
+            ["C3", "C4"],
+            ["C1", "C2"],
+            ["CP1", "CP2"],
+            ["CP3", "CP4"],
+            ["CP5", "CP6"]]
 
-
-subjects = [108,109]
+subjects = [109]
 #Load data
 x, y = Utils.load(channels, subjects)
 #Transform y to one-hot-encoding
@@ -50,9 +52,13 @@ x_test = x_test_scaled_raw.reshape(x_test_scaled_raw.shape[0], int(x_test_scaled
 print('classes count')
 print ('before oversampling = {}'.format(y_train_raw.sum(axis=0)))
 # smote
+dic_smote = {0:3000,1:3000,2:3000,3:3000,4:3000}
 from imblearn.over_sampling import SMOTE
-sm = SMOTE(random_state=42)
+sm = SMOTE(random_state=42, sampling_strategy=dic_smote)
 x_train_smote_raw, y_train = sm.fit_resample(x_train_scaled_raw, y_train_raw)
+
+
+
 print('classes count')
 print ('before oversampling = {}'.format(y_train_raw.sum(axis=0)))
 print ('after oversampling = {}'.format(y_train.sum(axis=0)))
@@ -61,11 +67,10 @@ x_train = x_train_smote_raw.reshape(x_train_smote_raw.shape[0], int(x_train_smot
 
 #%%
 
-model = tf.keras.models.load_model(
-    "hopefull", custom_objects={"CustomModel": HopefullNet})
+model = tf.keras.models.load_model("D:\\hopefull", custom_objects={"CustomModel": HopefullNet})
 
 #Freze conv layers
-for l in model.layers[:5]:
+for l in model.layers[:4]:
     l.trainable = False
 
 for l in model.layers:
@@ -81,7 +86,7 @@ modelPath = os.path.join(os.getcwd(),'bestModel.h5')
 
 checkpoint = ModelCheckpoint( # set model saving checkpoints
     modelPath, # set path to save model weights
-    monitor='val_loss', # set monitor metrics
+    monitor='val_accuracy', # set monitor metrics
     verbose=1, # set training verbosity
     save_best_only=True, # set if want to save only best weights
     save_weights_only=False, # set if you want to save only model weights
@@ -90,7 +95,7 @@ checkpoint = ModelCheckpoint( # set model saving checkpoints
     )
 
 earlystopping = EarlyStopping(
-    monitor='val_loss', # set monitor metrics
+    monitor='val_accuracy', # set monitor metrics
     min_delta=0.001, # set minimum metrics delta
     patience=10, # number of epochs to stop training
     restore_best_weights=True, # set if use best weights or last weights
@@ -99,7 +104,14 @@ callbacksList = [checkpoint, earlystopping] # build callbacks list
 
 model.compile(loss=loss, optimizer=optimizer, metrics=['accuracy'])
 #%%
-hist = model.fit(x_train, y_train, epochs=45, batch_size=1,
+hist = model.fit(x_train, y_train, epochs=1, batch_size=1000,
                  validation_data=(x_test, y_test), callbacks=callbacksList) #32
 #Test
 model.evaluate(x_test, y_test)
+
+def pr():
+    for a in range(100):
+        yield a
+
+for a in pr():
+    print(100)

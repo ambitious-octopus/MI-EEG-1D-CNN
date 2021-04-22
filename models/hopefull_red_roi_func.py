@@ -23,15 +23,7 @@ config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 #             ["FC1", "FC2"],
 #             ["FC5", "FC6"]]
 
-channels = [["FC1", "FC2"],
-            ["FC3", "FC4"],
-            ["FC5", "FC6"],
-            ["C5", "C6"],
-            ["C3", "C4"],
-            ["C1", "C2"],
-            ["CP1", "CP2"],
-            ["CP3", "CP4"],
-            ["CP5", "CP6"]]
+channels = [["FC1", "FC2"]]
 
 
 exclude =  [38, 88, 89, 92, 100, 104]
@@ -47,7 +39,7 @@ x_train_raw, x_valid_test_raw, y_train_raw, y_valid_test_raw = train_test_split(
                                                                             y_one_hot,
                                                                             stratify=y_one_hot,
                                                                             test_size=0.20,
-                                                                            random_state=4532)
+                                                                            random_state=42)
 
 #Scale indipendently train/test
 #Axis used to scale along. If 0, independently scale each feature, otherwise (if 1) scale each sample.
@@ -59,7 +51,7 @@ x_valid_raw, x_test_raw, y_valid, y_test = train_test_split(x_test_valid_scaled_
                                                     y_valid_test_raw,
                                                     stratify=y_valid_test_raw,
                                                     test_size=0.50,
-                                                    random_state=4342)
+                                                    random_state=42)
 
 x_valid = x_valid_raw.reshape(x_valid_raw.shape[0], int(x_valid_raw.shape[1]/2),2).astype(np.float64)
 x_test = x_test_raw.reshape(x_test_raw.shape[0], int(x_test_raw.shape[1]/2),2).astype(np.float64)
@@ -69,7 +61,7 @@ print('classes count')
 print ('before oversampling = {}'.format(y_train_raw.sum(axis=0)))
 # smote
 from imblearn.over_sampling import SMOTE
-sm = SMOTE(random_state=4542)
+sm = SMOTE(random_state=42)
 x_train_smote_raw, y_train = sm.fit_resample(x_train_scaled_raw, y_train_raw)
 print('classes count')
 print ('before oversampling = {}'.format(y_train_raw.sum(axis=0)))
@@ -83,7 +75,60 @@ learning_rate = 1e-4 # default 1e-3
 
 loss = tf.keras.losses.categorical_crossentropy  #tf.keras.losses.categorical_crossentropy
 optimizer = tf.keras.optimizers.Adam(lr=learning_rate)
-model = HopefullNet()
+
+model = tf.keras.models.Sequential()
+
+kernel_size_0 = 20
+kernel_size_1 = 6
+drop_rate = 0.5
+
+model.add(tf.keras.layers.Conv1D(filters=32,
+                                    kernel_size=kernel_size_0,
+                                    activation='relu',
+                                    padding= "same",
+                                    input_shape=(640, 2)))
+
+model.add(tf.keras.layers.BatchNormalization())
+
+model.add(tf.keras.layers.Conv1D(filters=32,
+                                    kernel_size=kernel_size_0,
+                                    activation='relu',
+                                    padding= "valid"))
+
+model.add(tf.keras.layers.BatchNormalization())
+
+model.add(tf.keras.layers.SpatialDropout1D(drop_rate))
+
+model.add(tf.keras.layers.Conv1D(filters=32,
+                                    kernel_size=kernel_size_1,
+                                    activation='relu',
+                                    padding= "valid"))
+
+model.add(tf.keras.layers.AvgPool1D(pool_size=2))
+
+model.add(tf.keras.layers.Conv1D(filters=32,
+                                    kernel_size=kernel_size_1,
+                                    activation='relu',
+                                    padding= "valid"))
+
+model.add(tf.keras.layers.SpatialDropout1D(drop_rate))
+
+model.add(tf.keras.layers.Flatten())
+
+model.add(tf.keras.layers.Dense(296, activation='relu'))
+
+model.add(tf.keras.layers.Dropout(drop_rate))
+
+model.add(tf.keras.layers.Dense(148, activation='relu'))
+
+model.add(tf.keras.layers.Dropout(drop_rate))
+
+model.add(tf.keras.layers.Dense(74, activation='relu'))
+
+model.add(tf.keras.layers.Dropout(drop_rate))
+
+model.add(tf.keras.layers.Dense(5, activation='softmax'))
+
 modelPath = os.path.join(os.getcwd(),'bestModel.h5')
 
 
@@ -108,39 +153,30 @@ earlystopping = EarlyStopping(
 callbacksList = [checkpoint, earlystopping] # build callbacks list
 #%%
 
-hist = model.fit(x_train, y_train, epochs=1, batch_size=100,
+hist = model.fit(x_train, y_train, epochs=1, batch_size=1,
                  validation_data=(x_valid, y_valid), callbacks=callbacksList) #32
 #Save_model
 
-#%%
-import pickle
-to_save = "C:\\Users\\franc_pyl533c\\OneDrive\\Desktop\\eeg_nn_imgs"
-with open(os.path.join(to_save, "roi_hist.pkl"), "wb") as file:
-    pickle.dump(hist.history, file)
 
 #%%
-plt.style.use('seaborn')
-plt.subplot(1,2,1, title="train accuracy")
-plt.plot(hist.history["accuracy"], label="Train")
-plt.plot(hist.history["val_accuracy"], label="Test")
+plt.subplot(1,2,1, title="accuracy")
+plt.plot(hist.history["accuracy"], color="red", label="Train")
+plt.plot(hist.history["val_accuracy"], color="blue", label="Test")
 plt.legend(loc='lower right')
-plt.subplot(1,2,2, title="train loss")
-plt.plot(hist.history["val_loss"], label="Test")
-plt.plot(hist.history["loss"], label="Train")
-plt.legend(loc='upper right')
+plt.subplot(1,2,2, title="loss")
+plt.plot(hist.history["val_loss"], color="blue", label="Test")
+plt.plot(hist.history["loss"], color="red", label="Train")
+plt.legend(loc='lower right')
 plt.show()
-
 
 #%%
 """
 Test model
 """
-path = "C:\\Users\\franc_pyl533c\\OneDrive\\Repository\\eeGNN\\models\\bestModel.h5"
+# path = "C:\\Users\\franc_pyl533c\\OneDrive\\Repository\\eeGNN\\models\\bestModel.h5"
 # model.load_weights(path)
 
-model = tf.keras.models.load_model("D:\\hopefull", custom_objects={"CustomModel": HopefullNet})
-
-
+model.load_weights(os.path.join(os.getcwd(),"bestModel.h5"))
 
 testLoss, testAcc = model.evaluate(x_test, y_test)
 print('\nAccuracy:', testAcc)
@@ -168,12 +204,5 @@ print('\n Confusion matrix \n\n',
       )
   )
 
-#%%
-conf = confusion_matrix(yTestClass,yPredClass)
-import seaborn as sns
-sns.heatmap(conf, annot=True, fmt="", xticklabels=["B", "R", "RL", "L", "F"], yticklabels=["B",
-                                                                                           "R",
-                                                                                   "RL", "L", "F"])
-#%%
 
-# model.save("D:\\hopefull")
+model.save("D:\\prova.h5")
