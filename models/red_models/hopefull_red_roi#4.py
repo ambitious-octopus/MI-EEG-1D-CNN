@@ -16,18 +16,10 @@ tf.autograph.set_verbosity(0)
 config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 # Load data
-# channels = [["C3", "C4"],
-#             ["FC3", "FC4"],
-#             ["C1", "C2"],
-#             ["C5", "C6"],
-#             ["FC1", "FC2"],
-#             ["FC5", "FC6"]]
-
-channels = [["FC1", "FC2"]]
-
+channels = Utils.combinations[3] #[["CP1", "CP2"], ["CP3", "CP4"], ["CP5", "CP6"]]
 
 exclude =  [38, 88, 89, 92, 100, 104]
-subjects = [n for n in np.arange(1,109) if n not in exclude]
+subjects = [n for n in np.arange(1,110) if n not in exclude]
 #Load data
 x, y = Utils.load(channels, subjects)
 #Transform y to one-hot-encoding
@@ -75,62 +67,8 @@ learning_rate = 1e-4 # default 1e-3
 
 loss = tf.keras.losses.categorical_crossentropy  #tf.keras.losses.categorical_crossentropy
 optimizer = tf.keras.optimizers.Adam(lr=learning_rate)
-
-model = tf.keras.models.Sequential()
-
-kernel_size_0 = 20
-kernel_size_1 = 6
-drop_rate = 0.5
-
-model.add(tf.keras.layers.Conv1D(filters=32,
-                                    kernel_size=kernel_size_0,
-                                    activation='relu',
-                                    padding= "same",
-                                    input_shape=(640, 2)))
-
-model.add(tf.keras.layers.BatchNormalization())
-
-model.add(tf.keras.layers.Conv1D(filters=32,
-                                    kernel_size=kernel_size_0,
-                                    activation='relu',
-                                    padding= "valid"))
-
-model.add(tf.keras.layers.BatchNormalization())
-
-model.add(tf.keras.layers.SpatialDropout1D(drop_rate))
-
-model.add(tf.keras.layers.Conv1D(filters=32,
-                                    kernel_size=kernel_size_1,
-                                    activation='relu',
-                                    padding= "valid"))
-
-model.add(tf.keras.layers.AvgPool1D(pool_size=2))
-
-model.add(tf.keras.layers.Conv1D(filters=32,
-                                    kernel_size=kernel_size_1,
-                                    activation='relu',
-                                    padding= "valid"))
-
-model.add(tf.keras.layers.SpatialDropout1D(drop_rate))
-
-model.add(tf.keras.layers.Flatten())
-
-model.add(tf.keras.layers.Dense(296, activation='relu'))
-
-model.add(tf.keras.layers.Dropout(drop_rate))
-
-model.add(tf.keras.layers.Dense(148, activation='relu'))
-
-model.add(tf.keras.layers.Dropout(drop_rate))
-
-model.add(tf.keras.layers.Dense(74, activation='relu'))
-
-model.add(tf.keras.layers.Dropout(drop_rate))
-
-model.add(tf.keras.layers.Dense(5, activation='softmax'))
-
-modelPath = os.path.join(os.getcwd(),'bestModel.h5')
-
+model = HopefullNet()
+modelPath = os.path.join(os.getcwd(), '../bestModel.h5')
 
 model.compile(loss=loss, optimizer=optimizer, metrics=['accuracy'])
 
@@ -153,7 +91,7 @@ earlystopping = EarlyStopping(
 callbacksList = [checkpoint, earlystopping] # build callbacks list
 #%%
 
-hist = model.fit(x_train, y_train, epochs=1, batch_size=1,
+hist = model.fit(x_train, y_train, epochs=40, batch_size=10,
                  validation_data=(x_valid, y_valid), callbacks=callbacksList) #32
 #Save_model
 
@@ -176,7 +114,7 @@ Test model
 # path = "C:\\Users\\franc_pyl533c\\OneDrive\\Repository\\eeGNN\\models\\bestModel.h5"
 # model.load_weights(path)
 
-model.load_weights(os.path.join(os.getcwd(),"bestModel.h5"))
+model.load_weights(os.path.join(os.getcwd(), "../bestModel.h5"))
 
 testLoss, testAcc = model.evaluate(x_test, y_test)
 print('\nAccuracy:', testAcc)
@@ -204,5 +142,11 @@ print('\n Confusion matrix \n\n',
       )
   )
 
+model.save("E:\\models\\4")
 
-model.save("D:\\prova.h5")
+save_path = "E:\models\\4"
+import pickle
+with open(os.path.join(save_path, "history4.pkl"), "wb") as file:
+    pickle.dump(hist.history, file)
+
+

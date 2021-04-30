@@ -12,7 +12,26 @@ from sklearn.preprocessing import minmax_scale
 import tensorflow as tf
 from mne.io import BaseRaw
 
+channels = [["FC1", "FC2"],
+            ["FC3", "FC4"],
+            ["FC5", "FC6"],
+            ["C5", "C6"],
+            ["C3", "C4"],
+            ["C1", "C2"],
+            ["CP1", "CP2"],
+            ["CP3", "CP4"],
+            ["CP5", "CP6"]]
+
+
+
 class Utils:
+
+    combinations = [[["FC1", "FC2"], ["FC3", "FC4"], ["FC5", "FC6"]],
+                    [["C5", "C6"], ["C3", "C4"], ["C1", "C2"]],
+                    [["CP1", "CP2"], ["CP3", "CP4"], ["CP5", "CP6"]],
+                    [["FC3", "FC4"], ["C5", "C6"], ["C3", "C4"], ["C1", "C2"], ["CP3", "CP4"]],
+                    [["FC1", "FC2"],["FC3", "FC4"],["C3", "C4"],["C1", "C2"],["CP1", "CP2"],["CP3", "CP4"]]]
+
     @staticmethod
     def download_data(save_path: str = os.getcwd()) -> str:
         #todo: test this
@@ -302,7 +321,7 @@ class Utils:
     def load(channels, subjects):
         data_x = list()
         data_y = list()
-        base_path = "D:\\datasets\\eeg_dataset\\n_ch_base"
+        base_path = "E:\\datasets\\eeg_dataset\\n_ch_base"
 
         for couple in channels:
             data_path = os.path.join(base_path, couple[0] + couple[1])
