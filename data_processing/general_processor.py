@@ -318,10 +318,9 @@ class Utils:
         return np.dstack(tuple(train_x)), np.dstack(tuple(test_x)), np.array(train_y), np.array(test_y)
 
     @staticmethod
-    def load(channels, subjects):
+    def load(channels, subjects, basepath):
         data_x = list()
         data_y = list()
-        base_path = "E:\\datasets\\eeg_dataset\\n_ch_base"
 
         for couple in channels:
             data_path = os.path.join(base_path, couple[0] + couple[1])
