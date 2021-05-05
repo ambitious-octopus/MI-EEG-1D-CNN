@@ -39,7 +39,7 @@ channels = [["FC1", "FC2"],
 exclude =  [38, 88, 89, 92, 100, 104]
 subjects = [n for n in np.arange(1,109) if n not in exclude]
 #Load data
-x, y = Utils.load(channels, subjects, path=PATH)
+x, y = Utils.load(channels, subjects, base_path=PATH)
 #Transform y to one-hot-encoding
 y_one_hot  = Utils.to_one_hot(y, by_sub=False)
 #Reshape for scaling
