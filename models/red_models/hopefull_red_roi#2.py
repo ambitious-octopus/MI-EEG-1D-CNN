@@ -1,11 +1,10 @@
-#Importing stuff
+
+import os
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
 from model_set.models import HopefullNet
 import numpy as np
 import tensorflow as tf
-import matplotlib
-matplotlib.use("TkAgg")
-import matplotlib.pyplot as plt
-import os
 from data_processing.general_processor import Utils
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
@@ -13,7 +12,7 @@ physical_devices = tf.config.experimental.list_physical_devices('GPU')
 print(physical_devices)
 from sklearn.preprocessing import minmax_scale
 tf.autograph.set_verbosity(0)
-config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
+# config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 
 #Params
@@ -118,6 +117,9 @@ else:
 
 #%%
 if plot:
+    import matplotlib
+    matplotlib.use("TkAgg")
+    import matplotlib.pyplot as plt
     plt.subplot(1,2,1, title="accuracy")
     plt.plot(hist.history["accuracy"] if inference == False else hist["accuracy"], color="red", label="Train")
     plt.plot(hist.history["val_accuracy"] if inference == False else hist["val_accuracy"], color="blue", label="Test")
