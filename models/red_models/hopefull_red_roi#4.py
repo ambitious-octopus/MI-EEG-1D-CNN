@@ -15,13 +15,21 @@ from sklearn.preprocessing import minmax_scale
 tf.autograph.set_verbosity(0)
 config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
+
+#Params
+inference = True
+source_path = "E:\\datasets\\eeg_dataset\\n_ch_base"
+save_path = "E:\\models\\4"
+plot = True
+
+
 # Load data
-channels = Utils.combinations[3] #[["CP1", "CP2"], ["CP3", "CP4"], ["CP5", "CP6"]]
+channels = Utils.combinations[3] #[["FC3", "FC4"], ["C5", "C6"], ["C3", "C4"], ["C1", "C2"], ["CP3", "CP4"]]
 
 exclude =  [38, 88, 89, 92, 100, 104]
 subjects = [n for n in np.arange(1,110) if n not in exclude]
 #Load data
-x, y = Utils.load(channels, subjects)
+x, y = Utils.load(channels, subjects, base_path=source_path)
 #Transform y to one-hot-encoding
 y_one_hot  = Utils.to_one_hot(y, by_sub=False)
 #Reshape for scaling
@@ -68,7 +76,7 @@ learning_rate = 1e-4 # default 1e-3
 loss = tf.keras.losses.categorical_crossentropy  #tf.keras.losses.categorical_crossentropy
 optimizer = tf.keras.optimizers.Adam(lr=learning_rate)
 model = HopefullNet()
-modelPath = os.path.join(os.getcwd(), '../bestModel.h5')
+modelPath = os.path.join(os.getcwd(), 'bestModel.h5')
 
 model.compile(loss=loss, optimizer=optimizer, metrics=['accuracy'])
 
@@ -91,30 +99,43 @@ earlystopping = EarlyStopping(
 callbacksList = [checkpoint, earlystopping] # build callbacks list
 #%%
 
-hist = model.fit(x_train, y_train, epochs=40, batch_size=10,
-                 validation_data=(x_valid, y_valid), callbacks=callbacksList) #32
-#Save_model
+if inference == False:
+    hist = model.fit(x_train, y_train, epochs=100, batch_size=10,
+                    validation_data=(x_valid, y_valid), callbacks=callbacksList) #32
+
+    import pickle
+    with open(os.path.join(save_path, "history2.pkl"), "wb") as file:
+        pickle.dump(hist.history, file)
+
+    model.save(save_path)
+else:
+    model = tf.keras.models.load_model("E:\\models_eegnn\\2", custom_objects={"CustomModel":
+                                                                                  HopefullNet})
+    import pickle
+    with open(os.path.join("E:\\models_eegnn\\2\\", "history2.pkl"), "rb") as file:
+        hist = pickle.load(file)
 
 
 #%%
-plt.subplot(1,2,1, title="accuracy")
-plt.plot(hist.history["accuracy"], color="red", label="Train")
-plt.plot(hist.history["val_accuracy"], color="blue", label="Test")
-plt.legend(loc='lower right')
-plt.subplot(1,2,2, title="loss")
-plt.plot(hist.history["val_loss"], color="blue", label="Test")
-plt.plot(hist.history["loss"], color="red", label="Train")
-plt.legend(loc='lower right')
-plt.show()
+if plot:
+    plt.subplot(1,2,1, title="accuracy")
+    plt.plot(hist.history["accuracy"] if inference == False else hist["accuracy"], color="red", label="Train")
+    plt.plot(hist.history["val_accuracy"] if inference == False else hist["val_accuracy"], color="blue", label="Test")
+    plt.legend(loc='lower right')
+    plt.subplot(1,2,2, title="loss")
+    plt.plot(hist.history["val_loss"] if inference == False else hist["val_loss"], color="blue", label="Test")
+    plt.plot(hist.history["loss"] if inference == False else hist["loss"], color="red", label="Train")
+    plt.legend(loc='lower right')
+    plt.show()
+else:
+    pass
 
 #%%
 """
 Test model
 """
-# path = "C:\\Users\\franc_pyl533c\\OneDrive\\Repository\\eeGNN\\models\\bestModel.h5"
-# model.load_weights(path)
-
-model.load_weights(os.path.join(os.getcwd(), "../bestModel.h5"))
+if not inference:
+    model.load_weights(os.path.join(os.getcwd(), "bestModel.h5"))
 
 testLoss, testAcc = model.evaluate(x_test, y_test)
 print('\nAccuracy:', testAcc)
@@ -141,12 +162,5 @@ print('\n Confusion matrix \n\n',
       yPredClass,
       )
   )
-
-model.save("E:\\models\\4")
-
-save_path = "E:\models\\4"
-import pickle
-with open(os.path.join(save_path, "history4.pkl"), "wb") as file:
-    pickle.dump(hist.history, file)
 
 
