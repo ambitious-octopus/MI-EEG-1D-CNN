@@ -17,10 +17,10 @@ tf.autograph.set_verbosity(0)
 
 
 #Params
-inference = True
-source_path = "E:\\datasets\\eeg_dataset\\n_ch_base"
-save_path = "E:\\models\\1"
-plot = True
+inference = False
+source_path = "/home/kubasinska/data/datasets/n_ch_base"
+save_path = "/home/kubasinska/data/datasets/roi1"
+plot = False
 
 
 # Load data
@@ -104,7 +104,7 @@ if inference == False:
                     validation_data=(x_valid, y_valid), callbacks=callbacksList) #32
 
     import pickle
-    with open(os.path.join(save_path, "history2.pkl"), "wb") as file:
+    with open(os.path.join(save_path, "hist.pkl"), "wb") as file:
         pickle.dump(hist.history, file)
 
     model.save(save_path)
