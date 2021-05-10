@@ -1,8 +1,10 @@
 #Importing stuff
-from model_set.models import HopefullNet
 import os
 import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+print(os.getcwd())
+print(sys.path)
+sys.path.append("/home/kubasinska/data/repos/eeGNN")
+from model_set.models import HopefullNet
 import numpy as np
 import tensorflow as tf
 from data_processing.general_processor import Utils
@@ -15,8 +17,8 @@ tf.autograph.set_verbosity(0)
 # config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 
-PATH = "E:\\datasets\\eeg_dataset\\n_ch_base"
-SAVE_TO = ""
+PATH = "/home/kubasinska/data/datasets/n_ch_base"
+SAVE_TO = "/home/kubasinska/data/datasets/roi"
 plot = False
 
 channels = [["FC1", "FC2"],
@@ -104,7 +106,7 @@ earlystopping = EarlyStopping(
 callbacksList = [checkpoint, earlystopping] # build callbacks list
 #%%
 
-hist = model.fit(x_train, y_train, epochs=1, batch_size=100,
+hist = model.fit(x_train, y_train, epochs=100, batch_size=10,
                  validation_data=(x_valid, y_valid), callbacks=callbacksList) #32
 #Save_model
 
