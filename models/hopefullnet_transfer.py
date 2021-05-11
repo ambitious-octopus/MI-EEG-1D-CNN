@@ -28,7 +28,7 @@ channels = [["FC1", "FC2"],
 
 subjects = [109]
 #Load data
-x, y = Utils.load(channels, subjects)
+x, y = Utils.load(channels, subjects, base_path="E:\\datasets\\eeg_dataset\\n_ch_base")
 #Transform y to one-hot-encoding
 y_one_hot  = Utils.to_one_hot(y, by_sub=False)
 
@@ -67,7 +67,7 @@ x_train = x_train_smote_raw.reshape(x_train_smote_raw.shape[0], int(x_train_smot
 
 #%%
 
-model = tf.keras.models.load_model("D:\\hopefull", custom_objects={"CustomModel": HopefullNet})
+model = tf.keras.models.load_model("E:\\hopefull", custom_objects={"CustomModel": HopefullNet})
 
 #Freze conv layers
 for l in model.layers[:4]:
@@ -104,14 +104,8 @@ callbacksList = [checkpoint, earlystopping] # build callbacks list
 
 model.compile(loss=loss, optimizer=optimizer, metrics=['accuracy'])
 #%%
-hist = model.fit(x_train, y_train, epochs=1, batch_size=1000,
+hist = model.fit(x_train, y_train, epochs=100, batch_size=10,
                  validation_data=(x_test, y_test), callbacks=callbacksList) #32
 #Test
 model.evaluate(x_test, y_test)
 
-def pr():
-    for a in range(100):
-        yield a
-
-for a in pr():
-    print(100)
