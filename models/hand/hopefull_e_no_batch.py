@@ -19,11 +19,11 @@ tf.autograph.set_verbosity(0)
 inference = False
 plot = False
 source_path = "/home/kubasinska/data/datasets/n_ch_base"
-save_path = "/home/kubasinska/data/datasets/roi5"
+save_path = "/home/kubasinska/data/datasets/roie_no_base"
 
 
 # Load data
-channels = Utils.combinations[4] #[["FC1", "FC2"],["FC3", "FC4"],["C3", "C4"],["C1", "C2"],["CP1", "CP2"],["CP3", "CP4"]]
+channels = Utils.combinations["e"] #[["FC1", "FC2"],["FC3", "FC4"],["C3", "C4"],["C1", "C2"],["CP1", "CP2"],["CP3", "CP4"]]
 
 exclude =  [38, 88, 89, 92, 100, 104]
 subjects = [n for n in np.arange(1,110) if n not in exclude]
