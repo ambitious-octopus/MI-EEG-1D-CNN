@@ -44,7 +44,7 @@ x_valid_raw, x_test_raw, y_valid, y_test = train_test_split(x_test_valid_scaled_
                                                     y_valid_test_raw,
                                                     stratify=y_valid_test_raw,
                                                     test_size=0.50,
-                                                    random_state=4342)
+                                                    random_state=42)
 
 x_valid = x_valid_raw.reshape(x_valid_raw.shape[0], int(x_valid_raw.shape[1]/2),2).astype(np.float64)
 x_test = x_test_raw.reshape(x_test_raw.shape[0], int(x_test_raw.shape[1]/2),2).astype(np.float64)
@@ -54,7 +54,7 @@ x_test = x_test_raw.reshape(x_test_raw.shape[0], int(x_test_raw.shape[1]/2),2).a
 # print ('before oversampling = {}'.format(y_train_raw.sum(axis=0)))
 # # smote
 # from imblearn.over_sampling import SMOTE
-# sm = SMOTE(random_state=4542)
+# sm = SMOTE(random_state=42)
 # x_train_smote_raw, y_train = sm.fit_resample(x_train_scaled_raw, y_train_raw)
 # print('classes count')
 # print ('before oversampling = {}'.format(y_train_raw.sum(axis=0)))
@@ -75,13 +75,26 @@ import matplotlib
 matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
 plt.style.use('seaborn')
+
+SMALL_SIZE = 20
+MEDIUM_SIZE = 35
+BIGGER_SIZE = 45
+
+plt.rc('font', size=SMALL_SIZE)          # controls default text sizes
+plt.rc('axes', titlesize=SMALL_SIZE)     # fontsize of the axes title
+plt.rc('axes', labelsize=MEDIUM_SIZE)    # fontsize of the x and y labels
+plt.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
+plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
+plt.rc('legend', fontsize=SMALL_SIZE)    # legend fontsize
+plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
+
 plt.subplot(1,2,1, title="train accuracy")
-plt.plot(hist["accuracy"], label="Train")
-plt.plot(hist["val_accuracy"], label="Test")
+plt.plot(hist["accuracy"], label="Train", linewidth=4)
+plt.plot(hist["val_accuracy"], label="Test", linewidth=4)
 plt.legend(loc='lower right')
 plt.subplot(1,2,2, title="train loss")
-plt.plot(hist["val_loss"], label="Test")
-plt.plot(hist["loss"], label="Train")
+plt.plot(hist["val_loss"], label="Test", linewidth=4)
+plt.plot(hist["loss"], label="Train", linewidth=4)
 plt.legend(loc='upper right')
 plt.show()
 
@@ -118,10 +131,10 @@ print('\n Confusion matrix \n\n',
   )
 
 
-conf = confusion_matrix(yTestClass,yPredClass)
-import seaborn as sns
-sns.heatmap(conf, annot=True, fmt="", xticklabels=["B", "R", "RL", "L", "F"], yticklabels=["B",
-                                                                                           "R",
-                                                                                   "RL", "L", "F"])
+# conf = confusion_matrix(yTestClass,yPredClass)
+# import seaborn as sns
+# sns.heatmap(conf, annot=True, fmt="", xticklabels=["B", "R", "RL", "L", "F"], yticklabels=["B",
+#                                                                                            "R",
+#                                                                                    "RL", "L", "F"])
 
 

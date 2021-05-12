@@ -32,7 +32,7 @@ x_train_raw, x_valid_test_raw, y_train_raw, y_valid_test_raw = train_test_split(
                                                                             y_one_hot,
                                                                             stratify=y_one_hot,
                                                                             test_size=0.20,
-                                                                            random_state=4532)
+                                                                            random_state=42)
 
 #Scale indipendently train/test
 #Axis used to scale along. If 0, independently scale each feature, otherwise (if 1) scale each sample.
@@ -54,7 +54,7 @@ x_test = x_test_raw.reshape(x_test_raw.shape[0], int(x_test_raw.shape[1]/2),2).a
 # print ('before oversampling = {}'.format(y_train_raw.sum(axis=0)))
 # # smote
 # from imblearn.over_sampling import SMOTE
-# sm = SMOTE(random_state=4542)
+# sm = SMOTE(random_state=42)
 # x_train_smote_raw, y_train = sm.fit_resample(x_train_scaled_raw, y_train_raw)
 # print('classes count')
 # print ('before oversampling = {}'.format(y_train_raw.sum(axis=0)))
@@ -118,8 +118,8 @@ print('\n Confusion matrix \n\n',
   )
 
 
-conf = confusion_matrix(yTestClass,yPredClass)
-import seaborn as sns
-sns.heatmap(conf, annot=True, fmt="", xticklabels=["B", "R", "RL", "L", "F"], yticklabels=["B",
-                                                                                           "R",
-                                                                                   "RL", "L", "F"])
+# conf = confusion_matrix(yTestClass,yPredClass)
+# import seaborn as sns
+# sns.heatmap(conf, annot=True, fmt="", xticklabels=["B", "R", "RL", "L", "F"], yticklabels=["B",
+#                                                                                            "R",
+#                                                                                    "RL", "L", "F"])

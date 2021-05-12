@@ -118,8 +118,8 @@ print('\n Confusion matrix \n\n',
   )
 
 
-conf = confusion_matrix(yTestClass,yPredClass)
-import seaborn as sns
-sns.heatmap(conf, annot=True, fmt="", xticklabels=["B", "R", "RL", "L", "F"], yticklabels=["B",
-                                                                                           "R",
-                                                                                   "RL", "L", "F"])
+# conf = confusion_matrix(yTestClass,yPredClass)
+# import seaborn as sns
+# sns.heatmap(conf, annot=True, fmt="", xticklabels=["B", "R", "RL", "L", "F"], yticklabels=["B",
+#                                                                                            "R",
+#                                                                                    "RL", "L", "F"])
