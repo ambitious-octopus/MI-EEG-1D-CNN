@@ -2,7 +2,7 @@
 import os
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
-from model_set.models import HopefullNet
+from model_set.models import HopefullNet_HBN
 import numpy as np
 import tensorflow as tf
 from data_processing.general_processor import Utils
@@ -74,7 +74,7 @@ learning_rate = 1e-4 # default 1e-3
 
 loss = tf.keras.losses.categorical_crossentropy  #tf.keras.losses.categorical_crossentropy
 optimizer = tf.keras.optimizers.Adam(lr=learning_rate)
-model = HopefullNet()
+model = HopefullNet_HBN()
 modelPath = os.path.join(os.getcwd(), 'bestModel.h5')
 
 model.compile(loss=loss, optimizer=optimizer, metrics=['accuracy'])
@@ -107,37 +107,15 @@ if inference == False:
         pickle.dump(hist.history, file)
 
     model.save(save_path)
-else:
-    model = tf.keras.models.load_model("E:\\models_eegnn\\2", custom_objects={"CustomModel":
-                                                                                  HopefullNet})
-    import pickle
-    with open(os.path.join("E:\\models_eegnn\\2\\", "history2.pkl"), "rb") as file:
-        hist = pickle.load(file)
-
-
-#%%
-if plot:
-    import matplotlib
-    matplotlib.use("TkAgg")
-    import matplotlib.pyplot as plt
-    plt.subplot(1,2,1, title="accuracy")
-    plt.plot(hist.history["accuracy"] if inference == False else hist["accuracy"], color="red", label="Train")
-    plt.plot(hist.history["val_accuracy"] if inference == False else hist["val_accuracy"], color="blue", label="Test")
-    plt.legend(loc='lower right')
-    plt.subplot(1,2,2, title="loss")
-    plt.plot(hist.history["val_loss"] if inference == False else hist["val_loss"], color="blue", label="Test")
-    plt.plot(hist.history["loss"] if inference == False else hist["loss"], color="red", label="Train")
-    plt.legend(loc='lower right')
-    plt.show()
-else:
-    pass
 
 #%%
 """
 Test model
 """
-if not inference:
-    model.load_weights(os.path.join(os.getcwd(), "bestModel.h5"))
+del model
+
+model = tf.keras.models.load_model(save_path, custom_objects={"CustomModel": HopefullNet_HBN})
+
 
 testLoss, testAcc = model.evaluate(x_test, y_test)
 print('\nAccuracy:', testAcc)
