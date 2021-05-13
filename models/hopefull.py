@@ -1,11 +1,12 @@
 #Importing stuff
+import os
+import sys
+print(os.getcwd())
+print(sys.path)
+sys.path.append("/home/kubasinska/data/repos/eeGNN")
 from model_set.models import HopefullNet
 import numpy as np
 import tensorflow as tf
-import matplotlib
-matplotlib.use("TkAgg")
-import matplotlib.pyplot as plt
-import os
 from data_processing.general_processor import Utils
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
@@ -13,17 +14,12 @@ physical_devices = tf.config.experimental.list_physical_devices('GPU')
 print(physical_devices)
 from sklearn.preprocessing import minmax_scale
 tf.autograph.set_verbosity(0)
-config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
+# config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
-# Load data
-# channels = [["C3", "C4"],
-#             ["FC3", "FC4"],
-#             ["C1", "C2"],
-#             ["C5", "C6"],
-#             ["FC1", "FC2"],
-#             ["FC5", "FC6"]]
 
-PATH = "E:\\datasets\\eeg_dataset\\n_ch_base"
+PATH = "/home/kubasinska/data/datasets/n_ch_base"
+SAVE_TO = "/home/kubasinska/data/datasets/roi"
+plot = False
 
 channels = [["FC1", "FC2"],
             ["FC3", "FC4"],
@@ -110,37 +106,40 @@ earlystopping = EarlyStopping(
 callbacksList = [checkpoint, earlystopping] # build callbacks list
 #%%
 
-hist = model.fit(x_train, y_train, epochs=1, batch_size=100,
+hist = model.fit(x_train, y_train, epochs=100, batch_size=10,
                  validation_data=(x_valid, y_valid), callbacks=callbacksList) #32
 #Save_model
 
 #%%
 import pickle
-to_save = "C:\\Users\\franc_pyl533c\\OneDrive\\Desktop\\eeg_nn_imgs"
-with open(os.path.join(to_save, "roi_hist.pkl"), "wb") as file:
+with open(os.path.join(SAVE_TO, "hist.pkl"), "wb") as file:
     pickle.dump(hist.history, file)
 
 #%%
-plt.style.use('seaborn')
-plt.subplot(1,2,1, title="train accuracy")
-plt.plot(hist.history["accuracy"], label="Train")
-plt.plot(hist.history["val_accuracy"], label="Test")
-plt.legend(loc='lower right')
-plt.subplot(1,2,2, title="train loss")
-plt.plot(hist.history["val_loss"], label="Test")
-plt.plot(hist.history["loss"], label="Train")
-plt.legend(loc='upper right')
-plt.show()
+if plot:
+    import matplotlib
+    matplotlib.use("TkAgg")
+    import matplotlib.pyplot as plt
+    plt.style.use('seaborn')
+    plt.subplot(1,2,1, title="train accuracy")
+    plt.plot(hist.history["accuracy"], label="Train")
+    plt.plot(hist.history["val_accuracy"], label="Test")
+    plt.legend(loc='lower right')
+    plt.subplot(1,2,2, title="train loss")
+    plt.plot(hist.history["val_loss"], label="Test")
+    plt.plot(hist.history["loss"], label="Train")
+    plt.legend(loc='upper right')
+    plt.show()
 
 
 #%%
 """
 Test model
 """
-path = "C:\\Users\\franc_pyl533c\\OneDrive\\Repository\\eeGNN\\models\\bestModel.h5"
-# model.load_weights(path)
 
-model = tf.keras.models.load_model("D:\\hopefull", custom_objects={"CustomModel": HopefullNet})
+model.load_weights(modelPath)
+
+# model = tf.keras.models.load_model("D:\\hopefull", custom_objects={"CustomModel": HopefullNet})
 
 
 
@@ -171,11 +170,12 @@ print('\n Confusion matrix \n\n',
   )
 
 #%%
-conf = confusion_matrix(yTestClass,yPredClass)
-import seaborn as sns
-sns.heatmap(conf, annot=True, fmt="", xticklabels=["B", "R", "RL", "L", "F"], yticklabels=["B",
-                                                                                           "R",
-                                                                                   "RL", "L", "F"])
+if plot:
+    conf = confusion_matrix(yTestClass,yPredClass)
+    import seaborn as sns
+    sns.heatmap(conf, annot=True, fmt="", xticklabels=["B", "R", "RL", "L", "F"], yticklabels=["B",
+                                                                                               "R",
+                                                                                       "RL", "L", "F"])
 #%%
 
-# model.save("D:\\hopefull")
+model.save(SAVE_TO)
