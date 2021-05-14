@@ -355,8 +355,6 @@ class Utils:
             xs, ys = Utils.load_sub_by_sub(subjects, data_path, sub_name)
             data_x.append(np.concatenate(xs))
             data_y.append(np.concatenate(ys))
-            print(couple)
-            print(np.concatenate(xs).shape)
 
         return np.concatenate(data_x), np.concatenate(data_y)
 
