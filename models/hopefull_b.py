@@ -1,7 +1,7 @@
-#Importing stuff
+
 import os
 import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 from model_set.models import HopefullNet
 import numpy as np
 import tensorflow as tf
@@ -19,11 +19,11 @@ tf.autograph.set_verbosity(0)
 inference = False
 plot = False
 source_path = "/home/kubasinska/data/datasets/n_ch_base"
-save_path = "/home/kubasinska/data/datasets/roi3"
+save_path = "/home/kubasinska/data/datasets/roi2"
 
 
 # Load data
-channels = Utils.combinations[2] #[["CP1", "CP2"], ["CP3", "CP4"], ["CP5", "CP6"]]
+channels = Utils.combinations["b"] #[["C5", "C6"], ["C3", "C4"], ["C1", "C2"]]
 
 exclude =  [38, 88, 89, 92, 100, 104]
 subjects = [n for n in np.arange(1,110) if n not in exclude]
@@ -118,7 +118,6 @@ else:
 #%%
 if plot:
     import matplotlib
-
     matplotlib.use("TkAgg")
     import matplotlib.pyplot as plt
     plt.subplot(1,2,1, title="accuracy")

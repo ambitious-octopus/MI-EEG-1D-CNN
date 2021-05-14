@@ -1,6 +1,9 @@
 import tensorflow as tf
 
 class HopefullNet(tf.keras.Model):
+    """
+    Original HopeFullNet
+    """
     def __init__(self):
         super(HopefullNet, self).__init__()
 
@@ -58,6 +61,9 @@ class HopefullNet(tf.keras.Model):
 
 
 class HopefullNet_HBN(tf.keras.Model):
+    """
+    Hopefullnet without batch normalization
+    """
     def __init__(self):
         super(HopefullNet_HBN, self).__init__()
 
@@ -111,8 +117,7 @@ class HopefullNet_HBN(tf.keras.Model):
 
 
 if __name__ == '__main__':
-    path = "C:\\Users\\franc_pyl533c\\OneDrive\\Repository\\eeGNN\\hopefull"
-    model = tf.keras.models.load_model(
-        path, custom_objects={"CustomModel": HopefullNet})
+    path = "YOUR MODEL PATH"
+    model = tf.keras.models.load_model(path, custom_objects={"CustomModel": HopefullNet})
     input_shape = (None, 640, 2)
     model.build(input_shape)

@@ -1,7 +1,7 @@
 #Importing stuff
 import os
 import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 from model_set.models import HopefullNet
 import numpy as np
 import tensorflow as tf
@@ -23,7 +23,8 @@ save_path = "/home/kubasinska/data/datasets/roi4"
 
 
 # Load data
-channels = Utils.combinations[3] #[["FC3", "FC4"], ["C5", "C6"], ["C3", "C4"], ["C1", "C2"], ["CP3", "CP4"]]
+channels = Utils.combinations["d"] #[["FC3", "FC4"], ["C5", "C6"], ["C3", "C4"], ["C1", "C2"],
+# ["CP3", "CP4"]]
 
 exclude =  [38, 88, 89, 92, 100, 104]
 subjects = [n for n in np.arange(1,110) if n not in exclude]

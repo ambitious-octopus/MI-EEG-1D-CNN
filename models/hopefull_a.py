@@ -1,35 +1,32 @@
 #Importing stuff
+import os
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 from model_set.models import HopefullNet
 import numpy as np
 import tensorflow as tf
-import matplotlib
-matplotlib.use("TkAgg")
-import matplotlib.pyplot as plt
-import os
 from data_processing.general_processor import Utils
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 physical_devices = tf.config.experimental.list_physical_devices('GPU')
 print(physical_devices)
+import pickle
 from sklearn.preprocessing import minmax_scale
 tf.autograph.set_verbosity(0)
-config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
+# config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
+
+
+#Params
+source_path = "/home/kubasinska/data/datasets/n_ch_base"
+save_path = "/home/kubasinska/data/datasets/roi1"
 
 # Load data
-# channels = [["C3", "C4"],
-#             ["FC3", "FC4"],
-#             ["C1", "C2"],
-#             ["C5", "C6"],
-#             ["FC1", "FC2"],
-#             ["FC5", "FC6"]]
-
-channels = [["C3", "C4"]]
-
+channels = Utils.combinations["a"] #["FC1", "FC2"], ["FC3", "FC4"], ["FC5", "FC6"]]
 
 exclude =  [38, 88, 89, 92, 100, 104]
-subjects = [n for n in np.arange(1,109) if n not in exclude]
+subjects = [n for n in np.arange(1,110) if n not in exclude]
 #Load data
-x, y = Utils.load(channels, subjects)
+x, y = Utils.load(channels, subjects, base_path=source_path)
 #Transform y to one-hot-encoding
 y_one_hot  = Utils.to_one_hot(y, by_sub=False)
 #Reshape for scaling
@@ -76,8 +73,7 @@ learning_rate = 1e-4 # default 1e-3
 loss = tf.keras.losses.categorical_crossentropy  #tf.keras.losses.categorical_crossentropy
 optimizer = tf.keras.optimizers.Adam(lr=learning_rate)
 model = HopefullNet()
-modelPath = os.path.join(os.getcwd(),'bestModel.h5')
-
+modelPath = os.path.join(os.getcwd(), 'bestModel.h5')
 
 model.compile(loss=loss, optimizer=optimizer, metrics=['accuracy'])
 
@@ -100,40 +96,25 @@ earlystopping = EarlyStopping(
 callbacksList = [checkpoint, earlystopping] # build callbacks list
 #%%
 
-hist = model.fit(x_train, y_train, epochs=40, batch_size=1,
-                 validation_data=(x_valid, y_valid), callbacks=callbacksList) #32
-#Save_model
+
+hist = model.fit(x_train, y_train, epochs=100, batch_size=10,
+                validation_data=(x_valid, y_valid), callbacks=callbacksList) #32
 
 
-#%%
-import pickle
-to_save = "C:\\Users\\franc_pyl533c\\OneDrive\\Desktop\\eeg_nn_imgs"
-with open(os.path.join(to_save, "red_roi_hist.pkl"), "wb") as file:
+with open(os.path.join(save_path, "hist.pkl"), "wb") as file:
     pickle.dump(hist.history, file)
 
-#%%
-plt.style.use('seaborn')
-plt.subplot(1,2,1, title="train accuracy")
-plt.plot(hist.history["accuracy"], label="Train")
-plt.plot(hist.history["val_accuracy"], label="Test")
-plt.legend(loc='lower right')
-plt.subplot(1,2,2, title="train loss")
-plt.plot(hist.history["val_loss"], label="Test")
-plt.plot(hist.history["loss"], label="Train")
-plt.legend(loc='upper right')
-plt.show()
+model.save(save_path)
+
+
 
 #%%
 """
 Test model
 """
-# path = "C:\\Users\\franc_pyl533c\\OneDrive\\Repository\\eeGNN\\models\\bestModel.h5"
-# model.load_weights(path)
+del model
+model = tf.keras.models.load_model(save_path, custom_objects={"CustomModel": HopefullNet})
 
-# model.load_weights(os.path.join(os.getcwd(),
-#                                 "bestModel.h5"))
-
-# model = tf.keras.models.load_model("D:\\hopefull_c3_c4", custom_objects={"CustomModel": HopefullNet})
 testLoss, testAcc = model.evaluate(x_test, y_test)
 print('\nAccuracy:', testAcc)
 print('\nLoss: ', testLoss)
@@ -160,10 +141,4 @@ print('\n Confusion matrix \n\n',
       )
   )
 
-# model.save("D:\\hopefull_c3_c4")
 
-conf = confusion_matrix(yTestClass,yPredClass)
-import seaborn as sns
-sns.heatmap(conf, annot=True, fmt="", xticklabels=["B", "R", "RL", "L", "F"], yticklabels=["B",
-                                                                                           "R",
-                                                                                   "RL", "L", "F"])
