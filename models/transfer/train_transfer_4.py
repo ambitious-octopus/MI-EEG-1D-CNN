@@ -2,7 +2,7 @@ import os
 import sys
 print(os.getcwd())
 print(sys.path)
-sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
 from model_set.models import HopefullNet
 import numpy as np
 import tensorflow as tf
