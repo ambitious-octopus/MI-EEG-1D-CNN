@@ -14,7 +14,7 @@ from sklearn.preprocessing import minmax_scale
 tf.autograph.set_verbosity(0)
 config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
-PATH = "E:\\datasets\\eeg_dataset\\n_ch_base"
+PATH = "E:\\datasets\\eegnn\\n_ch_base"
 MODEL_PATH = "E:\\rois\\d"
 plot = True
 
@@ -49,19 +49,19 @@ x_valid_raw, x_test_raw, y_valid, y_test = train_test_split(x_test_valid_scaled_
 x_valid = x_valid_raw.reshape(x_valid_raw.shape[0], int(x_valid_raw.shape[1]/2),2).astype(np.float64)
 x_test = x_test_raw.reshape(x_test_raw.shape[0], int(x_test_raw.shape[1]/2),2).astype(np.float64)
 
-# #apply smote to train data
-# print('classes count')
-# print ('before oversampling = {}'.format(y_train_raw.sum(axis=0)))
-# # smote
-# from imblearn.over_sampling import SMOTE
-# sm = SMOTE(random_state=42)
-# x_train_smote_raw, y_train = sm.fit_resample(x_train_scaled_raw, y_train_raw)
-# print('classes count')
-# print ('before oversampling = {}'.format(y_train_raw.sum(axis=0)))
-# print ('after oversampling = {}'.format(y_train.sum(axis=0)))
-#
-#
-# x_train = x_train_smote_raw.reshape(x_train_smote_raw.shape[0], int(x_train_smote_raw.shape[1]/2), 2).astype(np.float64)
+#apply smote to train data
+print('classes count')
+print ('before oversampling = {}'.format(y_train_raw.sum(axis=0)))
+# smote
+from imblearn.over_sampling import SMOTE
+sm = SMOTE(random_state=42)
+x_train_smote_raw, y_train = sm.fit_resample(x_train_scaled_raw, y_train_raw)
+print('classes count')
+print ('before oversampling = {}'.format(y_train_raw.sum(axis=0)))
+print ('after oversampling = {}'.format(y_train.sum(axis=0)))
+
+
+x_train = x_train_smote_raw.reshape(x_train_smote_raw.shape[0], int(x_train_smote_raw.shape[1]/2), 2).astype(np.float64)
 
 model = tf.keras.models.load_model(MODEL_PATH, custom_objects={"CustomModel": HopefullNet})
 

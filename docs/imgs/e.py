@@ -14,7 +14,7 @@ from sklearn.preprocessing import minmax_scale
 tf.autograph.set_verbosity(0)
 config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
-PATH = "E:\\datasets\\eeg_dataset\\n_ch_base"
+PATH = "E:\\datasets\\eegnn\\n_ch_base"
 MODEL_PATH = "E:\\rois\\e"
 plot = True
 
@@ -49,19 +49,19 @@ x_valid_raw, x_test_raw, y_valid, y_test = train_test_split(x_test_valid_scaled_
 x_valid = x_valid_raw.reshape(x_valid_raw.shape[0], int(x_valid_raw.shape[1]/2),2).astype(np.float64)
 x_test = x_test_raw.reshape(x_test_raw.shape[0], int(x_test_raw.shape[1]/2),2).astype(np.float64)
 
-# #apply smote to train data
-# print('classes count')
-# print ('before oversampling = {}'.format(y_train_raw.sum(axis=0)))
-# # smote
-# from imblearn.over_sampling import SMOTE
-# sm = SMOTE(random_state=42)
-# x_train_smote_raw, y_train = sm.fit_resample(x_train_scaled_raw, y_train_raw)
-# print('classes count')
-# print ('before oversampling = {}'.format(y_train_raw.sum(axis=0)))
-# print ('after oversampling = {}'.format(y_train.sum(axis=0)))
-#
-#
-# x_train = x_train_smote_raw.reshape(x_train_smote_raw.shape[0], int(x_train_smote_raw.shape[1]/2), 2).astype(np.float64)
+#apply smote to train data
+print('classes count')
+print ('before oversampling = {}'.format(y_train_raw.sum(axis=0)))
+# smote
+from imblearn.over_sampling import SMOTE
+sm = SMOTE(random_state=42)
+x_train_smote_raw, y_train = sm.fit_resample(x_train_scaled_raw, y_train_raw)
+print('classes count')
+print ('before oversampling = {}'.format(y_train_raw.sum(axis=0)))
+print ('after oversampling = {}'.format(y_train.sum(axis=0)))
+
+
+x_train = x_train_smote_raw.reshape(x_train_smote_raw.shape[0], int(x_train_smote_raw.shape[1]/2), 2).astype(np.float64)
 
 model = tf.keras.models.load_model(MODEL_PATH, custom_objects={"CustomModel": HopefullNet})
 
@@ -70,21 +70,38 @@ with open(os.path.join(MODEL_PATH, "hist.pkl"), "rb") as file:
     hist = pickle.load(file)
 
 #%%
-
+SMALL_SIZE = 15
+MEDIUM_SIZE = 20
+BIGGER_SIZE = 20
+line_w = 3
 import matplotlib
 matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
-plt.style.use('seaborn')
-plt.subplot(1,2,1, title="training accuracy")
-plt.plot(hist["accuracy"], label="train-set")
-plt.plot(hist["val_accuracy"], label="validation-set")
-plt.legend(loc='lower right')
-plt.subplot(1,2,2, title="training loss")
-plt.plot(hist["val_loss"], label="validation-set")
-plt.plot(hist["loss"], label="train-set")
-plt.legend(loc='upper right')
-plt.show()
+plt.style.use('seaborn-darkgrid')
 
+plt.rc('font', size=SMALL_SIZE)          # controls default text sizes
+plt.rc('axes', titlesize=SMALL_SIZE)     # fontsize of the axes title
+plt.rc('axes', labelsize=MEDIUM_SIZE)    # fontsize of the x and y labels
+plt.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
+plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
+plt.rc('legend', fontsize=SMALL_SIZE)    # legend fontsize
+plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
+
+fig, axs = plt.subplots(1,2, figsize=(15,8))
+axs[0].plot(hist["accuracy"], label="train", linewidth=line_w)
+axs[0].plot(hist["val_accuracy"], label="validation", linewidth=line_w)
+axs[0].legend(loc='lower right')
+axs[0].set_title("Accuracy")
+axs[0].set_xlabel("epoch")
+axs[0].set_ylabel("accuracy")
+
+axs[1].plot(hist["loss"], label="train", linewidth=line_w)
+axs[1].plot(hist["val_loss"], label="validation", linewidth=line_w)
+axs[1].legend(loc='upper right')
+axs[1].set_title("Loss")
+axs[1].set_xlabel("epoch")
+axs[1].set_ylabel("accuracy")
+plt.show()
 
 #%%
 """
@@ -118,8 +135,11 @@ print('\n Confusion matrix \n\n',
   )
 
 
-# conf = confusion_matrix(yTestClass,yPredClass)
-# import seaborn as sns
-# sns.heatmap(conf, annot=True, fmt="", xticklabels=["B", "R", "RL", "L", "F"], yticklabels=["B",
-#                                                                                            "R",
-#                                                                                    "RL", "L", "F"])
+conf = confusion_matrix(yTestClass,yPredClass)
+import seaborn as sns
+sns.heatmap(conf, annot=True, fmt="", xticklabels=["B", "R", "RL", "L", "F"],
+            yticklabels=[
+    "B",
+                                                                                           "R",
+                                                                                   "RL", "L",
+                "F"])

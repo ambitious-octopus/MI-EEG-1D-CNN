@@ -66,38 +66,52 @@ x_train = x_train_smote_raw.reshape(x_train_smote_raw.shape[0], int(x_train_smot
 
 
 #%%
-learning_rate = 1e-4 # default 1e-3
 
-loss = tf.keras.losses.categorical_crossentropy  #tf.keras.losses.categorical_crossentropy
-optimizer = tf.keras.optimizers.Adam(lr=learning_rate)
-model = HopefullNet_HBN()
-modelPath = os.path.join(os.getcwd(), 'bestModel.h5')
+model = tf.keras.models.load_model(MODEL_PATH, custom_objects={"CustomModel": HopefullNet_HBN})
 
-model.compile(loss=loss, optimizer=optimizer, metrics=['accuracy'])
+import pickle
+with open(os.path.join(MODEL_PATH, "hist.pkl"), "rb") as file:
+    hist = pickle.load(file)
 
-checkpoint = ModelCheckpoint( # set model saving checkpoints
-    modelPath, # set path to save model weights
-    monitor='val_loss', # set monitor metrics
-    verbose=1, # set training verbosity
-    save_best_only=True, # set if want to save only best weights
-    save_weights_only=False, # set if you want to save only model weights
-    mode='auto', # set if save min or max in metrics
-    period=1 # interval between checkpoints
-    )
+#%%
+SMALL_SIZE = 15
+MEDIUM_SIZE = 20
+BIGGER_SIZE = 20
+line_w = 3
+import matplotlib
+matplotlib.use("TkAgg")
+import matplotlib.pyplot as plt
+plt.style.use('seaborn-darkgrid')
 
-earlystopping = EarlyStopping(
-    monitor='val_loss', # set monitor metrics
-    min_delta=0.001, # set minimum metrics delta
-    patience=4, # number of epochs to stop training
-    restore_best_weights=True, # set if use best weights or last weights
-    )
-callbacksList = [checkpoint, earlystopping] # build callbacks list
+plt.rc('font', size=SMALL_SIZE)          # controls default text sizes
+plt.rc('axes', titlesize=SMALL_SIZE)     # fontsize of the axes title
+plt.rc('axes', labelsize=MEDIUM_SIZE)    # fontsize of the x and y labels
+plt.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
+plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
+plt.rc('legend', fontsize=SMALL_SIZE)    # legend fontsize
+plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
+
+fig, axs = plt.subplots(1,2, figsize=(15,8))
+axs[0].plot(hist["accuracy"], label="train", linewidth=line_w)
+axs[0].plot(hist["val_accuracy"], label="validation", linewidth=line_w)
+axs[0].legend(loc='lower right')
+axs[0].set_title("Accuracy")
+axs[0].set_xlabel("epoch")
+axs[0].set_ylabel("accuracy")
+
+axs[1].plot(hist["loss"], label="train", linewidth=line_w)
+axs[1].plot(hist["val_loss"], label="validation", linewidth=line_w)
+axs[1].legend(loc='upper right')
+axs[1].set_title("Loss")
+axs[1].set_xlabel("epoch")
+axs[1].set_ylabel("accuracy")
+plt.show()
+
 #%%
 """
 Test model
 """
 
-model = tf.keras.models.load_model(MODEL_PATH, custom_objects={"CustomModel": HopefullNet_HBN})
 
 
 testLoss, testAcc = model.evaluate(x_test, y_test)
