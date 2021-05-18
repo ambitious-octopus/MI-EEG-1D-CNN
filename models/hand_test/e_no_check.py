@@ -81,7 +81,7 @@ model.compile(loss=loss, optimizer=optimizer, metrics=['accuracy'])
 #%%
 
 if inference == False:
-    hist = model.fit(x_train, y_train, epochs=30, batch_size=10,
+    hist = model.fit(x_train, y_train, epochs=50, batch_size=10,
                     validation_data=(x_valid, y_valid)) #32
 
     import pickle
