@@ -63,7 +63,7 @@ class Utils:
     def download_data(save_path: str = os.getcwd()) -> str:
         #todo: test this
         """
-        This create a new folder data and download the necessary files
+        This lil create a new folder data and download the necessary files
         :return: the path
         """
         def bar_progress(current, total, width=80):
