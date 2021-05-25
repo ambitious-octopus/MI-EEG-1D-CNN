@@ -145,9 +145,18 @@ sns.heatmap(conf,
             yticklabels=["B", "R", "RL", "L", "F"])
 
 #%%
+SMALL_SIZE = 90
+MEDIUM_SIZE = 12
+BIGGER_SIZE = 90
+line_w = 3
+import matplotlib
+matplotlib.use("TkAgg")
+import matplotlib.pyplot as plt
+plt.style.use('seaborn-darkgrid')
 # Rock'n roll curver
 y_score = yPred.copy()
 n_classes = 5
+class_names = ["B", "R", "RL", "L", "F"]
 
 
 from scipy import interp
@@ -192,26 +201,26 @@ plt.figure(1)
 plt.plot(fpr["micro"], tpr["micro"],
          label='micro-average ROC curve (area = {0:0.2f})'
                ''.format(roc_auc["micro"]),
-         color='deeppink', linestyle=':', linewidth=4)
+         color='tab:brown', linestyle=':', linewidth=4)
 
 plt.plot(fpr["macro"], tpr["macro"],
          label='macro-average ROC curve (area = {0:0.2f})'
                ''.format(roc_auc["macro"]),
-         color='navy', linestyle=':', linewidth=4)
+         color='tab:olive', linestyle=':', linewidth=4)
 
-colors = cycle(['aqua', 'darkorange', 'cornflowerblue'])
+colors = cycle(['tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
 for i, color in zip(range(n_classes), colors):
     plt.plot(fpr[i], tpr[i], color=color, lw=lw,
              label='ROC curve of class {0} (area = {1:0.2f})'
-             ''.format(i, roc_auc[i]))
+             ''.format(class_names[i], roc_auc[i]))
 
 plt.plot([0, 1], [0, 1], 'k--', lw=lw)
 plt.xlim([0.0, 1.0])
 plt.ylim([0.0, 1.05])
-plt.xlabel('False Positive Rate')
-plt.ylabel('True Positive Rate')
-plt.title('Some extension of Receiver operating characteristic to multi-class')
-plt.legend(loc="lower right")
+plt.xlabel('False Positive Rate', fontsize= MEDIUM_SIZE)
+plt.ylabel('True Positive Rate', fontsize= MEDIUM_SIZE)
+# plt.title("ROC")
+plt.legend(loc="lower right", prop={"size":MEDIUM_SIZE})
 plt.show()
 
 
@@ -223,22 +232,22 @@ plt.ylim(0.97, 1)
 plt.plot(fpr["micro"], tpr["micro"],
          label='micro-average ROC curve (area = {0:0.2f})'
                ''.format(roc_auc["micro"]),
-         color='deeppink', linestyle=':', linewidth=4)
+         color='tab:brown', linestyle=':', linewidth=4)
 
 plt.plot(fpr["macro"], tpr["macro"],
          label='macro-average ROC curve (area = {0:0.2f})'
                ''.format(roc_auc["macro"]),
-         color='navy', linestyle=':', linewidth=4)
+         color='tab:olive', linestyle=':', linewidth=4)
 
-colors = cycle(['aqua', 'darkorange', 'cornflowerblue'])
+colors = cycle(['tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
 for i, color in zip(range(n_classes), colors):
     plt.plot(fpr[i], tpr[i], color=color, lw=lw,
              label='ROC curve of class {0} (area = {1:0.2f})'
-             ''.format(i, roc_auc[i]))
+             ''.format(class_names[i], roc_auc[i]))
 
 plt.plot([0, 1], [0, 1], 'k--', lw=lw)
-plt.xlabel('False Positive Rate')
-plt.ylabel('True Positive Rate')
-plt.title('Some extension of Receiver operating characteristic to multi-class')
-plt.legend(loc="lower right")
+plt.xlabel('False Positive Rate', fontsize= MEDIUM_SIZE)
+plt.ylabel('True Positive Rate', fontsize= MEDIUM_SIZE)
+# plt.title("ROC")
+plt.legend(loc="lower right", prop={"size":MEDIUM_SIZE})
 plt.show()
