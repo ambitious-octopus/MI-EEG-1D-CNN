@@ -269,7 +269,7 @@ class Utils:
     def cut_width(data):
         new_data = np.zeros((data.shape[0], data.shape[1], data.shape[2] - 1))
         for index, line in enumerate(data):
-            new_data[index] = line[:, :-1]
+            new_data[index] = line[:, : -1]
 
         return new_data
 

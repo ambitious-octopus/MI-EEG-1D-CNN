@@ -29,6 +29,6 @@ for couple in channels:
             Utils.load_data(subjects=[sub], runs=runs, data_path=data_path)))), couple),
             exclude_base=False)
 
-        # np.save(os.path.join(save_path, "x_sub_" + str(sub)), x, allow_pickle=True)
-        # np.save(os.path.join(save_path, "y_sub_" + str(sub)), y, allow_pickle=True)
+        np.save(os.path.join(save_path, "x_sub_" + str(sub)), x, allow_pickle=True)
+        np.save(os.path.join(save_path, "y_sub_" + str(sub)), y, allow_pickle=True)
 

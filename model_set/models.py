@@ -4,8 +4,9 @@ class HopefullNet(tf.keras.Model):
     """
     Original HopeFullNet
     """
-    def __init__(self):
+    def __init__(self, inp_shape = (640,2)):
         super(HopefullNet, self).__init__()
+        self.inp_shape = inp_shape
 
         self.kernel_size_0 = 20
         self.kernel_size_1 = 6
@@ -15,7 +16,7 @@ class HopefullNet(tf.keras.Model):
                                             kernel_size=self.kernel_size_0,
                                             activation='relu',
                                             padding= "same",
-                                            input_shape=(640, 2))
+                                            input_shape=self.inp_shape)
         self.batch_n_1 = tf.keras.layers.BatchNormalization()
         self.conv2 = tf.keras.layers.Conv1D(filters=32,
                                             kernel_size=self.kernel_size_0,
