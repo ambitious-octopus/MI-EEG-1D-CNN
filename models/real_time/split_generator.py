@@ -7,6 +7,7 @@ from data_processing.general_processor import Utils
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import minmax_scale
 
+#%%
 import pickle
 
 channels = [["FC1", "FC2"],
@@ -20,11 +21,12 @@ channels = [["FC1", "FC2"],
             ["CP5", "CP6"]]
 
 exclude = [38, 88, 89, 92, 100, 104]
-subjects = [n for n in np.arange(1, 110) if n not in exclude]
-# subjects = [1]
+#subjects = [n for n in np.arange(1, 110) if n not in exclude]
+subjects = [1]
 runs = [4, 6, 8, 10, 12, 14]
 
-data_path = "E:\\datasets\\eegbci"
+#data_path = "E:\\datasets\\eegbci"
+data_path = "/Users/stefano.bargione/Downloads/files"
 
 final_x = list()
 final_y = list()
@@ -55,6 +57,11 @@ for couple in channels:
 x = np.stack(final_x)
 y = Utils.to_one_hot(np.stack(final_y))
 
+print(type(x))
+print(type(y))
+
+#%%
+
 reshaped_x = x.reshape(x.shape[0], x.shape[1] * x.shape[2])
 
 x_train_raw, x_test_raw, y_train_raw, y_test_raw = train_test_split(reshaped_x,
@@ -68,19 +75,19 @@ x_test_valid_scaled_raw = minmax_scale(x_test_raw, axis=1)
 x_test = x_test_raw.reshape(x_test_raw.shape[0], int(x_test_raw.shape[1]/2),2).astype(np.float64)
 
 
-#apply smote to train data
-print('classes count')
-print ('before oversampling = {}'.format(y_train_raw.sum(axis=0)))
-from imblearn.over_sampling import SMOTE
-sm = SMOTE(random_state=42)
-x_train_smote_raw, y_train = sm.fit_resample(x_train_scaled_raw, y_train_raw)
-print('classes count')
-print ('before oversampling = {}'.format(y_train_raw.sum(axis=0)))
-print ('after oversampling = {}'.format(y_train.sum(axis=0)))
+# #apply smote to train data
+# print('classes count')
+# print ('before oversampling = {}'.format(y_train_raw.sum(axis=0)))
+# from imblearn.over_sampling import SMOTE
+# sm = SMOTE(random_state=42)
+# x_train_smote_raw, y_train = sm.fit_resample(x_train_scaled_raw, y_train_raw)
+# print('classes count')
+# print ('before oversampling = {}'.format(y_train_raw.sum(axis=0)))
+# print ('after oversampling = {}'.format(y_train.sum(axis=0)))
+#
+# x_train = x_train_smote_raw.reshape(x_train_smote_raw.shape[0], int(x_train_smote_raw.shape[1]/2), 2).astype(np.float64)
 
-x_train = x_train_smote_raw.reshape(x_train_smote_raw.shape[0], int(x_train_smote_raw.shape[1]/2), 2).astype(np.float64)
-
-save_path = "D:\\split_eegnn"
+save_path = "" #to define!
 test_path = os.path.join(save_path, "test")
 train_path = os.path.join(save_path, "train")
 os.mkdir(test_path)
