@@ -87,7 +87,7 @@ x_test = x_test_raw.reshape(x_test_raw.shape[0], int(x_test_raw.shape[1]/2),2).a
 #
 # x_train = x_train_smote_raw.reshape(x_train_smote_raw.shape[0], int(x_train_smote_raw.shape[1]/2), 2).astype(np.float64)
 
-save_path = "" #to define!
+save_path = "/Users/stefano.bargione/Downloads/ready_data #to define!
 test_path = os.path.join(save_path, "test")
 train_path = os.path.join(save_path, "train")
 os.mkdir(test_path)
