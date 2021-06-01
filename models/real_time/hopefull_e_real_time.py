@@ -16,8 +16,8 @@ tf.autograph.set_verbosity(0)
 # config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 import pickle
 
-TRAIN_PATH = "D:\\split_eegnn\\train"
-TEST_PATH = "D:\\split_eegnn\\test"
+TRAIN_PATH = "E:\\split_eegnn\\train"
+TEST_PATH = "E:\\split_eegnn\\test"
 
 
 def gen_train():
@@ -72,7 +72,7 @@ earlystopping = EarlyStopping(
 callbacksList = [checkpoint, earlystopping] # build callbacks list
 #%%
 
-hist = model.fit(x=train.batch(320), epochs=100, validation_data=test.batch(1)) #32
+hist = model.fit(x=train.batch(10), epochs=100, validation_data=test.batch(1)) #32
 
 
 #%%
