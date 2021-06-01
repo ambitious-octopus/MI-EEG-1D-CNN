@@ -6,9 +6,9 @@ import numpy as np
 from data_processing.general_processor import Utils
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import minmax_scale
-
-#%%
 import pickle
+
+rand = np.random.default_rng()
 
 channels = [["FC1", "FC2"],
             ["FC3", "FC4"],
@@ -49,12 +49,22 @@ for couple in channels:
         new_y = np.array(y)
         del y
         for xi, yi in zip(new_x, new_y):
-            final_x.append(xi[:, :320])
-            final_x.append(xi[:, 320:])
-            for a in range(2):
-                final_y.append(yi)
+            if yi in ["R", "L", "F", "LR"]:
+                final_x.append(xi[:, :320])
+                final_x.append(xi[:, 320:])
+                for a in range(2):
+                    final_y.append(yi)
+            elif yi == "B" and rand.random() >= 0.65:
+                final_x.append(xi[:, :320])
+                final_x.append(xi[:, 320:])
+                for a in range(2):
+                    final_y.append(yi)
+            else:
+                pass
 
 x = np.stack(final_x)
+print(np.unique(np.stack(final_y), return_counts=True))
+
 y = Utils.to_one_hot(np.stack(final_y))
 
 print(type(x))
@@ -87,7 +97,9 @@ x_test = x_test_raw.reshape(x_test_raw.shape[0], int(x_test_raw.shape[1]/2),2).a
 #
 # x_train = x_train_smote_raw.reshape(x_train_smote_raw.shape[0], int(x_train_smote_raw.shape[1]/2), 2).astype(np.float64)
 
-save_path = "/Users/stefano.bargione/Downloads/ready_data #to define!
+x_train = x_train_smote_raw.reshape(x_train_smote_raw.shape[0], int(x_train_smote_raw.shape[1]/2), 2).astype(np.float64)
+
+save_path = "E:\\split_eegnn"
 test_path = os.path.join(save_path, "test")
 train_path = os.path.join(save_path, "train")
 os.mkdir(test_path)
