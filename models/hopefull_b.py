@@ -1,14 +1,14 @@
 
 import os
 import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+#sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 from model_set.models import HopefullNet
 import numpy as np
 import tensorflow as tf
 from data_processing.general_processor import Utils
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
-physical_devices = tf.config.experimental.list_physical_devices('GPU')
+#physical_devices = tf.config.experimental.list_physical_devices('GPU')
 print(physical_devices)
 from sklearn.preprocessing import minmax_scale
 tf.autograph.set_verbosity(0)

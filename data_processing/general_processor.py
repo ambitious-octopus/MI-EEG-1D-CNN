@@ -12,6 +12,9 @@ from sklearn.preprocessing import minmax_scale
 import tensorflow as tf
 from mne.io import BaseRaw
 
+#please be sure you dispose of all the above libraries/packages before moving forward
+
+#todo
 channels = [["FC1", "FC2"],
             ["FC3", "FC4"],
             ["FC5", "FC6"],
@@ -22,7 +25,7 @@ channels = [["FC1", "FC2"],
             ["CP3", "CP4"],
             ["CP5", "CP6"]]
 
-
+#this class creates 6 different EEG-electrodes configurations (letter "a" to "f"). The electrodes are paired according to their specular positions on both sides of the sculp
 class Utils:
     combinations = {"a": [["FC1", "FC2"],
                           ["FC3", "FC4"],
@@ -59,18 +62,21 @@ class Utils:
                           ["CP3", "CP4"],
                           ["CP5", "CP6"]]}
 
-    @staticmethod
+
+    @staticmethod #this decorator trasforms the following method into a static method.
+    #this function downloads the EEG data needed for further processing and stores them into a folder called "eegbci". To store the data in a specific location please insert the desired directory at the end of this file.
     def download_data(save_path: str = os.getcwd()) -> str:
-        #todo: test this
         """
         This lil create a new folder data and download the necessary files
         :return: the path
         """
+        #this function outputs a progress bar of the state of the download to terminal
         def bar_progress(current, total, width=80):
             progress_message = "Downloading: %d%% [%d / %d] bytes" % (current / total * 100, current, total)
             sys.stdout.write("\r" + progress_message)
             sys.stdout.flush()
 
+        #creates a folder called "eegbci" in the desired path or raises exception if the folder already exists
         data_url = "https://physionet.org/static/published-projects/eegmmidb/eeg-motor-movementimagery-dataset-1.0.0.zip"
         data_path = os.path.join(save_path, "eegbci")
         try:
@@ -78,26 +84,30 @@ class Utils:
         except:
             raise Exception("The folder alredy exists")
 
-        # Now use this like below,
+        # Downloads and stores data in the "eegbci" folder in .zip format(~2GB) and shows progress in terminal
         wget.download(data_url, os.path.join(data_path, "eegbci.zip"), bar=bar_progress)
         return data_path
 
     @staticmethod
     def load_data(subjects: List, runs: List, data_path: str) -> List[List[BaseRaw]]:
         """
-        Data una lista di soggeti, una lista di runs e il path del database.
+        Data una lista di soggetti, una lista di runs e il path del database.
         Questa funzione itera su ogni soggetto, e successivamente su ogni run, carica le run in
         memoria, modifica le labels e ritorna una lista di run per ogni soggetto.
+        Given a list of subs, a list of runs and the database path, this function iterates through every subjects and every run, loads the runs in memory, modifies labels
         :param subjects: List
         :param runs: List
         :param data_path: str
         :return: List
         """
         all_subject_list = []
+        #rename as strings every subject and every run
         subjects = [str(s) for s in subjects]
         runs = [str(r) for r in runs]
+        #establish which indexes in runs are task2 and task4
         task2 = [4, 8, 12]
         task4 = [6, 10, 14]
+        #reassigns a specific label/code to every sub based on previous name length
         for sub in subjects:
             if len(sub) == 1:
                 sub_name = "S"+"00"+sub
@@ -105,8 +115,11 @@ class Utils:
                 sub_name = "S"+"0"+sub
             else:
                 sub_name = "S"+sub
+            #saves every sub in folder
             sub_folder = os.path.join(data_path, sub_name)
             single_subject_run = []
+
+            # reassigns a specific label/code to every run based on previous name length and save every run in folder. If the run length exceeds 124 than crop final part.
             for run in runs:
                 if len(run) == 1:
                     path_run = os.path.join(sub_folder, sub_name+"R"+"0"+run+".edf")
@@ -125,7 +138,7 @@ class Utils:
                 LR indicates motor imagination of opening and closing both fists;
                 F indicates motor imagination of opening and closing both feet.
                 """
-
+                #reassign each run in task2 and task4 to the correct category of the above, based on index and annotations.
                 if int(run) in task2:
                     for index, an in enumerate(raw_run.annotations.description):
                         if an == "T0":
@@ -142,6 +155,7 @@ class Utils:
                             raw_run.annotations.description[index] = "LR"
                         if an == "T2":
                             raw_run.annotations.description[index] = "F"
+                #Finally append runs to lists
                 single_subject_run.append(raw_run)
             all_subject_list.append(single_subject_run)
         return all_subject_list
@@ -162,7 +176,7 @@ class Utils:
     @staticmethod
     def del_annotations(list_of_subraw:List[BaseRaw]) -> List[BaseRaw]:
         """
-        Delete "BAD boundary" and "EDGE boundary" from raws
+        Delete the annotations "BAD boundary" and "EDGE boundary" from raws
         :param list_of_subraw: list of raw
         :return: list of raw
         """
@@ -176,6 +190,7 @@ class Utils:
             list_raw.append(subj)
         return list_raw
 
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>EEG RAW DATA PRE-PROCESSING SECTION BELOW
     @staticmethod
     def eeg_settings(raws):
         """
@@ -195,20 +210,20 @@ class Utils:
     @staticmethod
     def filtering(list_of_raws):
         """
-        Perform a band_pass and a notch filtering on raws
+        Performs a 4th order band_pass filtering and a notch filtering on raws. Both filters are from MNE package which relies on scipy filter design for some parameters
         :param list_of_raws:  list of raws
         :return: list of filtered raws
         """
         raw_filtered = []
         for subj in list_of_raws:
             if subj.info["sfreq"] == 160.0:
-                subj.filter(1.0, 79.0, fir_design='firwin', skip_by_annotation='edge')  # Filtro passabanda
-                subj.notch_filter(freqs=60)  # Faccio un filtro notch
+                subj.filter(1.0, 79.0, fir_design='firwin', skip_by_annotation='edge')  #Bandpass filter with band going from 1 Hz to 79 Hz
+                subj.notch_filter(freqs=60)  # Filtro notch
                 raw_filtered.append(subj)
             else:
                 subj.filter(1.0, (subj.info["sfreq"] / 2) - 1, fir_design='firwin',
                             skip_by_annotation='edge')  # Filtro passabanda
-                subj.notch_filter(freqs=60)  # Faccio un filtro notch
+                subj.notch_filter(freqs=60)  # Filtro notch
                 raw_filtered.append(subj)
 
         return raw_filtered
@@ -222,6 +237,7 @@ class Utils:
         return s_list
 
     @staticmethod
+    #this method cuts the signal in epochs of 4 seconds and gives them a task-related ID
     def epoch(raws, exclude_base=False, tmin=0, tmax=4):
         xs = list()
         ys = list()
@@ -358,9 +374,9 @@ class Utils:
 
         return np.concatenate(data_x), np.concatenate(data_y)
 
-
+#insert desired path as str argument in the download_data method to save needed data in .zip format (~2GB)
 if __name__ == "__main__":
-    pass
+    Utils.download_data("/Users/mac/Documents/datasets")
 
 
 
