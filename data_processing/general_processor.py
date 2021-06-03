@@ -12,9 +12,9 @@ from sklearn.preprocessing import minmax_scale
 import tensorflow as tf
 from mne.io import BaseRaw
 
-#please be sure you dispose of all the above libraries/packages before moving forward
+# please be sure you dispose of all the above libraries/packages before moving forward
 
-#todo
+# todo: remove channels?
 channels = [["FC1", "FC2"],
             ["FC3", "FC4"],
             ["FC5", "FC6"],
@@ -25,7 +25,8 @@ channels = [["FC1", "FC2"],
             ["CP3", "CP4"],
             ["CP5", "CP6"]]
 
-#this class creates 6 different EEG-electrodes configurations (letter "a" to "f"). The electrodes are paired according to their specular positions on both sides of the sculp
+
+# this class creates 6 different EEG-electrodes configurations (letter "a" to "f")
 class Utils:
     combinations = {"a": [["FC1", "FC2"],
                           ["FC3", "FC4"],
@@ -62,21 +63,34 @@ class Utils:
                           ["CP3", "CP4"],
                           ["CP5", "CP6"]]}
 
-
-    @staticmethod #this decorator trasforms the following method into a static method.
-    #this function downloads the EEG data needed for further processing and stores them into a folder called "eegbci". To store the data in a specific location please insert the desired directory at the end of this file.
+    @staticmethod
     def download_data(save_path: str = os.getcwd()) -> str:
         """
-        This lil create a new folder data and download the necessary files
-        :return: the path
+        This method downloads the EEG data needed for further processing, stores data into a
+        folder called "eegbci" in .zip format(~2GB) or raises exception if it exists already and
+        outputs the download progress bar to the terminal
+        Args:
+            save_path:
+
+        Returns:
+
         """
-        #this function outputs a progress bar of the state of the download to terminal
         def bar_progress(current, total, width=80):
-            progress_message = "Downloading: %d%% [%d / %d] bytes" % (current / total * 100, current, total)
+            """
+            This function outputs a progress bar of the state of the download to the terminal
+            Args:
+                current:
+                total:
+                width:
+
+            Returns:
+
+            """
+            progress_message = "Downloading: %d%% [%d / %d] bytes" % (
+                current / total * 100, current, total)
             sys.stdout.write("\r" + progress_message)
             sys.stdout.flush()
 
-        #creates a folder called "eegbci" in the desired path or raises exception if the folder already exists
         data_url = "https://physionet.org/static/published-projects/eegmmidb/eeg-motor-movementimagery-dataset-1.0.0.zip"
         data_path = os.path.join(save_path, "eegbci")
         try:
@@ -84,52 +98,51 @@ class Utils:
         except:
             raise Exception("The folder alredy exists")
 
-        # Downloads and stores data in the "eegbci" folder in .zip format(~2GB) and shows progress in terminal
         wget.download(data_url, os.path.join(data_path, "eegbci.zip"), bar=bar_progress)
         return data_path
 
     @staticmethod
     def load_data(subjects: List, runs: List, data_path: str) -> List[List[BaseRaw]]:
         """
-        Data una lista di soggetti, una lista di runs e il path del database.
-        Questa funzione itera su ogni soggetto, e successivamente su ogni run, carica le run in
-        memoria, modifica le labels e ritorna una lista di run per ogni soggetto.
-        Given a list of subs, a list of runs and the database path, this function iterates through every subjects and every run, loads the runs in memory, modifies labels
+        Given a list of subjects, a list of runs and the database path, this method iterates
+        through every subject and every run, it loads the runs in memory, it modifies the labels and
+        returns a list of runs for each subject.
         :param subjects: List
         :param runs: List
         :param data_path: str
         :return: List
         """
         all_subject_list = []
-        #rename as strings every subject and every run
+        # rename as strings every subject and every run
         subjects = [str(s) for s in subjects]
         runs = [str(r) for r in runs]
-        #establish which indexes in runs are task2 and task4
+        # establish which indexes in runs are task2 and task4
         task2 = [4, 8, 12]
         task4 = [6, 10, 14]
-        #reassigns a specific label/code to every sub based on previous name length
+        # reassigns a specific label/code to every sub based on previous name length
         for sub in subjects:
             if len(sub) == 1:
-                sub_name = "S"+"00"+sub
+                sub_name = "S" + "00" + sub
             elif len(sub) == 2:
-                sub_name = "S"+"0"+sub
+                sub_name = "S" + "0" + sub
             else:
-                sub_name = "S"+sub
-            #saves every sub in folder
+                sub_name = "S" + sub
+            # saves every sub in folder
             sub_folder = os.path.join(data_path, sub_name)
             single_subject_run = []
 
-            # reassigns a specific label/code to every run based on previous name length and save every run in folder. If the run length exceeds 124 than crop final part.
+            # reassigns a new label to each run based on previous name length and save it in folder
+            # if the run length exceeds 124 than crop final part
             for run in runs:
                 if len(run) == 1:
-                    path_run = os.path.join(sub_folder, sub_name+"R"+"0"+run+".edf")
+                    path_run = os.path.join(sub_folder, sub_name + "R" + "0" + run + ".edf")
                 else:
-                    path_run = os.path.join(sub_folder, sub_name+"R"+ run +".edf")
-                raw_run = read_raw_edf(path_run, preload=True)  # Le carico
-                len_run = np.sum(raw_run._annotations.duration)  # Controllo la durata
+                    path_run = os.path.join(sub_folder, sub_name + "R" + run + ".edf")
+                raw_run = read_raw_edf(path_run, preload=True)  # load run
+                len_run = np.sum(raw_run._annotations.duration)  # check duration
                 if len_run > 124:
                     print(sub)
-                    raw_run.crop(tmax=124)  # Taglio la parte finale
+                    raw_run.crop(tmax=124)  # crop final part
 
                 """
                 B indicates baseline
@@ -138,7 +151,8 @@ class Utils:
                 LR indicates motor imagination of opening and closing both fists;
                 F indicates motor imagination of opening and closing both feet.
                 """
-                #reassign each run in task2 and task4 to the correct category of the above, based on index and annotations.
+                # assign each run in task2 and task4 to the correct category of the above,
+                # by iterating thorough indexes and annotations
                 if int(run) in task2:
                     for index, an in enumerate(raw_run.annotations.description):
                         if an == "T0":
@@ -155,7 +169,7 @@ class Utils:
                             raw_run.annotations.description[index] = "LR"
                         if an == "T2":
                             raw_run.annotations.description[index] = "F"
-                #Finally append runs to lists
+                # append runs to lists
                 single_subject_run.append(raw_run)
             all_subject_list.append(single_subject_run)
         return all_subject_list
@@ -163,7 +177,7 @@ class Utils:
     @staticmethod
     def concatenate_runs(list_runs: List[List[BaseRaw]]) -> List[BaseRaw]:
         """
-        Concatenate a list of runs
+        This method concatenates a list of runs
         :param list_runs: list of raw
         :return: list of concatenate raw
         """
@@ -174,9 +188,9 @@ class Utils:
         return raw_conc_list
 
     @staticmethod
-    def del_annotations(list_of_subraw:List[BaseRaw]) -> List[BaseRaw]:
+    def del_annotations(list_of_subraw: List[BaseRaw]) -> List[BaseRaw]:
         """
-        Delete the annotations "BAD boundary" and "EDGE boundary" from raws
+        Thi method deletes the annotations "BAD boundary" and "EDGE boundary" from raw data
         :param list_of_subraw: list of raw
         :return: list of raw
         """
@@ -190,19 +204,20 @@ class Utils:
             list_raw.append(subj)
         return list_raw
 
-#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>EEG RAW DATA PRE-PROCESSING SECTION BELOW
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EEG RAW DATA PRE-PROCESSING SECTION BELOW
+
     @staticmethod
     def eeg_settings(raws):
         """
-        Standardize montage of the raws
+        This method standardizes the montage of the raw data
         :param raws: list of raws
         :return: list of standardize raws
         """
         raw_setted = []
         for subj in raws:
-            eegbci.standardize(subj)  # Cambio n_epoch nomi dei canali
-            montage = make_standard_montage('standard_1005')  # Caricare il montaggio
-            subj.set_montage(montage)  # Setto il montaggio
+            eegbci.standardize(subj)  # change the channels names of n_epoch
+            montage = make_standard_montage('standard_1005')  # load montage
+            subj.set_montage(montage)  # set montage
             raw_setted.append(subj)
 
         return raw_setted
@@ -210,20 +225,23 @@ class Utils:
     @staticmethod
     def filtering(list_of_raws):
         """
-        Performs a 4th order band_pass filtering and a notch filtering on raws. Both filters are from MNE package which relies on scipy filter design for some parameters
+        This method performs a 4th order butterworth band_pass filtering and a notch filtering on
+        raws. Both filters are from MNE package which relies on scipy filter design for some
+        parameters.
         :param list_of_raws:  list of raws
         :return: list of filtered raws
         """
         raw_filtered = []
         for subj in list_of_raws:
             if subj.info["sfreq"] == 160.0:
-                subj.filter(1.0, 79.0, fir_design='firwin', skip_by_annotation='edge')  #Bandpass filter with band going from 1 Hz to 79 Hz
-                subj.notch_filter(freqs=60)  # Filtro notch
+                subj.filter(1.0, 79.0, fir_design='firwin',
+                            skip_by_annotation='edge')  # bandpass going from 1 Hz to 79 Hz
+                subj.notch_filter(freqs=60)
                 raw_filtered.append(subj)
             else:
                 subj.filter(1.0, (subj.info["sfreq"] / 2) - 1, fir_design='firwin',
-                            skip_by_annotation='edge')  # Filtro passabanda
-                subj.notch_filter(freqs=60)  # Filtro notch
+                            skip_by_annotation='edge')
+                subj.notch_filter(freqs=60)
                 raw_filtered.append(subj)
 
         return raw_filtered
@@ -237,8 +255,18 @@ class Utils:
         return s_list
 
     @staticmethod
-    #this method cuts the signal in epochs of 4 seconds and gives them a task-related ID
     def epoch(raws, exclude_base=False, tmin=0, tmax=4):
+        """
+        This method cuts the signal in epochs of 4 seconds and gives them a task-related ID
+        Args:
+            raws:
+            exclude_base:
+            tmin:
+            tmax:
+
+        Returns:
+
+        """
         xs = list()
         ys = list()
         for raw in raws:
@@ -263,11 +291,10 @@ class Utils:
 
         return np.concatenate(tuple(xs), axis=0), [item for sublist in ys for item in sublist]
 
-
     @staticmethod
     def save_data(save_loc, x, y):
         dir_path = os.path.join(save_loc, "eeg_data")
-        #Save data
+        # Save data
         np.save(os.path.join(dir_path, "x_C3_C4"), x, allow_pickle=True)
         """
         OneHot encoding
@@ -275,11 +302,10 @@ class Utils:
         total_labels = np.unique(y)
         mapping = {}
         for x in range(len(total_labels)):
-          mapping[total_labels[x]] = x
+            mapping[total_labels[x]] = x
         for x in range(len(y)):
-          y[x] = mapping[y[x]]
+            y[x] = mapping[y[x]]
         np.save(os.path.join(dir_path, "y_C3_C4"), y, allow_pickle=True)
-
 
     @staticmethod
     def cut_width(data):
@@ -297,7 +323,8 @@ class Utils:
                     Utils.eeg_settings(
                         Utils.del_annotations(
                             Utils.concatenate_runs(
-                                Utils.load_data(subjects=[sub], runs=runs, data_path=data_path))))), channels),
+                                Utils.load_data(subjects=[sub], runs=runs,
+                                                data_path=data_path))))), channels),
                 exclude_base=exclude_base)
             np.save(os.path.join(save_path, "x_C3_C4_sub_" + str(sub)), x, allow_pickle=True)
             np.save(os.path.join(save_path, "y_C3_C4_sub_" + str(sub)), y, allow_pickle=True)
@@ -307,10 +334,10 @@ class Utils:
         xs = list()
         ys = list()
         for sub in subjects:
-            xs.append(Utils.cut_width(np.load(os.path.join(data_path, "x" + name_single_sub + str(sub) + ".npy"))))
+            xs.append(Utils.cut_width(
+                np.load(os.path.join(data_path, "x" + name_single_sub + str(sub) + ".npy"))))
             ys.append(np.load(os.path.join(data_path, "y" + name_single_sub + str(sub) + ".npy")))
         return xs, ys
-
 
     @staticmethod
     def scale_sub_by_sub(xs, ys):
@@ -319,7 +346,6 @@ class Utils:
                 xs[sub_index][sample_index] = minmax_scale(x_data, axis=1)
 
         return xs, ys
-
 
     @staticmethod
     def to_one_hot(y, by_sub=False):
@@ -337,7 +363,6 @@ class Utils:
             new_array[x] = mapping[new_array[x]]
 
         return tf.keras.utils.to_categorical(new_array)
-
 
     @staticmethod
     def train_test_split(x, y, perc):
@@ -358,7 +383,8 @@ class Utils:
                 else:
                     train_x.append(sub_x[index])
                     train_y.append(sub_y[index])
-        return np.dstack(tuple(train_x)), np.dstack(tuple(test_x)), np.array(train_y), np.array(test_y)
+        return np.dstack(tuple(train_x)), np.dstack(tuple(test_x)), np.array(train_y), np.array(
+            test_y)
 
     @staticmethod
     def load(channels, subjects, base_path):
@@ -374,10 +400,7 @@ class Utils:
 
         return np.concatenate(data_x), np.concatenate(data_y)
 
-#insert desired path as str argument in the download_data method to save needed data in .zip format (~2GB)
+
+# insert desired path as str argument in the download_data method to save data in .zip format (~2GB)
 if __name__ == "__main__":
     Utils.download_data("/Users/mac/Documents/datasets")
-
-
-
-
