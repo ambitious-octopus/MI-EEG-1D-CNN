@@ -1,8 +1,10 @@
 import os
 import sys
-print(os.getcwd())
-print(sys.path)
+#print(os.getcwd())
+#print(sys.path)
 import numpy as np
+
+
 from data_processing.general_processor import Utils
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import minmax_scale
@@ -26,7 +28,8 @@ subjects = [1]
 runs = [4, 6, 8, 10, 12, 14]
 
 #data_path = "E:\\datasets\\eegbci"
-data_path = "/Users/stefano.bargione/Downloads/files"
+data_path = "/home/sbargione/data/datasets/files"
+
 
 final_x = list()
 final_y = list()
@@ -76,14 +79,19 @@ reshaped_x = x.reshape(x.shape[0], x.shape[1] * x.shape[2])
 
 x_train_raw, x_test_raw, y_train_raw, y_test_raw = train_test_split(reshaped_x,
                                                                             y,
-                                                                            test_size=0.20,
+                                                                            test_size=0.25,
                                                                             random_state=42)
 
 x_train_scaled_raw = minmax_scale(x_train_raw, axis=1)
 x_test_valid_scaled_raw = minmax_scale(x_test_raw, axis=1)
 
-x_test = x_test_raw.reshape(x_test_raw.shape[0], int(x_test_raw.shape[1]/2),2).astype(np.float64)
+#before it was x_test = x_test_raw.reshape(...)
 
+x_test = x_test_valid_scaled_raw.reshape(x_test_raw.shape[0], int(x_test_raw.shape[1]/2),2).astype(np.float64)
+
+#x_train was re-shaped (I just copied the form of x_test), was it necessary?  
+
+x_train = x_train_scaled_raw.reshape(x_train_raw.shape[0], int(x_train_raw.shape[1]/2), 2).astype(np.float64)
 
 # #apply smote to train data
 # print('classes count')
@@ -97,16 +105,23 @@ x_test = x_test_raw.reshape(x_test_raw.shape[0], int(x_test_raw.shape[1]/2),2).a
 #
 # x_train = x_train_smote_raw.reshape(x_train_smote_raw.shape[0], int(x_train_smote_raw.shape[1]/2), 2).astype(np.float64)
 
-x_train = x_train_smote_raw.reshape(x_train_smote_raw.shape[0], int(x_train_smote_raw.shape[1]/2), 2).astype(np.float64)
+#x_train = x_train_smote_raw.reshape(x_train_smote_raw.shape[0], int(x_train_smote_raw.shape[1]/2), 2).astype(np.float64)
 
-save_path = "E:\\split_eegnn"
-test_path = os.path.join(save_path, "test")
-train_path = os.path.join(save_path, "train")
+
+save_path = "/home/sbargione/data/datasets"
+
+folder1 = os.path.join(save_path, "test25nosmote")
+os.mkdir(folder1)
+
+test_path = os.path.join(folder1, "test")
+train_path = os.path.join(folder1, "train")
+
 os.mkdir(test_path)
 os.mkdir(train_path)
 
 counter = 0
-for xi, yi in zip(x_train, y_train):
+#here it was y_train, but changed in y_train_raw
+for xi, yi in zip(x_train, y_train_raw):
     counter += 1
     with open(os.path.join(train_path, str(counter) + ".pkl"), "wb") as file:
         pickle.dump([xi, yi], file)
@@ -116,6 +131,9 @@ for xi, yi in zip(x_test, y_test_raw):
     counter += 1
     with open(os.path.join(test_path, str(counter) + ".pkl"), "wb") as file:
         pickle.dump([xi, yi], file)
+
+
+
 
 
 

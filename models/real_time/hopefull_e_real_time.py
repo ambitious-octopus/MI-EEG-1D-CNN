@@ -9,15 +9,18 @@ import tensorflow as tf
 from data_processing.general_processor import Utils
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
-physical_devices = tf.config.experimental.list_physical_devices('GPU')
-print(physical_devices)
+#physical_devices = tf.config.experimental.list_physical_devices('GPU')
+#print(physical_devices)
 from sklearn.preprocessing import minmax_scale
 tf.autograph.set_verbosity(0)
 # config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 import pickle
 
-TRAIN_PATH = "E:\\split_eegnn\\train"
-TEST_PATH = "E:\\split_eegnn\\test"
+#TRAIN_PATH = "E:\\split_eegnn\\train"
+#TEST_PATH = "E:\\split_eegnn\\test"
+
+TRAIN_PATH = "/home/sbargione/data/datasets/test15nosmote/train"
+TEST_PATH = "/home/sbargione/data/datasets/test15nosmote/test"
 
 
 def gen_train():
@@ -72,24 +75,24 @@ earlystopping = EarlyStopping(
 callbacksList = [checkpoint, earlystopping] # build callbacks list
 #%%
 
-hist = model.fit(x=train.batch(10), epochs=100, validation_data=test.batch(1)) #32
+hist = model.fit(x = train.batch(10), epochs=100, validation_data=test.batch(1)) #32
 
 
 #%%
 
-import matplotlib
-matplotlib.use("TkAgg")
-import matplotlib.pyplot as plt
-plt.style.use('seaborn')
-plt.subplot(1,2,1, title="train accuracy")
-plt.plot(hist.history["accuracy"], label="Train")
-plt.plot(hist.history["val_accuracy"], label="Test")
-plt.legend(loc='lower right')
-plt.subplot(1,2,2, title="train loss")
-plt.plot(hist.history["val_loss"], label="Test")
-plt.plot(hist.history["loss"], label="Train")
-plt.legend(loc='upper right')
-plt.show()
+#import matplotlib
+#matplotlib.use("TkAgg")
+#import matplotlib.pyplot as plt
+#plt.style.use('seaborn')
+#plt.subplot(1,2,1, title="train accuracy")
+#plt.plot(hist.history["accuracy"], label="Train")
+#plt.plot(hist.history["val_accuracy"], label="Test")
+#plt.legend(loc='lower right')
+#plt.subplot(1,2,2, title="train loss")
+#plt.plot(hist.history["val_loss"], label="Test")
+#plt.plot(hist.history["loss"], label="Train")
+#plt.legend(loc='upper right')
+#plt.show()
 
 
 #%%
@@ -130,12 +133,12 @@ print('\n Confusion matrix \n\n',
   )
 
 #%%
-if plot:
-    conf = confusion_matrix(yTestClass,yPredClass)
-    import seaborn as sns
-    sns.heatmap(conf, annot=True, fmt="", xticklabels=["B", "R", "RL", "L", "F"], yticklabels=["B",
-                                                                                               "R",
-                                                                                       "RL", "L", "F"])
+#if plot:
+ #   conf = confusion_matrix(yTestClass,yPredClass)
+ #   import seaborn as sns
+ #   sns.heatmap(conf, annot=True, fmt="", xticklabels=["B", "R", "RL", "L", "F"], yticklabels=["B",
+  #                                                                                             "R",
+ #                                                                                      "RL", "L", "F"])
 #%%
 
-model.save(SAVE_TO)
+#model.save(SAVE_TO)
