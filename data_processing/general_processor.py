@@ -14,18 +14,6 @@ from mne.io import BaseRaw
 
 # please be sure you dispose of all the above libraries/packages before moving forward
 
-# todo: remove channels?
-channels = [["FC1", "FC2"],
-            ["FC3", "FC4"],
-            ["FC5", "FC6"],
-            ["C5", "C6"],
-            ["C3", "C4"],
-            ["C1", "C2"],
-            ["CP1", "CP2"],
-            ["CP3", "CP4"],
-            ["CP5", "CP6"]]
-
-
 # this class creates 6 different EEG-electrodes configurations (letter "a" to "f")
 class Utils:
     combinations = {"a": [["FC1", "FC2"],
@@ -66,7 +54,7 @@ class Utils:
     @staticmethod
     def download_data(save_path: str = os.getcwd()) -> str:
         """
-        This method downloads the EEG data needed for further processing, stores data into a
+        This method downloads the EEG data needed for further processing, stores the data into a
         folder called "eegbci" in .zip format(~2GB) or raises exception if it exists already and
         outputs the download progress bar to the terminal
         Args:
@@ -96,7 +84,7 @@ class Utils:
         try:
             os.makedirs(data_path)
         except:
-            raise Exception("The folder alredy exists")
+            raise Exception("The folder already exists")
 
         wget.download(data_url, os.path.join(data_path, "eegbci.zip"), bar=bar_progress)
         return data_path
@@ -106,14 +94,14 @@ class Utils:
         """
         Given a list of subjects, a list of runs and the database path, this method iterates
         through every subject and every run, it loads the runs in memory, it modifies the labels and
-        returns a list of runs for each subject.
+        returns a list of runs for each subject
         :param subjects: List
         :param runs: List
         :param data_path: str
         :return: List
         """
         all_subject_list = []
-        # rename as strings every subject and every run
+        # rename as string every subject and every run
         subjects = [str(s) for s in subjects]
         runs = [str(r) for r in runs]
         # establish which indexes in runs are task2 and task4
@@ -127,7 +115,7 @@ class Utils:
                 sub_name = "S" + "0" + sub
             else:
                 sub_name = "S" + sub
-            # saves every sub in folder
+            # save every sub in folder
             sub_folder = os.path.join(data_path, sub_name)
             single_subject_run = []
 
@@ -151,7 +139,7 @@ class Utils:
                 LR indicates motor imagination of opening and closing both fists;
                 F indicates motor imagination of opening and closing both feet.
                 """
-                # assign each run in task2 and task4 to the correct category of the above,
+                # assign each run in task2 and task4 to the correct category of the above
                 # by iterating thorough indexes and annotations
                 if int(run) in task2:
                     for index, an in enumerate(raw_run.annotations.description):
@@ -190,7 +178,7 @@ class Utils:
     @staticmethod
     def del_annotations(list_of_subraw: List[BaseRaw]) -> List[BaseRaw]:
         """
-        Thi method deletes the annotations "BAD boundary" and "EDGE boundary" from raw data
+        This method deletes the annotations "BAD boundary" and "EDGE boundary" from raw data
         :param list_of_subraw: list of raw
         :return: list of raw
         """
@@ -204,19 +192,17 @@ class Utils:
             list_raw.append(subj)
         return list_raw
 
-    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EEG RAW DATA PRE-PROCESSING SECTION BELOW
-
     @staticmethod
     def eeg_settings(raws):
         """
-        This method standardizes the montage of the raw data
+        This method standardizes the montage of raw data
         :param raws: list of raws
         :return: list of standardize raws
         """
         raw_setted = []
         for subj in raws:
             eegbci.standardize(subj)  # change the channels names of n_epoch
-            montage = make_standard_montage('standard_1005')  # load montage
+            montage = make_standard_montage('standard_1005')  # load montage from mne
             subj.set_montage(montage)  # set montage
             raw_setted.append(subj)
 
@@ -294,7 +280,7 @@ class Utils:
     @staticmethod
     def save_data(save_loc, x, y):
         dir_path = os.path.join(save_loc, "eeg_data")
-        # Save data
+        # save data
         np.save(os.path.join(dir_path, "x_C3_C4"), x, allow_pickle=True)
         """
         OneHot encoding
@@ -309,14 +295,27 @@ class Utils:
 
     @staticmethod
     def cut_width(data):
+        # return an array of given shape and type and fills it with the data
         new_data = np.zeros((data.shape[0], data.shape[1], data.shape[2] - 1))
         for index, line in enumerate(data):
             new_data[index] = line[:, :-1]
-
         return new_data
 
     @staticmethod
     def save_sub_by_sub(subjects, data_path, channels, exclude_base, save_path):
+        """
+        This method performs all of the pre-processing actions and saves each subject x and y arrays
+        using python pickles
+        Args:
+            subjects:
+            data_path:
+            channels:
+            exclude_base:
+            save_path:
+
+        Returns:
+
+        """
         for sub in subjects:
             x, y = Utils.epoch(Utils.select_channels(
                 Utils.filtering(
@@ -331,6 +330,7 @@ class Utils:
 
     @staticmethod
     def load_sub_by_sub(subjects, data_path, name_single_sub):
+        # this method loads each subject data as numpy arrays to disk in memory
         xs = list()
         ys = list()
         for sub in subjects:
@@ -341,6 +341,16 @@ class Utils:
 
     @staticmethod
     def scale_sub_by_sub(xs, ys):
+        """
+        This method normalizes the data by scaling and translating x and y individually in the
+        given range between zero and one on the training set
+        Args:
+            xs:
+            ys:
+
+        Returns:
+
+        """
         for sub_x, sub_y, sub_index in zip(xs, ys, range(len(xs))):
             for sample_index, x_data in zip(range(sub_x.shape[0]), sub_x):
                 xs[sub_index][sample_index] = minmax_scale(x_data, axis=1)
@@ -349,6 +359,15 @@ class Utils:
 
     @staticmethod
     def to_one_hot(y, by_sub=False):
+        """
+        This method converts the y vector to a binary class matrix for use with one hot encoding
+        Args:
+            y:
+            by_sub:
+
+        Returns:
+
+        """
         if by_sub:
             new_array = np.array(["nan" for nan in range(len(y))])
             for index, label in enumerate(y):
@@ -366,6 +385,16 @@ class Utils:
 
     @staticmethod
     def train_test_split(x, y, perc):
+        """
+        This method splits the data in the train and the test for both x and y
+        Args:
+            x:
+            y:
+            perc:
+
+        Returns:
+
+        """
         from numpy.random import default_rng
         rng = default_rng()
         test_x = list()
@@ -384,10 +413,21 @@ class Utils:
                     train_x.append(sub_x[index])
                     train_y.append(sub_y[index])
         return np.dstack(tuple(train_x)), np.dstack(tuple(test_x)), np.array(train_y), np.array(
-            test_y)
+            test_y) # issue with np.dstack()
 
     @staticmethod
     def load(channels, subjects, base_path):
+        """
+        This method loads each sub data, it concatenates all of the arrays into a sequence along
+        an existing axis and appends them to data_x and data_y.
+        Args:
+            channels:
+            subjects:
+            base_path:
+
+        Returns:
+
+        """
         data_x = list()
         data_y = list()
 
@@ -396,9 +436,9 @@ class Utils:
             sub_name = "_sub_"
             xs, ys = Utils.load_sub_by_sub(subjects, data_path, sub_name)
             data_x.append(np.concatenate(xs))
-            data_y.append(np.concatenate(ys))
+            data_y.append(np.concatenate(ys))  # first concat
 
-        return np.concatenate(data_x), np.concatenate(data_y)
+        return np.concatenate(data_x), np.concatenate(data_y)  # is it a double concatenation?
 
 
 # insert desired path as str argument in the download_data method to save data in .zip format (~2GB)
