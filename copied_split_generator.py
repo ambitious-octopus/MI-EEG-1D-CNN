@@ -28,7 +28,7 @@ subjects = [n for n in np.arange(1, 110) if n not in exclude]
 runs = [4, 6, 8, 10, 12, 14]
 
 #data_path = "E:\\datasets\\eegbci"
-data_path = "/home/sbargione/data/datasets/files"
+data_path = "/home/sbargione/datasets/files"
 
 
 final_x = list()
@@ -75,12 +75,15 @@ print(type(y))
 
 #%%
 
+# x reshaped in 2 dimensions!
+
 reshaped_x = x.reshape(x.shape[0], x.shape[1] * x.shape[2])
 
-x_train_raw, x_test_raw, y_train_raw, y_test_raw = train_test_split(reshaped_x,
-                                                                            y,
-                                                                            test_size=0.15,
-                                                                            random_state=42)
+#added the parameter "stratify = y"
+
+x_train_raw, x_test_raw, y_train_raw, y_test_raw = train_test_split(reshaped_x,y,test_size=0.15, stratify = y,random_state=42)
+
+#minmaxscale for x_train & x_test
 
 x_train_scaled_raw = minmax_scale(x_train_raw, axis=1)
 x_test_valid_scaled_raw = minmax_scale(x_test_raw, axis=1)
@@ -108,7 +111,7 @@ x_train = x_train_scaled_raw.reshape(x_train_raw.shape[0], int(x_train_raw.shape
 #x_train = x_train_smote_raw.reshape(x_train_smote_raw.shape[0], int(x_train_smote_raw.shape[1]/2), 2).astype(np.float64)
 
 
-save_path = "/home/sbargione/data/datasets"
+save_path = "/home/sbargione/datasets"
 
 folder1 = os.path.join(save_path, "test15nosmote")
 os.mkdir(folder1)
