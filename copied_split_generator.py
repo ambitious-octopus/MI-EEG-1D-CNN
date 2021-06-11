@@ -79,7 +79,7 @@ print(type(y))
 
 reshaped_x = x.reshape(x.shape[0], x.shape[1] * x.shape[2])
 
-#added the parameter "stratify = y"
+#added the parameter "stratify = y" to train_test_split
 
 x_train_raw, x_test_raw, y_train_raw, y_test_raw = train_test_split(reshaped_x,y,test_size=0.15, stratify = y,random_state=42)
 
@@ -88,32 +88,27 @@ x_train_raw, x_test_raw, y_train_raw, y_test_raw = train_test_split(reshaped_x,y
 x_train_scaled_raw = minmax_scale(x_train_raw, axis=1)
 x_test_valid_scaled_raw = minmax_scale(x_test_raw, axis=1)
 
-#before it was x_test = x_test_raw.reshape(...)
+#Reshape of x_test in 3 dimensions (from 2)
 
-x_test = x_test_valid_scaled_raw.reshape(x_test_raw.shape[0], int(x_test_raw.shape[1]/2),2).astype(np.float64)
+x_test = x_test_valid_scaled_raw.reshape(x_test_valid_scaled_raw.shape[0],
+                                         int(x_test_valid_scaled_raw.shape[1]/2),2).astype(np.float64)
 
-#x_train was re-shaped (I just copied the form of x_test), was it necessary?  
 
-x_train = x_train_scaled_raw.reshape(x_train_raw.shape[0], int(x_train_raw.shape[1]/2), 2).astype(np.float64)
+#apply smote to train data
 
-# #apply smote to train data
-# print('classes count')
-# print ('before oversampling = {}'.format(y_train_raw.sum(axis=0)))
-# from imblearn.over_sampling import SMOTE
-# sm = SMOTE(random_state=42)
-# x_train_smote_raw, y_train = sm.fit_resample(x_train_scaled_raw, y_train_raw)
-# print('classes count')
-# print ('before oversampling = {}'.format(y_train_raw.sum(axis=0)))
-# print ('after oversampling = {}'.format(y_train.sum(axis=0)))
-#
-# x_train = x_train_smote_raw.reshape(x_train_smote_raw.shape[0], int(x_train_smote_raw.shape[1]/2), 2).astype(np.float64)
+from imblearn.over_sampling import SMOTE
+sm = SMOTE(random_state=42)
+x_train_smote_raw, y_train = sm.fit_resample(x_train_scaled_raw, y_train_raw)
 
-#x_train = x_train_smote_raw.reshape(x_train_smote_raw.shape[0], int(x_train_smote_raw.shape[1]/2), 2).astype(np.float64)
+##Reshape of x_test in 3 dimensions (from 2) following mixmax_scaler and SMOTE application
+
+x_train = x_train_smote_raw.reshape(x_train_smote_raw.shape[0],
+                                               int(x_train_smote_raw.shape[1]/2), 2).astype(np.float64)
 
 
 save_path = "/home/sbargione/datasets"
 
-folder1 = os.path.join(save_path, "test15nosmote")
+folder1 = os.path.join(save_path, "test15withsmote")
 os.mkdir(folder1)
 
 test_path = os.path.join(folder1, "test")
@@ -124,7 +119,7 @@ os.mkdir(train_path)
 
 counter = 0
 #here it was y_train, but changed in y_train_raw
-for xi, yi in zip(x_train, y_train_raw):
+for xi, yi in zip(x_train_smote_raw, y_train_raw):
     counter += 1
     with open(os.path.join(train_path, str(counter) + ".pkl"), "wb") as file:
         pickle.dump([xi, yi], file)
