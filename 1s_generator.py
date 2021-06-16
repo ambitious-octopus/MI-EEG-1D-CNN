@@ -52,14 +52,18 @@ for couple in channels:
         del y
         for xi, yi in zip(new_x, new_y):
             if yi in ["R", "L", "F", "LR"]:
-                final_x.append(xi[:, :320])
-                final_x.append(xi[:, 320:])
-                for a in range(2):
+                final_x.append(xi[:, :160])
+                final_x.append(xi[:, 160:320])
+                final_x.append(xi[:, 320:480])
+                final_x.append(xi[:, 480:640])
+                for a in range(4):
                     final_y.append(yi)
             elif yi == "B" and rand.random() >= 0.65:
-                final_x.append(xi[:, :320])
-                final_x.append(xi[:, 320:])
-                for a in range(2):
+                final_x.append(xi[:, :160])
+                final_x.append(xi[:, 160:320])
+                final_x.append(xi[:, 320:480])
+                final_x.append(xi[:, 480:640])
+                for a in range(4):
                     final_y.append(yi)
             else:
                 pass
@@ -105,7 +109,7 @@ x_train = x_train_scaled_raw.reshape(x_train_scaled_raw.shape[0],
                                                int(x_train_scaled_raw.shape[1]/2), 2).astype(np.float64)
 
 
-save_path = "E:\\datasets\\eegnn\\2_seconds"
+save_path = "E:\\datasets\\eegnn\\1_second"
 
 folder1 = os.path.join(save_path, "nosmote")
 os.mkdir(folder1)
