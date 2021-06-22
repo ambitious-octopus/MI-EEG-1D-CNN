@@ -36,37 +36,39 @@ final_y = list()
 
 for couple in channels:
     for sub in subjects:
-        x, y = Utils.epoch(
-            Utils.select_channels(
-                Utils.eeg_settings(
-                    Utils.del_annotations(
-                        Utils.concatenate_runs(
-                            Utils.load_data(subjects=[sub],
-                                            runs=runs,
-                                            data_path=data_path)))),
-                couple),
-            exclude_base=False)
-        new_x = np.delete(x, -1, axis=2)
-        del x
-        new_y = np.array(y)
-        del y
-        for xi, yi in zip(new_x, new_y):
-            if yi in ["R", "L", "F", "LR"]:
-                final_x.append(xi[:, :160])
-                final_x.append(xi[:, 160:320])
-                final_x.append(xi[:, 320:480])
-                final_x.append(xi[:, 480:640])
-                for a in range(4):
-                    final_y.append(yi)
-            elif yi == "B" and rand.random() >= 0.65:
-                final_x.append(xi[:, :160])
-                final_x.append(xi[:, 160:320])
-                final_x.append(xi[:, 320:480])
-                final_x.append(xi[:, 480:640])
-                for a in range(4):
-                    final_y.append(yi)
-            else:
-                pass
+        for run in runs:
+            x, y = Utils.epoch(
+                Utils.select_channels(
+                    Utils.eeg_settings(
+                        Utils.del_annotations(
+                            Utils.concatenate_runs(
+                                Utils.load_data(subjects=[sub],
+                                                runs=[run],
+                                                data_path=data_path)))),
+                    couple),
+                exclude_base=False)
+
+            new_x = np.delete(x, -1, axis=2)
+            del x
+            new_y = np.array(y)
+            del y
+            for xi, yi in zip(new_x, new_y):
+                if yi in ["R", "L", "F", "LR"]:
+                    final_x.append(xi[:, :160])
+                    final_x.append(xi[:, 160:320])
+                    final_x.append(xi[:, 320:480])
+                    final_x.append(xi[:, 480:640])
+                    for a in range(4):
+                        final_y.append(yi)
+                elif yi == "B" and rand.random() >= 0.65:
+                    final_x.append(xi[:, :160])
+                    final_x.append(xi[:, 160:320])
+                    final_x.append(xi[:, 320:480])
+                    final_x.append(xi[:, 480:640])
+                    for a in range(4):
+                        final_y.append(yi)
+                else:
+                    pass
 
 x = np.stack(final_x)
 print(np.unique(np.stack(final_y), return_counts=True))
