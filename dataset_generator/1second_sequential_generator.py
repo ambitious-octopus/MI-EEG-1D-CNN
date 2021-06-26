@@ -93,15 +93,23 @@ for subject in subjects:
             finalx = list()
             finaly = list()
             for index, i in enumerate(epochs):
-                finalx.append(i[:, :160])
+                counter = 80
+                for a in range(8):
+                    if a == 0:
+                        finalx.append(i[:, :counter])
+                        counter += 80
+                    else:
+                        finalx.append(i[:, counter- 80 :counter])
                 finaly.append(epochs[index]._name)
-                finalx.append(i[:, 160:320])
-                finaly.append(epochs[index]._name)
-                finalx.append(i[:, 320:480])
-                finaly.append(epochs[index]._name)
-                # todo: here we should better since 1 temp. points is dropped-out
-                finalx.append(i[:, 480:640])
-                finaly.append(epochs[index]._name)
+                # finalx.append(i[:, :160])
+                # finaly.append(epochs[index]._name)
+                # finalx.append(i[:, 160:320])
+                # finaly.append(epochs[index]._name)
+                # finalx.append(i[:, 320:480])
+                # finaly.append(epochs[index]._name)
+                # # todo: here we should better since 1 temp. points is dropped-out
+                # finalx.append(i[:, 480:640])
+                # finaly.append(epochs[index]._name)
             encoded = list()
 
             for i in finaly:
