@@ -32,8 +32,8 @@ subjects = [str(n) for n in np.arange(1, 110) if n not in exclude]
 subjects = ["1"]
 runs = [str(n) for n in [4, 6, 8, 10, 12, 14]]
 
-data_path = "C:\\datasets"
-save_path = "C:\\datasets\\generated"
+data_path = "E:\\datasets\\eegbci"
+save_path = "E:\\datasets\\eegnn\\seq"
 
 
 task2 = [4, 8, 12]
