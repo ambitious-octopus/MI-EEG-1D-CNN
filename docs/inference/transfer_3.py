@@ -14,6 +14,9 @@ from sklearn.preprocessing import minmax_scale
 tf.autograph.set_verbosity(0)
 
 
+os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
+
+
 PATH = "E:\\datasets\\eegnn\\n_ch_base"
 SOURCE_MODEL = "E:\\rois\\roi_e_t3"
 
@@ -121,7 +124,8 @@ print('\n Classification report \n\n',
   classification_report(
       yTestClass,
       yPredClass,
-       target_names=["B", "R", "RL", "L", "F"]
+       target_names=["B", "R", "RL", "L", "F"],
+      digits=4
       )
   )
 print('\n Confusion matrix \n\n',

@@ -13,6 +13,7 @@ from sklearn.preprocessing import minmax_scale
 tf.autograph.set_verbosity(0)
 #config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
+os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
 
 #Params
 inference = False

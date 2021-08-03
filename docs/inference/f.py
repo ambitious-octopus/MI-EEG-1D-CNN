@@ -107,7 +107,8 @@ print('\n Classification report \n\n',
   classification_report(
       yTestClass,
       yPredClass,
-       target_names=["B", "R", "RL", "L", "F"]
+       target_names=["B", "R", "RL", "L", "F"],
+      digits=4
       )
   )
 print('\n Confusion matrix \n\n',

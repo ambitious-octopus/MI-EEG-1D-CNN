@@ -13,6 +13,8 @@ from sklearn.preprocessing import minmax_scale
 tf.autograph.set_verbosity(0)
 #config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
+os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
+
 source_path = "E:\\datasets\\eegnn\\n_ch_base"
 
 MODEL_PATH = "E:\\rois\\e_no_batch"
@@ -74,9 +76,9 @@ with open(os.path.join(MODEL_PATH, "hist.pkl"), "rb") as file:
     hist = pickle.load(file)
 
 #%%
-SMALL_SIZE = 15
-MEDIUM_SIZE = 20
-BIGGER_SIZE = 20
+SMALL_SIZE = 25
+MEDIUM_SIZE = 25
+BIGGER_SIZE = 25
 line_w = 3
 import matplotlib
 matplotlib.use("TkAgg")
@@ -91,21 +93,22 @@ plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
 plt.rc('legend', fontsize=SMALL_SIZE)    # legend fontsize
 plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
-fig, axs = plt.subplots(1,2, figsize=(15,8))
-axs[0].plot(hist["accuracy"], label="train", linewidth=line_w)
-axs[0].plot(hist["val_accuracy"], label="validation", linewidth=line_w)
-axs[0].legend(loc='lower right')
-axs[0].set_title("Accuracy")
-axs[0].set_xlabel("epoch")
-axs[0].set_ylabel("accuracy")
+fig, axs = plt.subplots(1,2, figsize=(15,8), dpi=300)
+axs[1].plot(hist["val_accuracy"], label="Validation set", linewidth=line_w)
+axs[1].plot(hist["accuracy"], label="Train set", linewidth=line_w)
+axs[1].legend(loc='lower right')
+axs[1].set_title("Accuracy")
+axs[1].set_xlabel("Epoch")
+axs[1].set_ylabel("Accuracy")
 
-axs[1].plot(hist["loss"], label="train", linewidth=line_w)
-axs[1].plot(hist["val_loss"], label="validation", linewidth=line_w)
-axs[1].legend(loc='upper right')
-axs[1].set_title("Loss")
-axs[1].set_xlabel("epoch")
-axs[1].set_ylabel("accuracy")
-plt.show()
+axs[0].plot(hist["val_loss"], label="Validation set", linewidth=line_w)
+axs[0].plot(hist["loss"], label="Train set", linewidth=line_w)
+axs[0].legend(loc='upper right')
+axs[0].set_title("Loss")
+axs[0].set_xlabel("Epoch")
+axs[0].set_ylabel("Loss")
+# plt.show()
+plt.savefig("C:\\Users\\franc_pyl533c\OneDrive\Desktop\\img\\e_no_batch_training.pdf")
 
 #%%
 """
@@ -130,7 +133,8 @@ print('\n Classification report \n\n',
   classification_report(
       yTestClass,
       yPredClass,
-       target_names=["B", "R", "RL", "L", "F"]
+       target_names=["B", "R", "RL", "L", "F"],
+      digits=4
       )
   )
 print('\n Confusion matrix \n\n',

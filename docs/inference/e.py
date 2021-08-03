@@ -70,9 +70,9 @@ with open(os.path.join(MODEL_PATH, "hist.pkl"), "rb") as file:
     hist = pickle.load(file)
 
 #%%
-SMALL_SIZE = 15
-MEDIUM_SIZE = 20
-BIGGER_SIZE = 20
+SMALL_SIZE = 25
+MEDIUM_SIZE = 25
+BIGGER_SIZE = 25
 line_w = 3
 import matplotlib
 matplotlib.use("TkAgg")
@@ -87,21 +87,22 @@ plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
 plt.rc('legend', fontsize=SMALL_SIZE)    # legend fontsize
 plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
-fig, axs = plt.subplots(1,2, figsize=(15,8))
-axs[0].plot(hist["accuracy"], label="train", linewidth=line_w)
-axs[0].plot(hist["val_accuracy"], label="validation", linewidth=line_w)
-axs[0].legend(loc='lower right')
-axs[0].set_title("Accuracy")
-axs[0].set_xlabel("epoch")
-axs[0].set_ylabel("accuracy")
+fig, axs = plt.subplots(1,2, figsize=(15,8), dpi=300)
+axs[1].plot(hist["val_accuracy"], label="Validation set", linewidth=line_w)
+axs[1].plot(hist["accuracy"], label="Train set", linewidth=line_w)
+axs[1].legend(loc='lower right')
+axs[1].set_title("Accuracy")
+axs[1].set_xlabel("Epoch")
+axs[1].set_ylabel("Accuracy")
 
-axs[1].plot(hist["loss"], label="train", linewidth=line_w)
-axs[1].plot(hist["val_loss"], label="validation", linewidth=line_w)
-axs[1].legend(loc='upper right')
-axs[1].set_title("Loss")
-axs[1].set_xlabel("epoch")
-axs[1].set_ylabel("accuracy")
-plt.show()
+axs[0].plot(hist["val_loss"], label="Validation set", linewidth=line_w)
+axs[0].plot(hist["loss"], label="Train set", linewidth=line_w)
+axs[0].legend(loc='upper right')
+axs[0].set_title("Loss")
+axs[0].set_xlabel("Epoch")
+axs[0].set_ylabel("Loss")
+# plt.show()
+plt.savefig("C:\\Users\\franc_pyl533c\OneDrive\Desktop\\img\\e_training.pdf")
 
 #%%
 """
@@ -124,25 +125,48 @@ print('\n Classification report \n\n',
   classification_report(
       yTestClass,
       yPredClass,
-       target_names=["B", "R", "RL", "L", "F"]
+       target_names=["B", "R", "RL", "L", "F"],
+      digits=4
       )
   )
-print('\n Confusion matrix \n\n',
-  confusion_matrix(
+matrix = confusion_matrix(
       yTestClass,
       yPredClass,
       )
-  )
+
+print('\n Confusion matrix \n\n', matrix)
+
+print("Accuracy")
+
+print(matrix.diagonal()/matrix.sum(axis=1))
 
 #%%
 
+SMALL_SIZE = 18
+MEDIUM_SIZE = 18
+BIGGER_SIZE = 18
+line_w = 3
+import matplotlib
+matplotlib.use("TkAgg")
+import matplotlib.pyplot as plt
+plt.style.use('seaborn-darkgrid')
+
+plt.rc('font', size=SMALL_SIZE)          # controls default text sizes
+plt.rc('axes', titlesize=SMALL_SIZE)     # fontsize of the axes title
+plt.rc('axes', labelsize=MEDIUM_SIZE)    # fontsize of the x and y labels
+plt.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
+plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
+plt.rc('legend', fontsize=SMALL_SIZE)    # legend fontsize
+plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
+
 conf = confusion_matrix(yTestClass,yPredClass)
 import seaborn as sns
-sns.heatmap(conf,
+sns.heatmap(conf,  cmap="Spectral",
             annot=True,
             fmt="",
             xticklabels=["B", "R", "RL", "L", "F"],
             yticklabels=["B", "R", "RL", "L", "F"])
+plt.savefig("C:\\Users\\franc_pyl533c\OneDrive\Desktop\\img\\e_conf_matrix.pdf")
 
 #%%
 SMALL_SIZE = 90
@@ -152,7 +176,7 @@ line_w = 3
 import matplotlib
 matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
-plt.style.use('seaborn-darkgrid')
+plt.style.use('default')
 # Rock'n roll curver
 y_score = yPred.copy()
 n_classes = 5
@@ -197,7 +221,7 @@ tpr["macro"] = mean_tpr
 roc_auc["macro"] = auc(fpr["macro"], tpr["macro"])
 
 # Plot all ROC curves
-plt.figure(1)
+plt.figure(1, dpi=300)
 plt.plot(fpr["micro"], tpr["micro"],
          label='micro-average ROC curve (area = {0:0.2f})'
                ''.format(roc_auc["micro"]),
@@ -217,16 +241,17 @@ for i, color in zip(range(n_classes), colors):
 plt.plot([0, 1], [0, 1], 'k--', lw=lw)
 plt.xlim([0.0, 1.0])
 plt.ylim([0.0, 1.05])
-plt.xlabel('False Positive Rate', fontsize= MEDIUM_SIZE)
-plt.ylabel('True Positive Rate', fontsize= MEDIUM_SIZE)
+plt.xlabel('False positive rate', fontsize= MEDIUM_SIZE)
+plt.ylabel('True positive rate', fontsize= MEDIUM_SIZE)
 # plt.title("ROC")
-plt.legend(loc="lower right", prop={"size":MEDIUM_SIZE})
-plt.show()
+# plt.legend(loc="lower right", prop={"size":MEDIUM_SIZE})
+# plt.show()
+plt.savefig("C:\\Users\\franc_pyl533c\OneDrive\Desktop\\img\\base.pdf")
 
 
 
 # Zoom in view of the upper left corner.
-plt.figure(2)
+plt.figure(2, dpi=300)
 plt.xlim(0, 0.05)
 plt.ylim(0.97, 1)
 plt.plot(fpr["micro"], tpr["micro"],
@@ -250,4 +275,5 @@ plt.xlabel('False Positive Rate', fontsize= MEDIUM_SIZE)
 plt.ylabel('True Positive Rate', fontsize= MEDIUM_SIZE)
 # plt.title("ROC")
 plt.legend(loc="lower right", prop={"size":MEDIUM_SIZE})
-plt.show()
+# plt.show()
+plt.savefig("C:\\Users\\franc_pyl533c\OneDrive\Desktop\\img\\magni.pdf")
