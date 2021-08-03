@@ -15,14 +15,14 @@ tf.autograph.set_verbosity(0)
 config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 PATH = "E:\\datasets\\eegnn\\n_ch_base"
-MODEL_PATH = "E:\\rois\\d"
+MODEL_PATH = "E:\\rois\\e"
 plot = True
 
 
 exclude =  [38, 88, 89, 92, 100, 104]
 subjects = [n for n in np.arange(1,109) if n not in exclude]
 #Load data
-x, y = Utils.load(Utils.combinations["d"], subjects, base_path=PATH)
+x, y = Utils.load(Utils.combinations["e"], subjects, base_path=PATH)
 #Transform y to one-hot-encoding
 y_one_hot  = Utils.to_one_hot(y, by_sub=False)
 #Reshape for scaling
@@ -60,67 +60,24 @@ print('classes count')
 print ('before oversampling = {}'.format(y_train_raw.sum(axis=0)))
 print ('after oversampling = {}'.format(y_train.sum(axis=0)))
 
-
 x_train = x_train_smote_raw.reshape(x_train_smote_raw.shape[0], int(x_train_smote_raw.shape[1]/2), 2).astype(np.float64)
 
-model = tf.keras.models.load_model(MODEL_PATH, custom_objects={"CustomModel": HopefullNet})
-
-import pickle
-with open(os.path.join(MODEL_PATH, "hist.pkl"), "rb") as file:
-    hist = pickle.load(file)
-
-#%%
-
+rand = np.random.default_rng(seed=1)
 import matplotlib
 matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
-plt.style.use('seaborn')
-plt.subplot(1,2,1, title="train accuracy")
-plt.plot(hist["accuracy"], label="Train")
-plt.plot(hist["val_accuracy"], label="Test")
-plt.legend(loc='lower right')
-plt.subplot(1,2,2, title="train loss")
-plt.plot(hist["val_loss"], label="Test")
-plt.plot(hist["loss"], label="Train")
-plt.legend(loc='upper right')
-plt.show()
+plt.style.use("ggplot")
+fig, axs = plt.subplots(4,4)
+col = 0
+row = 0
 
+for i_col in range(4):
+    for i_row in range(4):
+        signal = x_train[rand.integers(0, x_train.shape[0])]
+        axs[i_row, col].plot(signal[:, 0])
+        axs[i_row, col].plot(signal[:, 1] + np.ones(640))
+        axs[i_row, col].set_yticks([signal[:, 0][0], (signal[:, 1] + np.ones(640))[0]])
+        axs[i_row, col].set_yticklabels(["C3", "C4"])
+        axs[i_row, col].margins(x=0)
+    col += 1
 
-#%%
-"""
-Test model
-"""
-
-testLoss, testAcc = model.evaluate(x_test, y_test)
-print('\nAccuracy:', testAcc)
-print('\nLoss: ', testLoss)
-
-from sklearn.metrics import classification_report, confusion_matrix
-# get list of MLP's prediction on test set
-yPred = model.predict(x_test)
-
-# convert from one hot encode in class
-yTestClass = np.argmax(y_test, axis=1)
-yPredClass = np.argmax(yPred,axis=1)
-
-print('\n Classification report \n\n',
-  classification_report(
-      yTestClass,
-      yPredClass,
-       target_names=["B", "R", "RL", "L", "F"],
-      digits=4
-      )
-  )
-print('\n Confusion matrix \n\n',
-  confusion_matrix(
-      yTestClass,
-      yPredClass,
-      )
-  )
-
-
-# conf = confusion_matrix(yTestClass,yPredClass)
-# import seaborn as sns
-# sns.heatmap(conf, annot=True, fmt="", xticklabels=["B", "R", "RL", "L", "F"], yticklabels=["B",
-#                                                                                            "R",
-#                                                                                    "RL", "L", "F"])

@@ -14,7 +14,7 @@ from sklearn.preprocessing import minmax_scale
 tf.autograph.set_verbosity(0)
 config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
-PATH = "E:\\datasets\\eeg_dataset\\n_ch_base"
+PATH = "E:\\datasets\\eegnn\\n_ch_base"
 MODEL_PATH = "E:\\rois\\c"
 plot = True
 
@@ -107,7 +107,8 @@ print('\n Classification report \n\n',
   classification_report(
       yTestClass,
       yPredClass,
-       target_names=["B", "R", "RL", "L", "F"]
+       target_names=["B", "R", "RL", "L", "F"],
+      digits=4
       )
   )
 print('\n Confusion matrix \n\n',
