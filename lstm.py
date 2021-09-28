@@ -5,6 +5,9 @@ print(os.getcwd())
 print(sys.path)
 import numpy as np
 import tensorflow as tf
+import matplotlib
+matplotlib.use("TkAgg")
+import matplotlib.pyplot as plt
 from data_processing.general_processor import Utils
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
@@ -12,10 +15,10 @@ physical_devices = tf.config.experimental.list_physical_devices('GPU')
 print(physical_devices)
 from sklearn.preprocessing import minmax_scale
 tf.autograph.set_verbosity(0)
-config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
+# config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 import pickle
 
-TRAIN_PATH = "E:\\datasets\\eegnn\\seq"
+TRAIN_PATH = "/home/kubasinska/datasets/eegbci/seq"
 
 rawx = list()
 rawy = list()
@@ -85,7 +88,6 @@ x_test = x_train[-1000:, :, : , :]
 y_test = y_train[-1000:, :]
 x_train = x_train[:-1000, : , :, :]
 y_train = y_train[:-1000, :]
-
 # x_train = x.reshape(int(x.shape[0]/8), 8, 80, 2)
 # y_train = y.reshape((int(y.shape[0]/4), 4, 5))
 

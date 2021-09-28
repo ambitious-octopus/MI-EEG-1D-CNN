@@ -13,7 +13,6 @@ from mne.epochs import Epochs
 import pandas as pd
 
 rand = np.random.default_rng()
-
 channels = Utils.combinations["e"]
 
 save_info = {"subject": [],
@@ -22,18 +21,17 @@ save_info = {"subject": [],
              "filename": []}
 
 map = {"B": np.array([1,0,0,0,0]),
-                   "L": np.array([0,1,0,0,0]),
-                   "R": np.array([0,0,1,0,0]),
-                   "LR": np.array([0,0,0,1,0]),
-                   "F": np.array([0,0,0,0,1])}
+       "L": np.array([0,1,0,0,0]),
+       "R": np.array([0,0,1,0,0]),
+       "LR": np.array([0,0,0,1,0]),
+       "F": np.array([0,0,0,0,1])}
 
 exclude = [38, 88, 89, 92, 100, 104]
 subjects = [str(n) for n in np.arange(1, 110) if n not in exclude]
-subjects = ["1"]
 runs = [str(n) for n in [4, 6, 8, 10, 12, 14]]
 
-data_path = "E:\\datasets\\eegbci"
-save_path = "E:\\datasets\\eegnn\\seq"
+data_path = "/home/kubasinska/datasets/eegbci/origin"
+save_path = "/home/kubasinska/datasets/eegbci/seq"
 
 
 task2 = [4, 8, 12]
@@ -93,23 +91,11 @@ for subject in subjects:
             finalx = list()
             finaly = list()
             for index, i in enumerate(epochs):
-                counter = 80
+                counter = 0
                 for a in range(8):
-                    if a == 0:
-                        finalx.append(i[:, :counter])
+                        finalx.append(i[:, counter:counter + 80])
                         counter += 80
-                    else:
-                        finalx.append(i[:, counter- 80 :counter])
                 finaly.append(epochs[index]._name)
-                # finalx.append(i[:, :160])
-                # finaly.append(epochs[index]._name)
-                # finalx.append(i[:, 160:320])
-                # finaly.append(epochs[index]._name)
-                # finalx.append(i[:, 320:480])
-                # finaly.append(epochs[index]._name)
-                # # todo: here we should better since 1 temp. points is dropped-out
-                # finalx.append(i[:, 480:640])
-                # finaly.append(epochs[index]._name)
             encoded = list()
 
             for i in finaly:
