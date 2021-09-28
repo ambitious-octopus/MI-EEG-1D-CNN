@@ -97,6 +97,7 @@ for subject in subjects:
                         counter += 80
                 finaly.append(epochs[index]._name)
             encoded = list()
+            # todo: salvare x e y in due cartelle separate per usare tf.records altrimenti si va in Out of memory
 
             for i in finaly:
                 encoded.append(map[i])

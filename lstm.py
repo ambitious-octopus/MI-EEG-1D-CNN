@@ -18,6 +18,8 @@ tf.autograph.set_verbosity(0)
 # config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 import pickle
 
+#todo: cmabiare con tf.stream from data così si va in OOm anche con 16 gb di ram! Cazzo!
+
 TRAIN_PATH = "/home/kubasinska/datasets/eegbci/seq"
 
 rawx = list()
@@ -86,15 +88,15 @@ x_train = np.moveaxis(np.stack(x_final), 2, 3)
 
 x_test = x_train[-1000:, :, : , :]
 y_test = y_train[-1000:, :]
+y_test = y_test.astype("float32")
 x_train = x_train[:-1000, : , :, :]
 y_train = y_train[:-1000, :]
-# x_train = x.reshape(int(x.shape[0]/8), 8, 80, 2)
-# y_train = y.reshape((int(y.shape[0]/4), 4, 5))
+y_train = y_train.astype("float32")
 
 model = tf.keras.models.Sequential()
 model.add(tf.keras.layers.TimeDistributed(tf.keras.layers.Conv1D(filters=64, kernel_size=3,
                                                                  activation='relu'),
-                                   input_shape=(None,80,2)))
+                                          input_shape=(None,80,2)))
 model.add(tf.keras.layers.TimeDistributed(tf.keras.layers.SpatialDropout1D(0.5)))
 model.add(tf.keras.layers.TimeDistributed(tf.keras.layers.BatchNormalization()))
 model.add(tf.keras.layers.TimeDistributed(tf.keras.layers.Conv1D(filters=64, kernel_size=3,
@@ -104,7 +106,7 @@ model.add(tf.keras.layers.TimeDistributed(tf.keras.layers.SpatialDropout1D(0.5))
 model.add(tf.keras.layers.TimeDistributed(tf.keras.layers.BatchNormalization()))
 
 model.add(tf.keras.layers.TimeDistributed(tf.keras.layers.Flatten()))
-model.add(tf.keras.layers.LSTM(64))
+model.add(tf.keras.layers.LSTM(16))
 # model.add(tf.keras.layers.LSTM(32))
 model.add(tf.keras.layers.Dropout(0.5))
 model.add(tf.keras.layers.Dense(100, activation='relu'))
