@@ -12,7 +12,8 @@ from mne.channels import make_standard_montage
 from mne.epochs import Epochs
 import pandas as pd
 
-rand = np.random.default_rng()
+WIN_LEN = 80
+
 channels = Utils.combinations["e"]
 
 save_info = {"subject": [],
@@ -93,8 +94,8 @@ for subject in subjects:
             for index, i in enumerate(epochs):
                 counter = 0
                 for a in range(8):
-                        finalx.append(i[:, counter:counter + 80])
-                        counter += 80
+                        finalx.append(i[:, counter:counter + WIN_LEN])
+                        counter += WIN_LEN
                 finaly.append(epochs[index]._name)
             encoded = list()
             # todo: salvare x e y in due cartelle separate per usare tf.records altrimenti si va in Out of memory

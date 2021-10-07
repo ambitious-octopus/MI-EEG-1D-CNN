@@ -6,7 +6,7 @@ print(sys.path)
 import numpy as np
 import tensorflow as tf
 import matplotlib
-matplotlib.use("TkAgg")
+matplotlib.use("Qt5Agg")
 import matplotlib.pyplot as plt
 from data_processing.general_processor import Utils
 from sklearn.model_selection import train_test_split
