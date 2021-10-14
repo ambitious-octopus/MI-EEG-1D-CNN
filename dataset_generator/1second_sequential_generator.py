@@ -12,24 +12,24 @@ from mne.channels import make_standard_montage
 from mne.epochs import Epochs
 import pandas as pd
 
-rand = np.random.default_rng()
-
+#Select channel combination
 channels = Utils.combinations["e"]
 
+#Create dictionary for save info
 save_info = {"subject": [],
              "run": [],
              "channels": [],
              "filename": []}
 
+
 map = {"B": np.array([1,0,0,0,0]),
-                   "L": np.array([0,1,0,0,0]),
-                   "R": np.array([0,0,1,0,0]),
-                   "LR": np.array([0,0,0,1,0]),
-                   "F": np.array([0,0,0,0,1])}
+       "L": np.array([0,1,0,0,0]),
+       "R": np.array([0,0,1,0,0]),
+       "LR": np.array([0,0,0,1,0]),
+       "F": np.array([0,0,0,0,1])}
 
 exclude = [38, 88, 89, 92, 100, 104]
 subjects = [str(n) for n in np.arange(1, 110) if n not in exclude]
-subjects = ["1"]
 runs = [str(n) for n in [4, 6, 8, 10, 12, 14]]
 
 data_path = "E:\\datasets\\eegbci"
@@ -101,15 +101,6 @@ for subject in subjects:
                     else:
                         finalx.append(i[:, counter- 80 :counter])
                 finaly.append(epochs[index]._name)
-                # finalx.append(i[:, :160])
-                # finaly.append(epochs[index]._name)
-                # finalx.append(i[:, 160:320])
-                # finaly.append(epochs[index]._name)
-                # finalx.append(i[:, 320:480])
-                # finaly.append(epochs[index]._name)
-                # # todo: here we should better since 1 temp. points is dropped-out
-                # finalx.append(i[:, 480:640])
-                # finaly.append(epochs[index]._name)
             encoded = list()
 
             for i in finaly:
