@@ -1,8 +1,9 @@
 # tensorflow base image (ubuntu 10.04, tensorflow 2.3.0, cuda 10.1, cudaNN 7.6)
+#May chnage to https://hub.docker.com/layers/tensorflow/tensorflow/2.3.4-gpu/images/sha256-9723a8e593667e54647a46a58bb091a57bea9128fd0179c2f714ae8d2047c642?context=explore
 FROM tensorflow/tensorflow:2.3.0-gpu
 RUN apt update
 RUN DEBIAN_FRONTEND="noninteractive" apt install git vim wget unzip -y
-RUN DEBIAN_FRONTEND="noninteractive" pip install mne wget
+RUN DEBIAN_FRONTEND="noninteractive" pip install mne wget sklearn
 RUN mkdir data
 WORKDIR data/
 RUN touch prova.txt
