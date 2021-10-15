@@ -9,6 +9,10 @@ from mne.datasets import eegbci
 from mne.channels import make_standard_montage
 from mne.epochs import Epochs
 import pandas as pd
+"""
+ORIGINAL EPOCH: |-------------| len = 640
+THIS SCRIPT:    |_|_|_|_|_|_|_| len = 80 / 8
+"""
 
 WINDOW_LEGHT = 80
 # Carefoul EPOCH_DIVISON should be int
@@ -34,13 +38,16 @@ exclude = [38, 88, 89, 92, 100, 104]
 subjects = [str(n) for n in np.arange(1, 110) if n not in exclude]
 runs = [str(n) for n in [4, 6, 8, 10, 12, 14]]
 
+# Contanier path "/data/origin_bci_dataset"
 data_path = "/home/kubasinska/datasets/eegbci/origin"
+# Contanier path "/data/seq_half_second_wind"
 save_path = "/home/kubasinska/datasets/eegbci/seq"
 
 
 task2 = [4, 8, 12] #(imagine opening and closing left or right fist)
 task4 = [6, 10, 14] #(imagine opening and closing both fists or both feet)
 # Get files
+n_epoch = 0
 for subject in subjects:
     if len(subject) == 1:
         sub_name = "S" + "00" + subject
@@ -104,9 +111,9 @@ for subject in subjects:
             epochs = Epochs(raw, events, event_id, tmin, tmax, proj=True, picks=picks,
                             baseline=None, preload=True)
 
-            finalx = list()
-            finaly = list()
             for index, i in enumerate(epochs):
+                finalx = list()
+                n_epoch += 1
                 counter = WINDOW_LEGHT
                 for a in range(EPOCH_DIVISON):
                     if a == 0:
@@ -114,30 +121,6 @@ for subject in subjects:
                         counter += WINDOW_LEGHT
                     else:
                         finalx.append(i[:, counter - WINDOW_LEGHT :counter])
-                finaly.append(epochs[index]._name)
-            encoded = list()
-            # todo: salvare x e y in due cartelle separate per usare tf.records altrimenti si va in Out of memory
-
-            # Transform the categorical label (e.g. "B") to one-hot (e.g. [1,0,0,0,0])
-            for i in finaly:
-                encoded.append(map[i])
-            # todo: save epoch by epoch in order to feed the tf.data.Dataset.from_generator
-            
-
-            x = np.stack(finalx)
-            y = np.stack(encoded)
-            filename = sub_name + "_" + run + "_" + channel[0] + "-" + channel[1] + ".pkl"
-
-            save_info["subject"].append(sub_name)
-            save_info["run"].append(run)
-            save_info["channels"].append(channel[0] + "-" + channel[1])
-            save_info["filename"].append(filename)
-
-            with open(os.path.join(save_path, filename), "wb") as file:
-                pickle.dump((x, y), file)
-
-#save important data
-tracked_data = pd.DataFrame.from_dict(save_info)
-tracked_data.to_csv(os.path.join(save_path, "save_info.csv"))
-
-
+                to_dump = (np.stack(finalx), map[epochs[index]._name])
+                with open(os.path.join(save_path, str(n_epoch) + ".pkl"), "wb") as file:
+                    pickle.dump(to_dump, file)
