@@ -15,9 +15,9 @@ print(physical_devices)
 from sklearn.preprocessing import minmax_scale
 tf.autograph.set_verbosity(0)
 # config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
+print("ciao")
 
-
-PATH = "/home/kubasinska/data/datasets/n_ch_base"
+PATH = "/home/kubasinska/datasets/eegbci/origin"
 SAVE_TO = "/home/kubasinska/data/datasets/roi"
 plot = False
 
