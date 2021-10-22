@@ -11,7 +11,9 @@ from mne.epochs import Epochs
 import pandas as pd
 """
 ORIGINAL EPOCH: |-------------| len = 640
-THIS SCRIPT:    |_|_|_|_|_|_|_| len = 80 / 8
+THIS SCRIPT:    |_|_|_|_|_|_|_| len = 80 / 8 -> (8 (windows), 
+                                                80 (window size (timestamps)), 
+                                                2 (channels))
 """
 
 WINDOW_LEGHT = 80
@@ -35,7 +37,8 @@ map = {"B": np.array([1,0,0,0,0]),
        "F": np.array([0,0,0,0,1])}
 
 exclude = [38, 88, 89, 92, 100, 104]
-subjects = [str(n) for n in np.arange(1, 110) if n not in exclude]
+# subjects = [str(n) for n in np.arange(1, 110) if n not in exclude]
+subjects = ["34"]
 runs = [str(n) for n in [4, 6, 8, 10, 12, 14]]
 
 # Contanier path "/data/origin_bci_dataset"
