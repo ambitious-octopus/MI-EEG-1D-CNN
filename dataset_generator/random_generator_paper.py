@@ -12,7 +12,9 @@ data_path = "D:\\datasets\\eegbci"
 data = Utils.load_data(subj, runs=runs, data_path=data_path)
 
 
-
+"""
+THIS SCRIPT: |-------------| len = 640
+"""
 
 stride = 1.2
 window_size = 4.2

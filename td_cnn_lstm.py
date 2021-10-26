@@ -1,4 +1,6 @@
-#Importing stuff
+# td = time distributed
+# cnn = convolutional neural network
+# lstm = long short term memory
 import os
 import sys
 print(os.getcwd())
