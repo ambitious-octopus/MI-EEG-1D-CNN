@@ -14,11 +14,10 @@ physical_devices = tf.config.experimental.list_physical_devices('GPU')
 print(physical_devices)
 from sklearn.preprocessing import minmax_scale
 tf.autograph.set_verbosity(0)
-# config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
-print("ciao")
+config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
-PATH = "/home/kubasinska/datasets/eegbci/origin"
-SAVE_TO = "/home/kubasinska/data/datasets/roi"
+PATH = "/home/kubasinska/datasets/eegbci/paper"
+SAVE_TO = "/home/kubasinska/datasets/eegbci/e"
 plot = False
 
 channels = Utils.combinations["e"]
