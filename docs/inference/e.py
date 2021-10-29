@@ -14,8 +14,8 @@ from sklearn.preprocessing import minmax_scale
 tf.autograph.set_verbosity(0)
 config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
-PATH = "E:\\datasets\\eegnn\\n_ch_base"
-MODEL_PATH = "E:\\rois\\e"
+PATH = "/home/kubasinska/datasets/eegbci/paper"
+MODEL_PATH =  "/home/kubasinska/datasets/eegbci/e"
 plot = True
 
 
@@ -225,14 +225,18 @@ plt.figure(1, dpi=300)
 plt.plot(fpr["micro"], tpr["micro"],
          label='micro-average ROC curve (area = {0:0.2f})'
                ''.format(roc_auc["micro"]),
-         color='tab:brown', linestyle=':', linewidth=4)
+         color=(0/255,0/255,0/255), linestyle=':', linewidth=2)
 
 plt.plot(fpr["macro"], tpr["macro"],
          label='macro-average ROC curve (area = {0:0.2f})'
                ''.format(roc_auc["macro"]),
-         color='tab:olive', linestyle=':', linewidth=4)
+         color=(204/255,121/255,167/255), linestyle=':', linewidth=2)
 
-colors = cycle(['tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
+colors = cycle([(230/255,159/255,0/255),
+                (86/255,180/255,233/255),
+                (0/255,158/255,115/255) ,
+                (240/255,228/255,66/255), (213/255,94/255,0/255)]) #blind
+# colors = cycle(['tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
 for i, color in zip(range(n_classes), colors):
     plt.plot(fpr[i], tpr[i], color=color, lw=lw,
              label='ROC curve of class {0} (area = {1:0.2f})'
@@ -257,14 +261,14 @@ plt.ylim(0.97, 1)
 plt.plot(fpr["micro"], tpr["micro"],
          label='micro-average ROC curve (area = {0:0.2f})'
                ''.format(roc_auc["micro"]),
-         color='tab:brown', linestyle=':', linewidth=4)
+         color=(0/255,0/255,0/255), linestyle=':', linewidth=1.8)
 
 plt.plot(fpr["macro"], tpr["macro"],
          label='macro-average ROC curve (area = {0:0.2f})'
                ''.format(roc_auc["macro"]),
-         color='tab:olive', linestyle=':', linewidth=4)
+         color=(204/255,121/255,167/255), linestyle=':', linewidth=1.8)
 
-colors = cycle(['tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
+
 for i, color in zip(range(n_classes), colors):
     plt.plot(fpr[i], tpr[i], color=color, lw=lw,
              label='ROC curve of class {0} (area = {1:0.2f})'
