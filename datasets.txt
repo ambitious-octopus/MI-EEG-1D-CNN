@@ -1,0 +1,21 @@
+List of datasets for MI BCI
+
+1. Motor Imagery Under Distraction — An Open Access BCI Dataset
+    -> https://www.frontiersin.org/articles/10.3389/fnins.2020.566147/full
+    INFO:
+    RATING: 2.5/5
+
+
+2. Finger Movement - Supporting data for "EEG datasets for motor imagery brain computer interface"
+    -> http://gigadb.org/dataset/view/id/100295
+    INFO: 
+    RATING: 4/5
+
+3. A large electroencephalographic motor imagery dataset for electroencephalographic brain computer interfaces
+    -> https://www.nature.com/articles/sdata2018211
+    INFO: 60 h of EEG recordings, 13 participants, 75 recording sessions, 201 individual EEG BCI interaction session-segments, and over 60 000 examples of motor imageries in 4 interaction paradigms.
+    CHANNELS: 38
+    PARADIGM: 5
+    RATING: 4/5
+
+4. 

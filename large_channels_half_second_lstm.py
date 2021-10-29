@@ -53,7 +53,6 @@ model.add(tf.keras.layers.BatchNormalization())
 # model.add(tf.keras.layers.TimeDistributed(tf.keras.layers.SpatialDropout1D(0.5)))
 # model.add(tf.keras.layers.TimeDistributed(tf.keras.layers.BatchNormalization()))
 
-# todo: Non flattenare ma passarlo a 2 dimensioni!
 model.add(tf.keras.layers.TimeDistributed(tf.keras.layers.Flatten()))
 model.add(tf.keras.layers.LSTM(32, return_sequences=True))
 model.add(tf.keras.layers.LSTM(8))
