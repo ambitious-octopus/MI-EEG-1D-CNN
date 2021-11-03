@@ -89,6 +89,7 @@ mat_data["eeg"]["frame"]
 
 
 slice = list()
+# slice the ROI
 channels = [9, 10, 12, 11, 17, 18, 45, 44, 48, 49, 55, 54]
 for ch in channels:
     slice.append(mat_data["eeg"]["imagery_left"][ch])
@@ -96,51 +97,12 @@ for ch in channels:
 data_slice = np.stack(slice) # SHAPE = CHANNELS * TIME
 
 tasks = list()
-task_time = 7*512
 
-offsets = np.zeros(mat_data["eeg"]["imagery_event"].shape[0] + 512*7)
+#Divide de 100 trials
+data = data_slice.T.reshape(int(358400/(512*7)),512*7, 12)
+x = data.reshape(100*7, 512, 12)
 
-for index, event in enumerate(mat_data["eeg"]["imagery_event"]):
-    if event == 1:
-        tasks.append(data_slice[:, index:task_time+index])
-        offsets[task_time+index] = 1
+trial_sequence = ["B", "B", "L", "L", "L", "B", "B"]
 
+y = np.array(trial_sequence * 100)
 
-if not mat_data["eeg"]["n_imagery_trials"] == len(tasks):
-    raise Exception("Abbiamo sbagliato tutto!")
-
-y_raw = list()
-x_raw = list()
-
-for t in tasks:
-    x_raw.append(t[:, :512])
-    y_raw.append("B")
-
-    x_raw.append(t[:, 512:1024])
-    y_raw.append("B")
-
-    x_raw.append(t[:, 1024:1536])
-    y_raw.append("L")
-
-    x_raw.append(t[:, 1536:2048])
-    y_raw.append("L")
-
-    x_raw.append(t[:, 2048:2560])
-    y_raw.append("L")
-
-    x_raw.append(t[:, 2560:3072])
-    y_raw.append("B")
-
-    x_raw.append(t[:, 3072:3584])
-    y_raw.append("B")
-
-for i in x_raw:
-    for a in range(7):
-        print(i.shape)
-    print()
-
-plt.plot(mat_data["eeg"]["imagery_event"])
-plt.plot(offsets, c="r")
-plt.show()
-
-# x = np.stack(x_raw)
