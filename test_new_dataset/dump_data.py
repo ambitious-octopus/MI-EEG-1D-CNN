@@ -1,10 +1,11 @@
 import wget
 import sys
+import os
 
 base_link = "https://ftp.cngb.org/pub/gigadb/pub/10.5524/100001_101000/100295/mat_data/"
 # https://ftp.cngb.org/pub/gigadb/pub/10.5524/100001_101000/100295/mat_data/s08.mat
 
-out_path = "/home/kubasinska/repos/test_dataset/"
+out_path = "/home/kubasinska/dataset/finger"
 
 def bar_progress(current, total, width=80):
   progress_message = "Downloading: %d%% [%d / %d] bytes" % (current / total * 100, current, total)
@@ -21,4 +22,4 @@ for i in range(1,53):
     print("\nDumping: " + name)
 
 
-    new_file = wget.download(link, out=out_path + name, bar=bar_progress)
+    new_file = wget.download(link, out=os.path.join(out_path, name), bar=bar_progress)
