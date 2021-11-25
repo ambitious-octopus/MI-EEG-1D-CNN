@@ -6,6 +6,7 @@ base_link = "https://ftp.cngb.org/pub/gigadb/pub/10.5524/100001_101000/100295/ma
 # https://ftp.cngb.org/pub/gigadb/pub/10.5524/100001_101000/100295/mat_data/s08.mat
 
 out_path = "/home/kubasinska/dataset/finger"
+# todo: chnage path
 
 def bar_progress(current, total, width=80):
   progress_message = "Downloading: %d%% [%d / %d] bytes" % (current / total * 100, current, total)
