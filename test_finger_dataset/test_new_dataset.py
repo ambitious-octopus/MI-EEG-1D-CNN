@@ -26,7 +26,7 @@ def load_finger_dataset(paths):
 
 
         data = data_slice.T.reshape(int(data_slice.shape[1] / (512 * 7)), 512 * 7, 12)
-        x = data.reshape(mat_data["eeg"]["n_imagery_trials"] * 7, 512, 12, 1)
+        x = data.reshape(mat_data["eeg"]["n_imagery_trials"] * 7, 512, 12)
         trial_sequence = ["B", "B", "L", "L", "L", "B", "B"]
         cat_y = np.array(trial_sequence * mat_data["eeg"]["n_imagery_trials"])
         map = {"B": np.array([0.0, 1.0]),
@@ -37,9 +37,9 @@ def load_finger_dataset(paths):
     return xs, ys
 
 
-base_path = "/home/kubasinska/repos/test_dataset"
+base_path = "/home/kubasinska/dataset/finger_dataset"
 paths = list()
-for i in range(1,11):
+for i in range(1,49):
     if len(str(i)) == 1:
         paths.append(os.path.join(base_path, "s0" + str(i) + ".mat"))
     else:
@@ -60,12 +60,14 @@ tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 model = tf.keras.models.Sequential()
 
-model.add(tf.keras.layers.Conv2D(filters=32, kernel_size=(5, 5), input_shape=(512, 12, 1), data_format="channels_last"))
+model.add(tf.keras.layers.Conv1D(filters=32, kernel_size=5, input_shape=(512, 12),
+                                 data_format="channels_last"))
 model.add(tf.keras.layers.BatchNormalization())
-model.add(tf.keras.layers.Conv2D(16, (2,2), data_format="channels_last"))
-model.add(tf.keras.layers.AvgPool2D())
+model.add(tf.keras.layers.Conv1D(16, 2, data_format="channels_last"))
 model.add(tf.keras.layers.BatchNormalization())
-model.add(tf.keras.layers.Conv2D(filters=32, kernel_size=(2, 2), data_format="channels_last"))
+model.add(tf.keras.layers.Conv1D(16, 2, data_format="channels_last"))
+model.add(tf.keras.layers.AvgPool1D())
+model.add(tf.keras.layers.Conv1D(filters=32, kernel_size=2, data_format="channels_last"))
 model.add(tf.keras.layers.Flatten())
 model.add(tf.keras.layers.Dense(150))
 model.add(tf.keras.layers.Dense(2))
