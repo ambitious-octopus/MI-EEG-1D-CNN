@@ -18,8 +18,8 @@ tf.autograph.set_verbosity(0)
 #Params
 inference = False
 plot = False
-source_path = "/home/kubasinska/data/datasets/n_ch_base"
-save_path = "/home/kubasinska/data/datasets/roi4"
+source_path = "/dataset/paper/"
+save_path = "/dataset/saved_models/"
 
 
 # Load data

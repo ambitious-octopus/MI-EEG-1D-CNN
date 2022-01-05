@@ -14,11 +14,11 @@ physical_devices = tf.config.experimental.list_physical_devices('GPU')
 print(physical_devices)
 from sklearn.preprocessing import minmax_scale
 tf.autograph.set_verbosity(0)
-# config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
+config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 
-PATH = "/home/kubasinska/data/datasets/n_ch_base"
-SAVE_TO = "/home/kubasinska/data/datasets/roi"
+PATH = "/dataset/paper/"
+SAVE_TO = "/dataset/saved_models/"
 plot = False
 
 channels = Utils.combinations["f"]

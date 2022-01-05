@@ -13,12 +13,13 @@ print(physical_devices)
 import pickle
 from sklearn.preprocessing import minmax_scale
 tf.autograph.set_verbosity(0)
-# config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
+config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 
 #Params
-source_path = "/home/kubasinska/data/datasets/n_ch_base"
-save_path = "/home/kubasinska/data/datasets/roi1"
+source_path = "/dataset/paper/"
+save_path = os.path.join("/dataset/saved_models", "roi_a")
+os.mkdir(save_path)
 
 # Load data
 channels = Utils.combinations["a"] #["FC1", "FC2"], ["FC3", "FC4"], ["FC5", "FC6"]]
@@ -97,7 +98,7 @@ callbacksList = [checkpoint, earlystopping] # build callbacks list
 #%%
 
 
-hist = model.fit(x_train, y_train, epochs=100, batch_size=10,
+hist = model.fit(x_train, y_train, epochs=10, batch_size=10,
                 validation_data=(x_valid, y_valid), callbacks=callbacksList) #32
 
 

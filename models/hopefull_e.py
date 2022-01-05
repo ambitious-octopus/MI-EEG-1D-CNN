@@ -3,7 +3,7 @@ import os
 import sys
 print(os.getcwd())
 print(sys.path)
-sys.path.append("/home/kubasinska/data/repos/eeGNN")
+sys.path.append("/workspace")
 from model_set.models import HopefullNet
 import numpy as np
 import tensorflow as tf
@@ -16,8 +16,9 @@ from sklearn.preprocessing import minmax_scale
 tf.autograph.set_verbosity(0)
 config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
-PATH = "/home/kubasinska/datasets/eegbci/paper"
-SAVE_TO = "/home/kubasinska/datasets/eegbci/e"
+PATH = "/dataset/paper/"
+SAVE_TO = "/dataset/saved_models/"
+
 plot = False
 
 channels = Utils.combinations["e"]

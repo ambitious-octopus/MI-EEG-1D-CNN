@@ -1,21 +1,21 @@
 #Importing stuff
 import sys
+sys.path.insert(1,"/workspace")
 import os
-print(os.getcwd())
 from model_set.models import HopefullNet
 import numpy as np
 import tensorflow as tf
 from data_processing.general_processor import Utils
 from sklearn.model_selection import train_test_split
-from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 physical_devices = tf.config.experimental.list_physical_devices('GPU')
 print(physical_devices)
 from sklearn.preprocessing import minmax_scale
 tf.autograph.set_verbosity(0)
 config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
-PATH = "E:\\datasets\\eegnn\\n_ch_base"
-MODEL_PATH = "E:\\rois\\a"
+PATH = "/dataset/paper/"
+MODEL_PATH = os.path.join("/dataset/saved_models", "roi_a")
+
 plot = True
 
 
