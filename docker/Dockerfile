@@ -1,60 +1,32 @@
-# tensorflow base image (ubuntu 10.04, tensorflow 2.3.0, cuda 10.1, cudaNN 7.6)
-#May chnage to https://hub.docker.com/layers/tensorflow/tensorflow/2.3.4-gpu/images/sha256-9723a8e593667e54647a46a58bb091a57bea9128fd0179c2f714ae8d2047c642?context=explore
-FROM tensorflow/tensorflow:2.3.4-gpu
-RUN apt update
-RUN DEBIAN_FRONTEND="noninteractive" apt install git vim wget unzip -y
-RUN mkdir data
-WORKDIR data/
-RUN wget -r -N -c -np --no-verbose --show-progress --progress=bar:force:noscroll https://physionet.org/static/published-projects/eegmmidb/eeg-motor-movementimagery-dataset-1.0.0.zip
-WORKDIR physionet.org/static/published-projects/eegmmidb/
-RUN unzip eeg-motor-movementimagery-dataset-1.0.0.zip -d ../../../../../../data
-WORKDIR ../../../../../../data
-RUN pwd
-RUN rm -r physionet.org/
-RUN mv files/ origin_bci_dataset/
-WORKDIR ../eeGNN/
-RUN DEBIAN_FRONTEND="noninteractive" pip install mne wget sklearn pandas
+FROM ubuntu:20.04
 
-#RUN rm eeg-motor-movementimagery-dataset-1.0.0.zip
-#WORKDIR ../eegNN/
-# Build: docker build -t eegnn:latest .
-# Run: docker run -it --gpus all -v /home/kubasinska/repos/eeGNN:/eeGNN/ eegnn:latest bash
+RUN apt-get update
+RUN DEBIAN_FRONTEND="noninteractive" apt-get install vim wget nano curl git git-lfs ca-certificates -y
+WORKDIR /root/
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.10.3-Linux-x86_64.sh
+RUN chmod +x Miniconda3-py38_4.10.3-Linux-x86_64.sh
+RUN /root/Miniconda3-py38_4.10.3-Linux-x86_64.sh -b && eval "$(/root/miniconda3/bin/conda shell.bash hook)" && /root/miniconda3/bin/conda clean -afy
+RUN /root/miniconda3/bin/conda init
+COPY environment.yml /root/environment.yml
+RUN /root/miniconda3/bin/conda env create -f /root/environment.yml && /root/miniconda3/bin/conda clean -afy
+ENV NVIDIA_VISIBLE_DEVICES all
+ENV NVIDIA_DRIVER_CAPABILITIES graphics,utility,compute
+WORKDIR /
+RUN mkdir dataset
+RUN mkdir workspace
+WORKDIR /dataset
+RUN wget -O output.tar.gz "https://onedrive.live.com/download?cid=AF37652B85ECAA2E&resid=AF37652B85ECAA2E%21271719&authkey=AGh4toRof0SHV0M"
+RUN tar -xf output.tar.gz
+RUN rm output.tar.gz
+RUN echo 'conda activate eegNN' >> ~/.bashrc
+WORKDIR /dataset
+RUN mkdir paper
+RUN mkdir saved_models
+COPY data_processing /home/data_processing
+COPY generator.py /home/generator.py
+WORKDIR /home
+RUN /root/miniconda3/bin/conda run -n eegNN python generator.py
+WORKDIR /workspace
 
-## We need git and also vim
-#RUN DEBIAN_FRONTEND="noninteractive" apt install vim git -y
-## wget and ca-certificates are used to get the key for ros repo
-#RUN apt install -y ca-certificates wget
-## Get key for ros
-#RUN bash -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-#RUN wget -qO -  https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add -
-#RUN apt update
-## This ros version is pretty huge, we should evaluate if we need all these things; if not here the other versions -> http://wiki.ros.org/melodic/Installation/Ubuntu
-#RUN DEBIAN_FRONTEND="noninteractive" apt install ros-melodic-desktop -y
-## Add ros setup to ~/.bashrc
-#RUN echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
-#RUN source ~/.bashrc
-## Important lib for ros
-#RUN DEBIAN_FRONTEND="noninteractive" apt install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential -y
-#RUN apt install python-rosdep -y
-#RUN rosdep init
-#RUN rosdep update
-## Dependecies for python
-#RUN pip install real_robots pyyaml opencv-python rospkg
-#
-## legacy OpenGL (GL); OpenGL X extension (GLX); native platform graphics interface (EGL); ibraries for X interfacing
-## source: https://medium.com/@benjamin.botto/opengl-and-cuda-applications-in-docker-af0eece000f1
-#RUN apt update && apt install -y -qq --no-install-recommends libglvnd0 libgl1 libglx0 libegl1 libxext6 libx11-6 && rm -rf /var/lib/apt/lists/*
-## Env vars for the nvidia-container-runtime.
-#ENV NVIDIA_VISIBLE_DEVICES all
-#ENV NVIDIA_DRIVER_CAPABILITIES graphics,utility,compute
-#RUN export LIBGL_ALWAYS_INDIRECT=1
-#
-## Run this contanier with:
-## CAUTION:
-##   1. change the grow-hbp path based on your needs
-##   2. put --gpus all if you have a nvidia-gpu
-#
-## Build with:
-##   grow-hbp >> docker build -t  grow-hbp:main .
-## Run with:
-##   >> docker run -it --net host -v /tmp/.X11-unix:/tmp/.X11-unix:rw -e DISPLAY=unix$DISPLAY --device /dev/dri --privileged -v /home/$USER/.Xauthority:/root/.Xauthority --gpus all -v /home/$USER/repos/grow-hbp:/grow-hbp grow-hbp:main bash
+# Bulild: docker build -t eegbci:latest .
+# Run: docker run -it --gpus all -v $(pwd):/workspace eegbci:latest bash
