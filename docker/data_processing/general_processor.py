@@ -5,7 +5,7 @@ from mne.channels import make_standard_montage
 from mne.datasets import eegbci
 from mne.epochs import Epochs
 import mne
-from typing import List, TYPE_CHECKING
+from typing import List
 import wget
 import sys
 from sklearn.preprocessing import minmax_scale
@@ -24,6 +24,10 @@ channels = [["FC1", "FC2"],
 
 
 class Utils:
+    """
+    A static class that contains all the functions to generate the dataset and other
+    useful functionality
+    """
     combinations = {"a": [["FC1", "FC2"],
                           ["FC3", "FC4"],
                           ["FC5", "FC6"]],
@@ -61,9 +65,10 @@ class Utils:
 
     @staticmethod
     def download_data(save_path: str = os.getcwd()) -> str:
-        #todo: test this
         """
         This create a new folder data and download the necessary files
+        WARNING: The physionet server is superslow
+        :save_path: data are saved here
         :return: the path
         """
         def bar_progress(current, total, width=80):
@@ -78,20 +83,19 @@ class Utils:
         except:
             raise Exception("The folder alredy exists")
 
-        # Now use this like below,
         wget.download(data_url, os.path.join(data_path, "eegbci.zip"), bar=bar_progress)
         return data_path
 
     @staticmethod
     def load_data(subjects: List, runs: List, data_path: str) -> List[List[BaseRaw]]:
         """
-        Data una lista di soggeti, una lista di runs e il path del database.
-        Questa funzione itera su ogni soggetto, e successivamente su ogni run, carica le run in
-        memoria, modifica le labels e ritorna una lista di run per ogni soggetto.
-        :param subjects: List
-        :param runs: List
-        :param data_path: str
-        :return: List
+        Given a list of subjects, a list of runs, and the database path. This function iterates
+        over each subject, and subsequently over each run, loads the runs into memory, modifies
+        the labels and returns a list of runs for each subject.
+        :param subjects: List, list of subjects
+        :param runs: List, list of runs
+        :param data_path: str, the source path
+        :return: List[List[BaseRaw]]
         """
         all_subject_list = []
         subjects = [str(s) for s in subjects]
@@ -150,8 +154,8 @@ class Utils:
     def concatenate_runs(list_runs: List[List[BaseRaw]]) -> List[BaseRaw]:
         """
         Concatenate a list of runs
-        :param list_runs: list of raw
-        :return: list of concatenate raw
+        :param list_runs: List[List[BaseRaw]],  list of raw
+        :return: List[BaseRaw], list of concatenate raw
         """
         raw_conc_list = []
         for subj in list_runs:
@@ -222,16 +226,14 @@ class Utils:
         return s_list
 
     @staticmethod
-    def epoch(raws, exclude_base=False, tmin=0, tmax=4, custom_dict=None):
+    def epoch(raws, exclude_base=False, tmin=0, tmax=4):
         xs = list()
         ys = list()
         for raw in raws:
             if exclude_base:
                 event_id = dict(F=2, L=3, LR=4, R=5)
-            elif custom_dict == None:
-                event_id = dict(B=1, F=2, L=3, LR=4, R=5)
             else:
-                event_id = custom_dict
+                event_id = dict(B=1, F=2, L=3, LR=4, R=5)
             tmin, tmax = tmin, tmax
             events, _ = mne.events_from_annotations(raw, event_id=event_id)
 
