@@ -1,33 +1,51 @@
-#Importing stuff
+"""
+A 1D CNN for high accuracy classiﬁcation in motor imagery EEG-based brain-computer interface
+Journal of Neural Engineering (https://doi.org/10.1088/1741-2552/ac4430)
+Copyright (C) 2022  Francesco Mattioli, Gianluca Baldassarre, Camillo Porcaro
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
 import os
 import sys
-print(os.getcwd())
-print(sys.path)
-sys.path.append("/home/kubasinska/data/repos/eeGNN")
+sys.path.append("/workspace")
 from model_set.models import HopefullNet
 import numpy as np
 import tensorflow as tf
 from data_processing.general_processor import Utils
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
-physical_devices = tf.config.experimental.list_physical_devices('GPU')
-print(physical_devices)
+import pickle
 from sklearn.preprocessing import minmax_scale
 tf.autograph.set_verbosity(0)
+physical_devices = tf.config.experimental.list_physical_devices('GPU')
+print(physical_devices)
 config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 
-PATH = "/dataset/paper/"
-SAVE_TO = "/dataset/saved_models/"
-plot = False
+#Params
+source_path = "/dataset/paper/"
+save_path = os.path.join("/dataset/saved_models", "roi_f")
+os.mkdir(save_path)
 
-channels = Utils.combinations["f"]
 
+# Load data
+channels = Utils.combinations["f"] #[["C5", "C6"], ["C3", "C4"], ["C1", "C2"]]
 
 exclude =  [38, 88, 89, 92, 100, 104]
-subjects = [n for n in np.arange(1,109) if n not in exclude]
+subjects = [n for n in np.arange(1,110) if n not in exclude]
 #Load data
-x, y = Utils.load(channels, subjects, base_path=PATH)
+x, y = Utils.load(channels, subjects, base_path=source_path)
 #Transform y to one-hot-encoding
 y_one_hot  = Utils.to_one_hot(y, by_sub=False)
 #Reshape for scaling
@@ -37,10 +55,9 @@ x_train_raw, x_valid_test_raw, y_train_raw, y_valid_test_raw = train_test_split(
                                                                             y_one_hot,
                                                                             stratify=y_one_hot,
                                                                             test_size=0.20,
-                                                                            random_state=4532)
+                                                                            random_state=42)
 
 #Scale indipendently train/test
-#Axis used to scale along. If 0, independently scale each feature, otherwise (if 1) scale each sample.
 x_train_scaled_raw = minmax_scale(x_train_raw, axis=1)
 x_test_valid_scaled_raw = minmax_scale(x_valid_test_raw, axis=1)
 
@@ -49,7 +66,7 @@ x_valid_raw, x_test_raw, y_valid, y_test = train_test_split(x_test_valid_scaled_
                                                     y_valid_test_raw,
                                                     stratify=y_valid_test_raw,
                                                     test_size=0.50,
-                                                    random_state=4342)
+                                                    random_state=42)
 
 x_valid = x_valid_raw.reshape(x_valid_raw.shape[0], int(x_valid_raw.shape[1]/2),2).astype(np.float64)
 x_test = x_test_raw.reshape(x_test_raw.shape[0], int(x_test_raw.shape[1]/2),2).astype(np.float64)
@@ -59,7 +76,7 @@ print('classes count')
 print ('before oversampling = {}'.format(y_train_raw.sum(axis=0)))
 # smote
 from imblearn.over_sampling import SMOTE
-sm = SMOTE(random_state=4542)
+sm = SMOTE(random_state=42)
 x_train_smote_raw, y_train = sm.fit_resample(x_train_scaled_raw, y_train_raw)
 print('classes count')
 print ('before oversampling = {}'.format(y_train_raw.sum(axis=0)))
@@ -68,14 +85,12 @@ print ('after oversampling = {}'.format(y_train.sum(axis=0)))
 x_train = x_train_smote_raw.reshape(x_train_smote_raw.shape[0], int(x_train_smote_raw.shape[1]/2), 2).astype(np.float64)
 
 
-#%%
-learning_rate = 1e-4 # default 1e-3
+learning_rate = 1e-4
 
-loss = tf.keras.losses.categorical_crossentropy  #tf.keras.losses.categorical_crossentropy
+loss = tf.keras.losses.categorical_crossentropy
 optimizer = tf.keras.optimizers.Adam(lr=learning_rate)
 model = HopefullNet()
-modelPath = os.path.join(os.getcwd(),'bestModel.h5')
-
+modelPath = os.path.join(os.getcwd(), 'bestModel.h5')
 
 model.compile(loss=loss, optimizer=optimizer, metrics=['accuracy'])
 
@@ -99,51 +114,28 @@ callbacksList = [checkpoint, earlystopping] # build callbacks list
 #%%
 
 hist = model.fit(x_train, y_train, epochs=100, batch_size=10,
-                 validation_data=(x_valid, y_valid), callbacks=callbacksList) #32
-#Save_model
+                validation_data=(x_valid, y_valid), callbacks=callbacksList) #32
 
-#%%
-import pickle
-with open(os.path.join(SAVE_TO, "hist.pkl"), "wb") as file:
+with open(os.path.join(save_path, "hist.pkl"), "wb") as file:
     pickle.dump(hist.history, file)
 
-#%%
-if plot:
-    import matplotlib
-    matplotlib.use("TkAgg")
-    import matplotlib.pyplot as plt
-    plt.style.use('seaborn')
-    plt.subplot(1,2,1, title="train accuracy")
-    plt.plot(hist.history["accuracy"], label="Train")
-    plt.plot(hist.history["val_accuracy"], label="Test")
-    plt.legend(loc='lower right')
-    plt.subplot(1,2,2, title="train loss")
-    plt.plot(hist.history["val_loss"], label="Test")
-    plt.plot(hist.history["loss"], label="Train")
-    plt.legend(loc='upper right')
-    plt.show()
+model.save(save_path)
 
-
-#%%
 """
 Test model
 """
 
-model.load_weights(modelPath)
-
-# model = tf.keras.models.load_model("D:\\hopefull", custom_objects={"CustomModel": HopefullNet})
-
-
+del model # Delete the original model, just to be sure!
+model = tf.keras.models.load_model(save_path, custom_objects={"CustomModel": HopefullNet})
 
 testLoss, testAcc = model.evaluate(x_test, y_test)
 print('\nAccuracy:', testAcc)
 print('\nLoss: ', testLoss)
 
 from sklearn.metrics import classification_report, confusion_matrix
-# get list of MLP's prediction on test set
 yPred = model.predict(x_test)
 
-# convert from one hot encode in class
+# convert from one hot encode in string
 yTestClass = np.argmax(y_test, axis=1)
 yPredClass = np.argmax(yPred,axis=1)
 
@@ -154,20 +146,10 @@ print('\n Classification report \n\n',
        target_names=["B", "R", "RL", "L", "F"]
       )
   )
+
 print('\n Confusion matrix \n\n',
   confusion_matrix(
       yTestClass,
       yPredClass,
       )
   )
-
-#%%
-if plot:
-    conf = confusion_matrix(yTestClass,yPredClass)
-    import seaborn as sns
-    sns.heatmap(conf, annot=True, fmt="", xticklabels=["B", "R", "RL", "L", "F"], yticklabels=["B",
-                                                                                               "R",
-                                                                                       "RL", "L", "F"])
-#%%
-
-model.save(SAVE_TO)

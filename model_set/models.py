@@ -1,5 +1,6 @@
 """
-<one line to give the program's name and a brief idea of what it does.>
+A 1D CNN for high accuracy classiﬁcation in motor imagery EEG-based brain-computer interface
+Journal of Neural Engineering (https://doi.org/10.1088/1741-2552/ac4430)
 Copyright (C) 2022  Francesco Mattioli, Gianluca Baldassarre, Camillo Porcaro
 
 This program is free software: you can redistribute it and/or modify
@@ -15,7 +16,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-
 import tensorflow as tf
 
 class HopefullNet(tf.keras.Model):

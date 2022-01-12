@@ -1,19 +1,40 @@
+"""
+A 1D CNN for high accuracy classiﬁcation in motor imagery EEG-based brain-computer interface
+Journal of Neural Engineering (https://doi.org/10.1088/1741-2552/ac4430)
+Copyright (C) 2022  Francesco Mattioli, Gianluca Baldassarre, Camillo Porcaro
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
 import os
-print(os.getcwd())
+import sys
+sys.path.append("/workspace")
 from model_set.models import HopefullNet
 import numpy as np
 import tensorflow as tf
 from data_processing.general_processor import Utils
 from sklearn.model_selection import train_test_split
-physical_devices = tf.config.experimental.list_physical_devices('GPU')
-print(physical_devices)
+from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
+import pickle
 from sklearn.preprocessing import minmax_scale
 tf.autograph.set_verbosity(0)
+physical_devices = tf.config.experimental.list_physical_devices('GPU')
+print(physical_devices)
 config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
-PATH = "E:\\datasets\\eegnn\\n_ch_base"
-MODEL_PATH = "E:\\rois\\a"
-plot = True
+PATH = "/dataset/paper/"
+MODEL_PATH = os.path.join("/dataset/saved_models", "roi_a")
+plot = False
 
 
 exclude =  [38, 88, 89, 92, 100, 104]
@@ -126,12 +147,5 @@ print('\n Confusion matrix \n\n',
       yPredClass,
       )
   )
-
-
-# conf = confusion_matrix(yTestClass,yPredClass)
-# import seaborn as sns
-# sns.heatmap(conf, annot=True, fmt="", xticklabels=["B", "R", "RL", "L", "F"], yticklabels=["B",
-#                                                                                            "R",
-#                                                                                    "RL", "L", "F"])
 
 

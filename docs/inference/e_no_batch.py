@@ -1,24 +1,40 @@
-#Importing stuff
+"""
+A 1D CNN for high accuracy classiﬁcation in motor imagery EEG-based brain-computer interface
+Journal of Neural Engineering (https://doi.org/10.1088/1741-2552/ac4430)
+Copyright (C) 2022  Francesco Mattioli, Gianluca Baldassarre, Camillo Porcaro
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
 import os
 import sys
-from model_set.models import HopefullNet_HBN
+sys.path.append("/workspace")
+from model_set.models import HopefullNet, HopefullNet_HBN
 import numpy as np
 import tensorflow as tf
 from data_processing.general_processor import Utils
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
-physical_devices = tf.config.experimental.list_physical_devices('GPU')
-print(physical_devices)
+import pickle
 from sklearn.preprocessing import minmax_scale
 tf.autograph.set_verbosity(0)
-#config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
+physical_devices = tf.config.experimental.list_physical_devices('GPU')
+print(physical_devices)
+config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
-os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
-
-source_path = "E:\\datasets\\eegnn\\n_ch_base"
-
-MODEL_PATH = "E:\\rois\\e_no_batch"
-
+source_path = "/dataset/paper/"
+MODEL_PATH = os.path.join("/dataset/saved_models", "roi_e_no_batch")
+plot = False
 
 # Load data
 channels = Utils.combinations["e"] #[["FC1", "FC2"],["FC3", "FC4"],["C3", "C4"],["C1", "C2"],["CP1", "CP2"],["CP3", "CP4"]]
@@ -66,12 +82,8 @@ print ('after oversampling = {}'.format(y_train.sum(axis=0)))
 
 x_train = x_train_smote_raw.reshape(x_train_smote_raw.shape[0], int(x_train_smote_raw.shape[1]/2), 2).astype(np.float64)
 
-
-#%%
-
 model = tf.keras.models.load_model(MODEL_PATH, custom_objects={"CustomModel": HopefullNet_HBN})
 
-import pickle
 with open(os.path.join(MODEL_PATH, "hist.pkl"), "rb") as file:
     hist = pickle.load(file)
 
@@ -107,8 +119,8 @@ axs[0].legend(loc='upper right')
 axs[0].set_title("Loss")
 axs[0].set_xlabel("Epoch")
 axs[0].set_ylabel("Loss")
-# plt.show()
-plt.savefig("C:\\Users\\franc_pyl533c\OneDrive\Desktop\\img\\e_no_batch_training.pdf")
+plt.show()
+plt.savefig("e_no_batch_training.pdf")
 
 #%%
 """

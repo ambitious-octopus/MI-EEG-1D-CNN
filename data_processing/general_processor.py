@@ -1,3 +1,21 @@
+"""
+A 1D CNN for high accuracy classiﬁcation in motor imagery EEG-based brain-computer interface
+Journal of Neural Engineering (https://doi.org/10.1088/1741-2552/ac4430)
+Copyright (C) 2022  Francesco Mattioli, Gianluca Baldassarre, Camillo Porcaro
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
 import numpy as np
 import os
 from mne.io import read_raw_edf, concatenate_raws
@@ -67,7 +85,7 @@ class Utils:
     def download_data(save_path: str = os.getcwd()) -> str:
         """
         This create a new folder data and download the necessary files
-        WARNING: The physionet server is superslow
+        WARNING: The physionet server is super-slow
         :save_path: data are saved here
         :return: the path
         """
@@ -116,11 +134,11 @@ class Utils:
                     path_run = os.path.join(sub_folder, sub_name+"R"+"0"+run+".edf")
                 else:
                     path_run = os.path.join(sub_folder, sub_name+"R"+ run +".edf")
-                raw_run = read_raw_edf(path_run, preload=True)  # Le carico
-                len_run = np.sum(raw_run._annotations.duration)  # Controllo la durata
+                raw_run = read_raw_edf(path_run, preload=True)
+                len_run = np.sum(raw_run._annotations.duration)
                 if len_run > 124:
                     print(sub)
-                    raw_run.crop(tmax=124)  # Taglio la parte finale
+                    raw_run.crop(tmax=124)
 
                 """
                 B indicates baseline
@@ -164,7 +182,7 @@ class Utils:
         return raw_conc_list
 
     @staticmethod
-    def del_annotations(list_of_subraw:List[BaseRaw]) -> List[BaseRaw]:
+    def del_annotations(list_of_subraw: List[BaseRaw]) -> List[BaseRaw]:
         """
         Delete "BAD boundary" and "EDGE boundary" from raws
         :param list_of_subraw: list of raw
@@ -181,44 +199,50 @@ class Utils:
         return list_raw
 
     @staticmethod
-    def eeg_settings(raws):
+    def eeg_settings(raws:  List[BaseRaw]) -> List[BaseRaw]:
         """
         Standardize montage of the raws
-        :param raws: list of raws
-        :return: list of standardize raws
+        :param raws: List[BaseRaw] list of raws
+        :return: List[BaseRaw] list of standardize raws
         """
         raw_setted = []
         for subj in raws:
-            eegbci.standardize(subj)  # Cambio n_epoch nomi dei canali
-            montage = make_standard_montage('standard_1005')  # Caricare il montaggio
-            subj.set_montage(montage)  # Setto il montaggio
+            eegbci.standardize(subj)
+            montage = make_standard_montage('standard_1005')
+            subj.set_montage(montage)
             raw_setted.append(subj)
 
         return raw_setted
 
     @staticmethod
-    def filtering(list_of_raws):
+    def filtering(list_of_raws: List[BaseRaw]) -> List[BaseRaw]:
         """
-        Perform a band_pass and a notch filtering on raws
+        Perform a band_pass and a notch filtering on raws, UNUSED!
         :param list_of_raws:  list of raws
         :return: list of filtered raws
         """
         raw_filtered = []
         for subj in list_of_raws:
             if subj.info["sfreq"] == 160.0:
-                subj.filter(1.0, 79.0, fir_design='firwin', skip_by_annotation='edge')  # Filtro passabanda
-                subj.notch_filter(freqs=60)  # Faccio un filtro notch
+                subj.filter(1.0, 79.0, fir_design='firwin', skip_by_annotation='edge')
+                subj.notch_filter(freqs=60)
                 raw_filtered.append(subj)
             else:
                 subj.filter(1.0, (subj.info["sfreq"] / 2) - 1, fir_design='firwin',
-                            skip_by_annotation='edge')  # Filtro passabanda
-                subj.notch_filter(freqs=60)  # Faccio un filtro notch
+                            skip_by_annotation='edge')
+                subj.notch_filter(freqs=60)
                 raw_filtered.append(subj)
 
         return raw_filtered
 
     @staticmethod
-    def select_channels(raws, ch_list):
+    def select_channels(raws: List[BaseRaw], ch_list: List ) -> List[BaseRaw]:
+        """
+        Slice channels
+        :raw: List[BaseRaw], List of Raw EEG data
+        :ch_list: List
+        :return: List[BaseRaw]
+        """
         s_list = []
         for raw in raws:
             s_list.append(raw.pick_channels(ch_list))
@@ -226,7 +250,16 @@ class Utils:
         return s_list
 
     @staticmethod
-    def epoch(raws, exclude_base=False, tmin=0, tmax=4):
+    def epoch(raws: List[BaseRaw], exclude_base: bool =False,
+              tmin: int =0, tmax: int =4) -> (np.ndarray, List):
+        """
+        Split the original BaseRaw into numpy epochs
+        :param raws: List[BaseRaw]
+        :param exclude_base: bool, If True exclude baseline
+        :param tmin: int, Onset
+        :param tmax: int, Offset
+        :return: np.ndarray (Raw eeg datas in numpy format) List (a List of strings)
+        """
         xs = list()
         ys = list()
         for raw in raws:
@@ -251,24 +284,6 @@ class Utils:
 
         return np.concatenate(tuple(xs), axis=0), [item for sublist in ys for item in sublist]
 
-
-    @staticmethod
-    def save_data(save_loc, x, y):
-        dir_path = os.path.join(save_loc, "eeg_data")
-        #Save data
-        np.save(os.path.join(dir_path, "x_C3_C4"), x, allow_pickle=True)
-        """
-        OneHot encoding
-        """
-        total_labels = np.unique(y)
-        mapping = {}
-        for x in range(len(total_labels)):
-          mapping[total_labels[x]] = x
-        for x in range(len(y)):
-          y[x] = mapping[y[x]]
-        np.save(os.path.join(dir_path, "y_C3_C4"), y, allow_pickle=True)
-
-
     @staticmethod
     def cut_width(data):
         new_data = np.zeros((data.shape[0], data.shape[1], data.shape[2] - 1))
@@ -276,19 +291,6 @@ class Utils:
             new_data[index] = line[:, : -1]
 
         return new_data
-
-    @staticmethod
-    def save_sub_by_sub(subjects, data_path, channels, exclude_base, save_path):
-        for sub in subjects:
-            x, y = Utils.epoch(Utils.select_channels(
-                Utils.filtering(
-                    Utils.eeg_settings(
-                        Utils.del_annotations(
-                            Utils.concatenate_runs(
-                                Utils.load_data(subjects=[sub], runs=runs, data_path=data_path))))), channels),
-                exclude_base=exclude_base)
-            np.save(os.path.join(save_path, "x_C3_C4_sub_" + str(sub)), x, allow_pickle=True)
-            np.save(os.path.join(save_path, "y_C3_C4_sub_" + str(sub)), y, allow_pickle=True)
 
     @staticmethod
     def load_sub_by_sub(subjects, data_path, name_single_sub):
@@ -361,9 +363,6 @@ class Utils:
             data_y.append(np.concatenate(ys))
 
         return np.concatenate(data_x), np.concatenate(data_y)
-
-
-
 
 if __name__ == "__main__":
     pass
