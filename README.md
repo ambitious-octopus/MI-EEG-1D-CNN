@@ -107,9 +107,21 @@ Assuming you have docker installed. Building the contanier is simple.
 This procedure is simpler but can create dependency issues based on your machine or operating 
 system. Using this procedure you must also manually download the original dataset and generate 
 the dataset that is used in the paper. You also need Anaconda or Miniconda to create a separate 
-python environment. We do not recommend virtualenv or other virtual environment managers. The following guide assumes you have Anaconda or Miniconda installed on your system.
+python environment. The following guide assumes you have Anaconda or Miniconda installed on your system.
 1. Open a terminal and `cd` into the folder `MI-EEG-1D-CNN/docs`. Run `conda env create -f 
-   environment.yml`. These create a new python environment called `eeg` that contains all necessary dependencies.
+   environment.yml`. These create a new python environment called `eeg` that contains all 
+   necessary dependencies. The only dependencies that are missing are CUDA and cuDNN which are 
+   needed by tensorflow to use your GPU. If you don't have an NVIDIA GPU, go ahead. If you have 
+   an NVIDIA GPU you need to install CUDA 10.1 and cuDNN 7.6 (be careful with the version, CUDA 
+   10.2 or 10.0 is not good, you need 10.1, same for cuDNN). Please refer to the [official NVIDIA 
+   website for installation](https://developer.nvidia.com/cudnn), [here is a guide for windows](https://www.nientepanico.org/2021/02/20/humans-guide-to-tensorflow-gpu/).
+2. Download the EEG Motor Movement/Imagery Dataset [here](https://physionet.org/content/eegmmidb/1.0.0/). The dataset is quite large (3.4 GB), it will take a while. Once downloaded, extract it. If 
+   you have wget you can download it from the terminal with the command. `wget -r -N -c -np 
+   https://physionet.org/files/eegmmidb/1.0.0/`.
+3. Generate the dataset, this procedure simply takes the raw data and breaks it into the input dimension of the neural network. 
+   Use the script `MI-EEG-1D-CNN/dataset_generator/generator.py`. Change the dataset path to the 
+   path of the dataset you downloaded and you are ready! Don't forget to run the script with the new conda environment you downloaded.
+
 
 
 
