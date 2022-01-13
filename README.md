@@ -25,7 +25,28 @@ imagery EEG-based brain-computer interface </h1>
 <a href="https://doi.org/10.1088/1741-2552/ac4430"><img alt="GitHub issues" src="https://badges.aleen42.com/src/python.svg"></a>
 <a href="https://doi.org/10.1088/1741-2552/ac4430"><img alt="GitHub issues" src="https://img.shields.io/badge/DOI-https%3A%2F%2Fdoi.org%2F10.1088%2F1741--2552%2Fac4430-success"></a>
 
-<h2 align="center" > I am working on this README, it will be online soon! </h2> 
+<h4 align="center" > What is this? </h4>
+<div> A new Brain Computer Interface approach based on a 10-layer one-dimensional convolution 
+neural 
+network (1D-CNN) to classify five brain states (four Motor Imagery classes plus a 'baseline' class) 
+using a data augmentation algorithm and a limited number of EEG channels. The model tested with 
+the 'EEG Motor Movement/Imagery Dataset' outperforms the current state-of-the-art models by 
+achieving a 99.38% accuracy at the group level. In addition, the transfer learning approach we 
+present achieves an average accuracy of 99.46%.</div> 
+
+<h4 align="center" > Reference paper </h4>
+ <div> Mattioli F, Porcaro C, Baldassarre G. A 1D CNN for high accuracy classification and transfer learning in motor imagery EEG-based brain-computer interface. J Neural Eng. 2022 Jan 6;18(6). doi: 10.1088/1741-2552/ac4430. PMID: 34920443. </div> 
+
+
+<div align="center">
+<img src="docs/hopefullnet.png" alt="Simply Easy Learning">
+</div>
+
+<h4 align="center" >  </h4>
+
+
+
+
 
 
 
