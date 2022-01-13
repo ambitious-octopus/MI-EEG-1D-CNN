@@ -25,7 +25,7 @@ imagery EEG-based brain-computer interface </h1>
 <a href="https://doi.org/10.1088/1741-2552/ac4430"><img alt="GitHub issues" src="https://badges.aleen42.com/src/python.svg"></a>
 <a href="https://doi.org/10.1088/1741-2552/ac4430"><img alt="GitHub issues" src="https://img.shields.io/badge/DOI-https%3A%2F%2Fdoi.org%2F10.1088%2F1741--2552%2Fac4430-success"></a>
 
-<h4 align="center" > What is this? </h4>
+<h3 align="center" > What is this? </h3>
 <div> A new Brain Computer Interface approach based on a 10-layer one-dimensional convolution 
 neural 
 network (1D-CNN) to classify five brain states (four Motor Imagery classes plus a 'baseline' class) 
@@ -34,15 +34,56 @@ the 'EEG Motor Movement/Imagery Dataset' outperforms the current state-of-the-ar
 achieving a 99.38% accuracy at the group level. In addition, the transfer learning approach we 
 present achieves an average accuracy of 99.46%.</div> 
 
-<h4 align="center" > Reference paper </h4>
+<h3 align="center" > Reference paper </h3>
  <div> Mattioli F, Porcaro C, Baldassarre G. A 1D CNN for high accuracy classification and transfer learning in motor imagery EEG-based brain-computer interface. J Neural Eng. 2022 Jan 6;18(6). doi: 10.1088/1741-2552/ac4430. PMID: 34920443. </div> 
 
-
+<h3 align="center" > Usage </h3>
 <div align="center">
-<img src="docs/hopefullnet.png" alt="Simply Easy Learning">
+<img src="docs/hopefullnet.png" alt="HopefullNet">
 </div>
 
-<h4 align="center" >  </h4>
+<h4 align="center" > Directory structure </h4>
+
+```
+.
+└── MI-EEG-1D-CNN/
+    ├── data_processing/ # A module with useful functions
+    │   └── general_processor.py
+    ├── dataset_generator/ # Script that generates the dataset
+    │   └── generator.py
+    ├── docker/ # All the useful things to build the contanier
+    │   ├── Dockerfile
+    │   ├── environment.yml
+    │   └── generator.py
+    ├── docs/ # Scripts for inference and plotting
+    │   ├── inference
+    │   └── environment.yml
+    ├── models/ # Scripts for training networks
+    │   ├── hand_test
+    │   └── transfer
+    └── model_set/ # A module with all models
+        └── models.py
+```
+
+<h4 align="center" > Install the dependencies </h4>
+There are two ways to install dependencies: (1) Using a docker container (recommended), (2) 
+Using a python environment.
+
+<h5 align="center" > Using a docker container (recommended) </h5>
+
+<a href="https://www.docker.com/resources/what-container">What is a docker contanier? </a>
+ 
+
+
+
+
+<h5 align="center" > Using a python environment. </h5>
+
+
+
+
+
+
 
 
 
