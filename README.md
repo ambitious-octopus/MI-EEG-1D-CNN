@@ -114,6 +114,22 @@ The `data_processing` folder is **a module** that contains many helpful function
 The `hand_test` subfolder contains the tests done on the network to evaluate the importance of data augmentation, checkpointing, and batch normalization. As usual, if you don't use our container, change the paths. The `transfer` subdirectory contains seven scripts that train the model with ROI-E and exclude a single subject. These scripts are used to evaluate transfer learning. The `model_set` folder contains the neural network (informally called HopefulNet) written in tensorflow using the subclass api.
 
 
+<h4 align="center" > Problems? </h4>
+If you experience any problems, feel free to contact me (Francesco.mttl@gmail.com) or open an issue. 
+
+
+<h4 align="center" > Cite this paper </h4>
+
+```
+@article{mattioli20211d,
+  title={A 1D CNN for high accuracy classification and transfer learning in motor imagery EEG-based brain-computer interface},
+  author={Mattioli, Francesco and Porcaro, Camillo and Baldassarre, Gianluca},
+  journal={Journal of Neural Engineering},
+  year={2021},
+  publisher={IOP Publishing}
+}
+```
+
 
 
 
