@@ -14,7 +14,7 @@ imagery EEG-based brain-computer interface </h1>
 <a href=""><img alt="GitHub issues" src="https://img.shields.io/github/languages/top/kubasinska/MI-EEG-1D-CNN"></a>
 <a href=""><img alt="GitHub issues" src="https://img.shields.io/github/languages/code-size/kubasinska/MI-EEG-1D-CNN"></a>
 <a href=""><img alt="GitHub issues" src="https://img.shields.io/github/repo-size/kubasinska/MI-EEG-1D-CNN"></a>
-<a href=""><img alt="GitHub issues" src="https://img.shields.io/github/v/release/kubasinska/MI-EEG-1D-CNN"></a>
+<img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/kubasinska/MI-EEG-1D-CNN">
 <a href=""><img alt="GitHub issues" src="https://img.shields.io/github/commit-activity/y/kubasinska/MI-EEG-1D-CNN"></a>
 <a href=""><img alt="GitHub issues" src="https://img.shields.io/github/last-commit/kubasinska/MI-EEG-1D-CNN"></a>
 <a href=""><img alt="GitHub issues" src="https://img.shields.io/github/release-date/kubasinska/MI-EEG-1D-CNN"></a>
