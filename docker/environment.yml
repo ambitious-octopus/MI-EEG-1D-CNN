@@ -1,4 +1,4 @@
-name: eegNN
+name: eeg
 channels:
   - conda-forge
   - defaults
@@ -110,4 +110,3 @@ dependencies:
     - werkzeug==2.0.1
     - wget==3.2
     - wrapt==1.12.1
-prefix: /home/kubasinska/anaconda3/envs/eeg

@@ -27,8 +27,5 @@ WORKDIR /home
 RUN /root/miniconda3/bin/conda run -n eegNN python generator.py
 WORKDIR /workspace
 
-# Bulild: docker build -t eegbci:latest .
-# Run: docker run -it --gpus all -v $(pwd):/workspace -v /tmp/.X11-unix:/tmp/.X11-unix:rw -e DISPLAY=unix$DISPLAY --device /dev/dri --privileged -v /home/$USER/.Xauthority:/root/.Xauthority eegcnn:latest bash
-
-# Run with ->> $ docker run -it --net host --gpus all -v /tmp/.X11-unix:/tmp/.X11-unix:rw -e DISPLAY=unix$DISPLAY --device /dev/dri --privileged -v /home/$USER/.Xauthority:/root/.Xauthority -v /home/$USER/repos/grow-hbp:/grow-hbp grow-hbp:latest bash
-# Setup xhost ->> http://wiki.ros.org/docker/Tutorials/GUI The fast way is: ($ xhost +local:root), Don't forget to remove access when you close the docker ($ xhost -local:root)
+# Bulild -> docker build -t eegcnn .
+# Run with -> docker run -it --gpus all -v $(pwd):/workspace eegcnn bash
