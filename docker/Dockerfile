@@ -17,8 +17,6 @@ RUN mkdir workspace
 WORKDIR /dataset
 
 RUN wget -O output.tar.gz "https://onedrive.live.com/download?cid=AF37652B85ECAA2E&resid=AF37652B85ECAA2E%21271719&authkey=AGh4toRof0SHV0M"
-#In case the above link doesn't work in your country you can try this.
-#RUN wget -r -N -c -np https://physionet.org/files/eegmmidb/1.0.0/
 
 RUN tar -xf output.tar.gz
 RUN rm output.tar.gz
