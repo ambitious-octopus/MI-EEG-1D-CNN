@@ -1,5 +1,6 @@
 FROM ubuntu:20.04
 RUN apt-get update
+RUN apt-get update && apt-get install -y apt-transport-https
 RUN DEBIAN_FRONTEND="noninteractive" apt-get install vim wget nano curl tk-dev git git-lfs ca-certificates -y
 WORKDIR /root/
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.10.3-Linux-x86_64.sh
@@ -14,17 +15,23 @@ WORKDIR /
 RUN mkdir dataset
 RUN mkdir workspace
 WORKDIR /dataset
+
 RUN wget -O output.tar.gz "https://onedrive.live.com/download?cid=AF37652B85ECAA2E&resid=AF37652B85ECAA2E%21271719&authkey=AGh4toRof0SHV0M"
+#In case the above link doesn't work in your country you can try this.
+#RUN wget -r -N -c -np https://physionet.org/files/eegmmidb/1.0.0/
+
 RUN tar -xf output.tar.gz
 RUN rm output.tar.gz
-RUN echo 'conda activate eegNN' >> ~/.bashrc
+
 WORKDIR /dataset
 RUN mkdir paper
 RUN mkdir saved_models
 COPY data_processing /home/data_processing
 COPY generator.py /home/generator.py
+
+RUN echo 'conda activate eeg' >> ~/.bashrc
 WORKDIR /home
-RUN /root/miniconda3/bin/conda run -n eegNN python generator.py
+RUN /root/miniconda3/bin/conda run -n eeg python generator.py
 WORKDIR /workspace
 
 # Bulild -> docker build -t eegcnn .
