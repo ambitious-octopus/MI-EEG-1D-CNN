@@ -29,14 +29,6 @@ imagery EEG-based brain-computer interface </h1>
  <h2 align="center" > Please read here </h2>
 <div> As @zewail-liu pointed out in issue #22, this code contains a bug that strongly impacts the results of the paper. Please read the issue, in the fix folder you will find two files that fix the problem, but the results of the paper change drastically. The Journal was promptly informed. </div>
 
-<h2 align="center" > What is this? </h2>
-<div> A new Brain Computer Interface (BCI) approach based on a 10-layer one-dimensional convolution 
-neural network (1D-CNN) to classify five brain states (four Motor Imagery classes plus a 'baseline' class) using a data augmentation algorithm and a limited number of EEG channels. The model tested with the 'EEG Motor Movement/Imagery Dataset' outperforms the current state-of-the-art models by achieving a 99.38% accuracy at the group level. In addition, the transfer learning approach we present achieves an average accuracy of 99.46%.</div> 
-
-<div align="center">
-<img src="docs/hopefullnet.png" alt="HopefullNet">
-</div>
-
 <h3 align="center" > Reference paper </h3>
  <div> Mattioli F, Porcaro C, Baldassarre G. <a href="https://iopscience.iop.org/article/10.1088/1741-2552/ac4430">A 1D CNN for high accuracy classification and 
 transfer learning in motor imagery EEG-based brain-computer interface </a>. J Neural Eng. 2022 
