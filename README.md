@@ -24,6 +24,10 @@ imagery EEG-based brain-computer interface </h1>
 <a href=""><img alt="GitHub issues" src="https://img.shields.io/badge/Python%20Version-3.8.3-blueviolet"></a>
 <a href="https://doi.org/10.1088/1741-2552/ac4430"><img alt="GitHub issues" src="https://badges.aleen42.com/src/python.svg"></a>
 <a href="https://doi.org/10.1088/1741-2552/ac4430"><img alt="GitHub issues" src="https://img.shields.io/badge/DOI-https%3A%2F%2Fdoi.org%2F10.1088%2F1741--2552%2Fac4430-success"></a>
+ 
+ 
+ <h2 align="center" > Please read here </h2>
+<div> As @zewail-liu pointed out in issue #22, this code contains a bug that strongly impacts the results of the paper. Please read the issue, in the fix folder you will find two files that fix the problem, but the results of the paper change drastically. The Journal was promptly informed. </div>
 
 <h2 align="center" > What is this? </h2>
 <div> A new Brain Computer Interface (BCI) approach based on a 10-layer one-dimensional convolution 
